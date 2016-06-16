@@ -86,10 +86,9 @@
         prompt: (bot) => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'),
         receive: (bot, message) => {
             
-            partner = befehlWort(message.text.trim());
+            ansprech = message.text;
             
-               return bot.setProp('ansprechpartner', partner)
-               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner ist Frau '+partner+'.'))
+               return bot.say(EmpfangsBot+'Ihr Ansprechpartner ist Frau '+ansprech+'.')
                .then(() => 'empfang');
                
         }
