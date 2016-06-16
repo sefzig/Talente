@@ -17,7 +17,7 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #menu { background: #cccccc; color: #333333; }
     body[data-stil="robogeddon"] #menu { background:   black; color:   white; }
-    body[data-stil="talente"]    #menu { background: #cccccc; color:   white; }
+    body[data-stil="talente"]    #menu { background: #cccccc; color:   black; }
     body[data-stil="nacht"]      #menu { background: #333333; color:   white; }
     body[data-stil="hacks"]      #menu { background:   black; color:   white; }
     
