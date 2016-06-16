@@ -66,15 +66,14 @@
             if (emailkorrekt == true) {
             	
                return bot.setProp('email', email)
-                  .then(() => bot.say(EmpfangsBot+''+email+' danke sehr. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => bot.say(EmpfangsBot+'Schreiben Sie --E-Mail, um sie zu ändern.'))
-                  .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? --Urbat oder jemand anderes?'))
-                  .then(() => 'empfang');
+                  .then(() => bot.say(EmpfangsBot+''+email+',  danke sehr. Schreiben Sie --E-Mail, falls Sie sie ändern wollen. [Javascript:cookies(email,'+email+')] '))
+                  .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'))
+                  .then(() => 'ansprechpartner');
                
             }
             else {
             	
-                return bot.say(+' 0 ').then(() => bot.say(EmpfangsBot+' Bitte geben Sie Ihre E-Mail-Adresse nochmal ein! ')).then(() => 'emailanfang');                
+                return bot.say(+' 0 ').then(() => 'emailanfang');                
             }
         }
     },
@@ -83,17 +82,28 @@
     	
         receive: (bot, message) => {
             
-            befehl = message.text;
+            partner = message.text;
             
-            if ((~befehl.indexOf("--URBAT"))) { 
+            if ((~partner.indexOf("--URBAT"))) { 
             
-               return bot.setProp('ansprechpartner', befehl)
+               return bot.setProp('ansprechpartner', partner)
                .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist als Ihr Ansprechpartner gespeichert.'))
                .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente'))
                .then(() => 'empfang');
                
             }
+            
+            if ((~partner.indexOf("--ORTWERTH"))) { 
+            
+               return bot.setProp('ansprechpartner', partner)
+               .then(() => bot.say(EmpfangsBot+'Prima, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente'))
+               .then(() => 'empfang');
+               
+            }
+            
         }
+        
     },
    
  // -------------------------
