@@ -86,10 +86,12 @@
         prompt: (bot) => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'),
         receive: (bot, message) => {
             
-            ansprech = message.text;
             
-               return bot.say(EmpfangsBot+'Ihr Ansprechpartner ist Frau '+ansprech+'.')
-               .then(() => 'empfang');
+          return bot.setProp('empfangen', 'ja')
+          .then(() => bot.say(EmpfangsBot+'Ich werde Sie zunächst mit ein paar Fragen und Informationen an Bord holen.'))
+          .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
+          .then(() => dann);
+          
                
         }
         
