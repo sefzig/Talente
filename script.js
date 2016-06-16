@@ -86,11 +86,7 @@
         prompt: (bot) => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'),
         receive: (bot, message) => {
             
-            partner = message.text;
-            partner = partner.toLowerCase();
-            partner = partner.trim();
-            
-            auswahl = partner;
+            partner = befehlWort(partner.trim());
             auswahl = auswahl.toUpperCase();
             
             if (~auswahl.indexOf("--E-MAIL")) { 
