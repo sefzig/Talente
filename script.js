@@ -48,7 +48,8 @@
           var dann = "emailanfang";
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(EmpfangsBot+'Bitte geben Sie zunächst Ihre E-Mail-Adresse ein.'))
+          .then(() => bot.say(EmpfangsBot+'Ich werde Sie zunächst mit ein paar Fragen und Informationen an Bord holen.'))
+          .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
           .then(() => dann);
           
        }
@@ -116,7 +117,8 @@
             
             else { 
             
-               return bot.say(EmpfangsBot+'Das habe ich nicht verstanden.')
+               return bot.setProp('ansprechpartnerfehleingabe', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
                .then(() => bot.say(EmpfangsBot+'Wer, sagten Sie, ist Ihr Ansprechpartner: Frau --Urbat oder Frau --Ortwerth?'))
                .then(() => 'ansprechpartner');
                
