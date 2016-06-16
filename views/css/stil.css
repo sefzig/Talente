@@ -17,7 +17,7 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #menu { background: #cccccc; color: #333333; }
     body[data-stil="robogeddon"] #menu { background:   black; color:   white; }
-    body[data-stil="talente"]    #menu { background: #0071ba; color:   white; }
+    body[data-stil="talente"]    #menu { background: #cccccc; color:   white; }
     body[data-stil="nacht"]      #menu { background: #333333; color:   white; }
     body[data-stil="hacks"]      #menu { background:   black; color:   white; }
     
@@ -31,7 +31,7 @@
  /* Button-Farben */
     body[data-stil="tag"]        #menu div > div button { background-color: #00aeff; color:   white; }
     body[data-stil="robogeddon"] #menu div > div button { background-color: #00aeff; color:   white; }
-    body[data-stil="talente"]    #menu div > div button { background-color: #cccccc; color:   black; }
+    body[data-stil="talente"]    #menu div > div button { background-color: #0071ba; color:   white; }
     body[data-stil="nacht"]      #menu div > div button { background-color: #00aeff; color:   black; }
     body[data-stil="hacks"]      #menu div > div button { background-color: #00ff00; color:   black; }
     
@@ -88,7 +88,7 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #sk-conversation .sk-left-row .sk-msg { background-color: #cccccc !important; color: #333333 !important; }
     body[data-stil="robogeddon"] #sk-conversation .sk-left-row .sk-msg { background-color: #dddddd !important; color: #000000 !important; }
-    body[data-stil="talente"]    #sk-conversation .sk-left-row .sk-msg { background-color: #ffffff !important; color: #333333 !important; }
+    body[data-stil="talente"]    #sk-conversation .sk-left-row .sk-msg { background-color: #cccccc !important; color: #333333 !important; }
     body[data-stil="nacht"]      #sk-conversation .sk-left-row .sk-msg { background-color: #333333 !important; color: #ffffff !important; }
     body[data-stil="hacks"]      #sk-conversation .sk-left-row .sk-msg { background-color: #222222 !important; color: #ffffff !important; }
     
@@ -102,7 +102,7 @@
  /* Button-Farben */
     body[data-stil="tag"]        #sk-conversation .sk-left-row .sk-msg span.befehl { background-color: #00aeff; color: white; }
     body[data-stil="robogeddon"] #sk-conversation .sk-left-row .sk-msg span.befehl { background-color: #00aeff; color: white; }
-    body[data-stil="talente"]    #sk-conversation .sk-left-row .sk-msg span.befehl { background-color: #cccccc; color: black; }
+    body[data-stil="talente"]    #sk-conversation .sk-left-row .sk-msg span.befehl { background-color: #0071ba; color: white; }
     body[data-stil="nacht"]      #sk-conversation .sk-left-row .sk-msg span.befehl { background-color: #00aeff; color: black; }
     body[data-stil="hacks"]      #sk-conversation .sk-left-row .sk-msg span.befehl { background-color: #00ff00; color: black; }
     
@@ -113,21 +113,21 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #sk-conversation .sk-right-row .sk-msg { background-color: #00aeff !important; color: white !important; }
     body[data-stil="robogeddon"] #sk-conversation .sk-right-row .sk-msg { background-color: #00aeff !important; color: white !important; }
-    body[data-stil="talente"]    #sk-conversation .sk-right-row .sk-msg { background-color: #cccccc !important; color: black !important; }
+    body[data-stil="talente"]    #sk-conversation .sk-right-row .sk-msg { background-color: #0071ba !important; color: white !important; }
     body[data-stil="nacht"]      #sk-conversation .sk-right-row .sk-msg { background-color: #00aeff !important; color: black !important; }
     body[data-stil="hacks"]      #sk-conversation .sk-right-row .sk-msg { background-color: #00ff00 !important; color: black !important; }
     
  /* Pfeilfarbe */
     body[data-stil="tag"]        #sk-conversation .sk-right-row .sk-msg:after { border-left-color: #00aeff !important; }
     body[data-stil="robogeddon"] #sk-conversation .sk-right-row .sk-msg:after { border-left-color: #00aeff !important; }
-    body[data-stil="talente"]    #sk-conversation .sk-right-row .sk-msg:after { border-left-color: #cccccc !important; }
+    body[data-stil="talente"]    #sk-conversation .sk-right-row .sk-msg:after { border-left-color: #0071ba !important; }
     body[data-stil="nacht"]      #sk-conversation .sk-right-row .sk-msg:after { border-left-color: #00aeff !important; }
     body[data-stil="hacks"]      #sk-conversation .sk-right-row .sk-msg:after { border-left-color: #00ff00 !important; }
     
  /* Button-Farben */
     body[data-stil="tag"]        #sk-conversation .sk-right-row .sk-msg span.befehl { background-color: #00aeff; color:   white; }
     body[data-stil="robogeddon"] #sk-conversation .sk-right-row .sk-msg span.befehl { background-color: #00aeff; color:   white; }
-    body[data-stil="talente"]    #sk-conversation .sk-right-row .sk-msg span.befehl { background-color: #cccccc; color:   black; }
+    body[data-stil="talente"]    #sk-conversation .sk-right-row .sk-msg span.befehl { background-color: #0071ba; color:   white; }
     body[data-stil="nacht"]      #sk-conversation .sk-right-row .sk-msg span.befehl { background-color: #00aeff; color:   black; }
     body[data-stil="hacks"]      #sk-conversation .sk-right-row .sk-msg span.befehl { background-color: #00ff00; color:   black; }
     
@@ -159,7 +159,7 @@
  /* Befehler-Farbe */
     body[data-stil="tag"]        .befehler { background-color: #00aeff !important; color:   white; }
     body[data-stil="robogeddon"] .befehler { background-color: #00aeff !important; color:   white; }
-    body[data-stil="talente"]    .befehler { background-color: #cccccc !important; color:   black; }
+    body[data-stil="talente"]    .befehler { background-color: #0071ba !important; color:   white; }
     body[data-stil="nacht"]      .befehler { background-color: #00aeff !important; color:   black; }
     body[data-stil="hacks"]      .befehler { background-color: #00ff00 !important; color:   black; }
     
@@ -173,7 +173,7 @@
  /* Befehler-Button aktiv */
     body[data-stil="tag"]        #befehlleiste input.aktiv { background-color: #00aeff !important; color:   white; }
     body[data-stil="robogeddon"] #befehlleiste input.aktiv { background-color: #00aeff !important; color:   white; }
-    body[data-stil="talente"]    #befehlleiste input.aktiv { background-color: #cccccc !important; color:   black; }
+    body[data-stil="talente"]    #befehlleiste input.aktiv { background-color: #0071ba !important; color:   white; }
     body[data-stil="nacht"]      #befehlleiste input.aktiv { background-color: #00aeff !important; color:   black; }
     body[data-stil="hacks"]      #befehlleiste input.aktiv { background-color: #00ff00 !important; color:   black; }
     
