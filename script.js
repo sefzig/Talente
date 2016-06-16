@@ -44,31 +44,65 @@
        // Befehl normalisieren
           var befehl = befehlWort(message.text.trim());
           
-       // Nächster Schritt default
-          var dann = "empfang";
+       // Erster Schritt 
+          var dann = "emailanfang";
           
-          if (~befehl.indexOf("Weiterleiten zu:")) {
+       // Bekanntheit 
+          if (bekannt == false) {
              
-          // bot.say(EmpfangsBot+'Ich leite Sie weiter.');
-             
+                          
           }
           else {
              
-             if (bekannt == false) {
-                
-                                return bot.say(EmpfangsBot+' Dies ist die Vorlage des --Chatraums. Wir sind 3 Bots: Ich bin Alice, Barbara ist im --Verkauf und Cynthia macht unser --Marketing. ').then(() => bot.say(EmpfangsBot+' Unterhalten Sie sich mit uns, indem Sie die farbig hinterlegten Wörter schreiben, klicken oder berühren! ')).then(() => bot.say(EmpfangsBot+' [Textmobil:Rechts finden Sie ein Menü - berühren Sie dafür den Knopf oben rechts oder wischen Sie nach links.,Ich habe rechts das Menü für Sie geöffnet. Sie können es mit dem Button oben rechts bedienen - oder indem Sie --Menü schreiben.] [Javascript:menu(an)] ')).then(() => 'empfang');                
-             }
-             else {
-                
-                                return bot.say(EmpfangsBot+' Willkommen zurück! Sprechen Sie mit mir über --Chatraum! ').then(() => bot.say(EmpfangsBot+' Oder sprechen Sie mit den anderen Bots über --Verkauf und --Marketing. ')).then(() => 'empfang');                
-             }
-             
+                          
           }
           
           return bot.setProp('empfangen', 'ja')
           .then(() => dann);
           
        }
+    },
+
+    emailanfang: {
+    	
+        receive: (bot, message) => {
+            
+            email = message.text;
+            
+         // emailkorrekt = email.test(emailregex);
+            emailkorrekt = true;
+            
+            if (emailkorrekt == true) {
+            	
+               return bot.setProp('email', email)
+                  .then(() => bot.say(EmpfangsBot+''+email+' danke sehr. [Javascript:cookies(email,'+email+')] '))
+                  .then(() => bot.say(EmpfangsBot+'Schreiben Sie --E-Mail, um sie zu ändern.'))
+                  .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? --Urbat oder jemand anderes?'))
+                  .then(() => 'empfang');
+               
+            }
+            else {
+            	
+                return bot.say(+' 0 ').then(() => bot.say(EmpfangsBot+' Bitte geben Sie Ihre E-Mail-Adresse nochmal ein! ')).then(() => 'emailanfang');                
+            }
+        }
+    },
+
+    ansprechpartner: {
+    	
+        receive: (bot, message) => {
+            
+            befehl = message.text;
+            
+            if ((~befehl.indexOf("--URBAT"))) { 
+            
+               return bot.setProp('ansprechpartner', befehl)
+               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist als Ihr Ansprechpartner gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente'))
+               .then(() => 'empfang');
+               
+            }
+        }
     },
    
  // -------------------------
@@ -320,13 +354,12 @@
        // System
        // -----------------
        
-          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit meinen Kolleginnen in --Verkauf und --Marketing. ').then(() => bot.say(EmpfangsBot+' Weitere Funktionen: --Kontakt, --Newsletter, --Mobil und --Über. ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin Alice, der Empfangs-Bot. ').then(() => bot.say(VerkaufsBot+' Alice ist eine offene Person, die Besucher auf ihre hilfsbereite Art in Empfang nimmt. ')).then(() => bot.say(EmpfangsBot+' Ich leite weiter zu meinen Kolleginnen und übernehme einfache Aufgaben, wie z.B. Ihren --Namen zu erfassen. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Funktionen: --Kontakt, --Mobil und --Über. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. ').then(() => bot.say(EmpfangsBot+' Über den Talente-Bot. ')).then(() => 'empfang');}          
        // -----------------
        // Inhalte
        // -----------------
           
-          if ((~befehl.indexOf("--DATEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Lassen Sie uns Ihre Daten durchgehen. ').then(() => 'name');}          
        // -----------------
        // Vorlage
        // -----------------
@@ -513,23 +546,6 @@
           
        // Vorlage (Gewerk, Name)
           if ((~befehl.indexOf("--GEWERK")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Name. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(GewerksBot+' Hallo Gewerk Text 1: Hallo, ich bin Name, der Gewerks-Bot. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 2: --Befehle folgt. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 3. ')).then(() => 'gewerk');}
-       // -----------------
-       // System
-       // -----------------
-       
-          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Sprechen Sie mit mir über --Produkte und --Beratung. ').then(() => bot.say(VerkaufsBot+' Weitere Funktionen: --Kontakt, --Newsletter, --Mobil und --Über. ')).then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich bin Barbara, der Verkaufs-Bot. ').then(() => bot.say(MarketingBot+' Barbara ist eine Person, zu der ich später mehr sagen kann (folgt). ')).then(() => bot.say(VerkaufsBot+' Ich kenne mich mit unseren --Produkten aus und --berate Sie gern. ')).then(() => 'verkauf');}          
-       // -----------------
-       // Inhalte
-       // -----------------
-          
-          if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Text Produkt. ').then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--BERAT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Text Beratung. ').then(() => 'verkauf');}          
-       // -----------------
-       // Vorlage
-       // -----------------
-       
-          if ((~befehl.indexOf("--VORLAGE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Text Vorlage 1. ').then(() => 'verkauf');}          
 
        // -----------------
        // Bot aus
@@ -711,23 +727,6 @@
           
        // Vorlage (Gewerk, Name)
           if ((~befehl.indexOf("--GEWERK")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Name. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(GewerksBot+' Hallo Gewerk Text 1: Hallo, ich bin Name, der Gewerks-Bot. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 2: --Befehle folgt. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 3. ')).then(() => 'gewerk');}
-       // -----------------
-       // System
-       // -----------------
-       
-          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Sprechen Sie mit mir über --Facebook und --Umfrage. ').then(() => bot.say(MarketingBot+' Weitere Funktionen: --Kontakt, --Newsletter, --Mobil und --Über. ')).then(() => 'marketing');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich bin Cynthia, der Marketing-Bot. ').then(() => bot.say(EmpfangsBot+' Cynthia ist eine Person, zu der ich später mehr sagen kann (folgt). ')).then(() => bot.say(MarketingBot+' Ich mache unser --Facebook und habe eine --Umfrage. ')).then(() => 'marketing');}          
-       // -----------------
-       // Inhalte
-       // -----------------
-          
-          if ((~befehl.indexOf("--FACEBOOK")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Text Facebook. ').then(() => 'marketing');}          
-          if ((~befehl.indexOf("--UMFRAGE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Text Umfrage. ').then(() => 'marketing');}          
-       // -----------------
-       // Vorlage
-       // -----------------
-       
-          if ((~befehl.indexOf("--VORLAGE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Text Vorlage 1. ').then(() => 'marketing');}          
 
        // -----------------
        // Bot aus
