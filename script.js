@@ -88,40 +88,10 @@
             
             partner = befehlWort(message.text.trim());
             
-            if (~partner.indexOf("--E-MAIL")) { 
-            
-               return bot.setProp('emailfehleingabe', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
-               .then(() => 'emailanfang');
-               
-            }
-            
-            else if (~partner.indexOf("--URBAT")) { 
-            
-               return bot.setProp('ansprechpartner', 'Urbat')
-               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist nun als Ihr Ansprechpartner gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
+               return bot.setProp('ansprechpartner', partner)
+               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner ist Frau '+partner+'.'))
                .then(() => 'empfang');
                
-            }
-            
-            else if (~partner.indexOf("--ORTWERTH")) { 
-            
-               return bot.setProp('ansprechpartner', 'Ortwerth')
-               .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => 'empfang');
-               
-            }
-            
-            else { 
-            
-               return bot.setProp('ansprechpartnerfehleingabe', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
-               .then(() => 'ansprechpartner');
-               
-            }
-            
         }
         
     },
