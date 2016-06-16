@@ -68,7 +68,7 @@
             	
                return bot.setProp('email', email)
                   .then(() => bot.say(EmpfangsBot+''+email+',  danke sehr. Schreiben Sie --E-Mail, falls Sie sie ändern wollen. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => 'ansprechpartner');
+                  .then(() => 'empfang');
                
             }
             else {
