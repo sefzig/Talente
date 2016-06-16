@@ -48,7 +48,7 @@
           var dann = "emailanfang";
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(Bitte geben Sie zunächst Ihre E-Mail-Adresse ein.'))
+          .then(() => bot.say(EmpfangsBot+'Bitte geben Sie zunächst Ihre E-Mail-Adresse ein.'))
           .then(() => dann);
           
        }
