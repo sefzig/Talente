@@ -86,13 +86,47 @@
         prompt: (bot) => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'),
         receive: (bot, message) => {
             
+            partner = befehlWort(message.text.trim());
+            auswahl = partner.toUpperCase();
+            beantwortet = false;
             
-          return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(EmpfangsBot+'Ich werde Sie zunächst mit ein paar Fragen und Informationen an Bord holen.'))
-          .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
-          .then(() => dann);
-          
+            if (~auswahl.indexOf("--E-MAIL")) { 
+            
+               beantwortet = true;
+               return bot.setProp('emailfehleingabe', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
+               .then(() => 'emailanfang');
                
+            }
+            
+            if (~auswahl.indexOf("--URBAT")) { 
+            
+               beantwortet = true;
+               return bot.setProp('ansprechpartner', 'Urbat')
+               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist nun als Ihr Ansprechpartner gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (~auswahl.indexOf("--ORTWERTH")) { 
+               
+               beantwortet = true;
+               return bot.setProp('ansprechpartner', 'Ortwerth')
+               .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('ansprechpartnerfehleingabe', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
+               .then(() => 'ansprechpartner');
+               
+            }
+            
         }
         
     },
