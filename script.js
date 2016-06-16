@@ -15,7 +15,7 @@ module.exports = new Script({
         
         receive: (bot) => {
             
-            return bot.say('[EmpfangsBot] Lassen Sie uns den Chatraum einmal testen.')
+            return bot.say('[EmpfangsBot] Lassen Sie uns den Talente-Chatraum einmal testen.')
             .then(() => bot.say('[EmpfangsBot] // Node.js funktioniert'))
             .then(() => 'askName');
             
