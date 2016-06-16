@@ -68,7 +68,7 @@
             	
                return bot.setProp('email', email)
                   .then(() => bot.say(EmpfangsBot+''+email+',  danke sehr. Schreiben Sie --E-Mail, falls Sie sie ändern wollen. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => 'empfang');
+                  .then(() => 'ansprechpartner');
                
             }
             else {
@@ -87,9 +87,8 @@
         receive: (bot, message) => {
             
             partner = befehlWort(message.text.trim());
-            auswahl = partner.toUpperCase();
             
-            if (~auswahl.indexOf("--E-MAIL")) { 
+            if (~partner.indexOf("--E-MAIL")) { 
             
                return bot.setProp('emailfehleingabe', 'ja')
                .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
@@ -97,7 +96,7 @@
                
             }
             
-            else if (~auswahl.indexOf("--URBAT")) { 
+            else if (~partner.indexOf("--URBAT")) { 
             
                return bot.setProp('ansprechpartner', 'Urbat')
                .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist nun als Ihr Ansprechpartner gespeichert.'))
@@ -106,7 +105,7 @@
                
             }
             
-            else if (~auswahl.indexOf("--ORTWERTH")) { 
+            else if (~partner.indexOf("--ORTWERTH")) { 
             
                return bot.setProp('ansprechpartner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
