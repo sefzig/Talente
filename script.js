@@ -38,7 +38,7 @@
    
     start: {
     
-       prompt: (bot) => bot.say(EmpfangsBot+'Bitte geben Sie zunächst Ihre E-Mail-Adresse ein.'),
+    // prompt: (bot) => bot.say(EmpfangsBot+'Bitte geben Sie zunächst Ihre E-Mail-Adresse ein.'),
        receive: (bot, message) => {
             
        // Befehl normalisieren
@@ -48,6 +48,7 @@
           var dann = "emailanfang";
           
           return bot.setProp('empfangen', 'ja')
+          .then(() => bot.say(Bitte geben Sie zunächst Ihre E-Mail-Adresse ein.'))
           .then(() => dann);
           
        }
