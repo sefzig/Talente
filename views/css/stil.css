@@ -17,14 +17,14 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #menu { background: #cccccc; color: #333333; }
     body[data-stil="robogeddon"] #menu { background:   black; color:   white; }
-    body[data-stil="talente"]    #menu { background: #cccccc; color:   black; }
+    body[data-stil="talente"]    #menu { background: #eeeeee; color: #333333; }
     body[data-stil="nacht"]      #menu { background: #333333; color:   white; }
     body[data-stil="hacks"]      #menu { background:   black; color:   white; }
     
  /* Überschriften: Schrift */
     body[data-stil="tag"]        #menu h2, #menu h3, #menu h4, #menu h5, #menu h6 { font-weight: 900; }
     body[data-stil="robogeddon"] #menu h2, #menu h3, #menu h4, #menu h5, #menu h6 { font-weight: 900; }
-    body[data-stil="talente"]    #menu h2, #menu h3, #menu h4, #menu h5, #menu h6 { font-weight: 900; }
+    body[data-stil="talente"]    #menu h2, #menu h3, #menu h4, #menu h5, #menu h6 { font-weight: 500; }
     body[data-stil="nacht"]      #menu h2, #menu h3, #menu h4, #menu h5, #menu h6 { font-weight: 900; }
     body[data-stil="hacks"]      #menu h2, #menu h3, #menu h4, #menu h5, #menu h6 { font-weight: 900; }
     
@@ -38,14 +38,14 @@
  /* Button-Farben: aktiv */
     body[data-stil="tag"]        #menu div > div button.aktiv { background-color:   white !important; color:   black !important; }
     body[data-stil="robogeddon"] #menu div > div button.aktiv { background-color:   white !important; color:   black !important; }
-    body[data-stil="talente"]    #menu div > div button.aktiv { background-color: #999999 !important; color:   white !important; }
+    body[data-stil="talente"]    #menu div > div button.aktiv { background-color: #999999 !important; color: #333333 !important; }
     body[data-stil="nacht"]      #menu div > div button.aktiv { background-color:   white !important; color:   black !important; }
     body[data-stil="hacks"]      #menu div > div button.aktiv { background-color: #ff00ff !important; color:   black !important; }
     
  /* Input-Farben */
     body[data-stil="tag"]        #menu #formular input { background-color: #ff00ff; color:   white; }
     body[data-stil="robogeddon"] #menu #formular input { background-color: #ff00ff; color:   white; }
-    body[data-stil="talente"]    #menu #formular input { background-color: #999999; color: #333333; }
+    body[data-stil="talente"]    #menu #formular input { background-color: #999999; color:   white; }
     body[data-stil="nacht"]      #menu #formular input { background-color: #ff00ff; color:   black; }
     body[data-stil="hacks"]      #menu #formular input { background-color:    gray; color:   black; }
     
