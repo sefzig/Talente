@@ -92,21 +92,20 @@
             
             auswahl = partner.toUpperCase();
             
-            if (~auswahl.indexOf("--URBAT")) { 
+            if (~auswahl.indexOf("--E-MAIL")) { 
             
-               return bot.setProp('ansprechpartner', partner)
-               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist nun als Ihr Ansprechpartner gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => 'empfang');
+               return bot.setProp('emailfehleingabe', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
+               .then(() => 'emailanfang');
                
             }
             
-            else if (~auswahl.indexOf("--ORTWERTH")) { 
+            else { 
             
-               return bot.setProp('ansprechpartner', partner)
-               .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => 'empfang');
+               return bot.setProp('ansprechpartnerfehleingabe', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
+               .then(() => bot.say(EmpfangsBot+'Wer, sagten Sie, ist Ihr Ansprechpartner: Frau --Urbat oder Frau --Ortwerth?'))
+               .then(() => 'ansprechpartner');
                
             }
             
