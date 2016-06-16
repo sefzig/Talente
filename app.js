@@ -13,7 +13,7 @@ app.use("/img", express.static(__dirname + '/views/img'));
 app.use("/css", express.static(__dirname + '/views/css'));
 app.use("/js", express.static(__dirname + '/views/js'));
 app.use("/client", express.static(__dirname + '/views/client/')); // live: '/views/client/_talente' // lokal: '/views/client/'
-app.use("/client/img", express.static(__dirname + '/views/client/_talente/img')); // live: '/views/client/_talente' // lokal: '/views/client/'
+// app.use("/client/img", express.static(__dirname + '/views/client/_talente/img')); // live: '/views/client/_talente' // lokal: '/views/client/'
 
 app.get('/', function(req, res) {
     res.render('index', {

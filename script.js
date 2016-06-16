@@ -96,7 +96,7 @@ module.exports = new Script({
 
     testStil: {
         
-        prompt: (bot) => bot.say('[EmpfangsBot] Welchen Stil wollen Sie? --Tag oder --Nacht?'),
+        prompt: (bot) => bot.say('[EmpfangsBot] Welchen Stil wollen Sie? --Talente, --Tag oder --Nacht?'),
         
         receive: (bot, message) => {
             
