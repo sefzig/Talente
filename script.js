@@ -50,7 +50,7 @@
           var befehl = befehlWort(message.text.trim());
           
        // Erster Schritt 
-          var dann = "ansprechpartner";
+          var dann = "ansprechpartner"; // Onboarding.php
           
           return bot.setProp('empfangen', 'ja')
           .then(() => bot.say(EmpfangsBot+'Lassen Sie uns mit ein paar Fragen beginnen.'))
@@ -58,8 +58,71 @@
           .then(() => dann);
           
        }
+       
     },
 
+    abgeschlossen: {
+    	
+        prompt: (bot) => bot.say(EmpfangsBot+'Wo Sie sich nun vorgestellt haben, ein paar Worte zu mir: Ich möchte Sie - so gut es einem Automaten möglich ist - bei Ihrer Bewerbung unterstützen.')
+             .then(() => bot.say(EmpfangsBot+'Ach ja: Wenn Sie hier im Chat Hilfe brauchen, schreiben Sie einfach --Hilfe. Bitte probieren Sie es einmal aus!')),
+        
+        receive: (bot, message) => {
+            
+            var hilfe = message.text;
+            var hilfe_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            	
+            if (~hilfe_gross.indexOf("--HILFE")) { 
+            
+               beantwortet = true;
+               return bot.setProp('hilfegeoffnet', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Hilfe.'))
+               .then(() => 'erklart');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('hilfegeoffnet', 'nein')
+                  .then(() => bot.say(EmpfangsBot+'Sie müssen nicht tun, was ich sage :) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
+                  .then(() => 'erklart');
+            
+            }
+            
+        }
+        
+    },
+
+    erklart: {
+    	
+        prompt: (bot) => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!')
+             .then(() => bot.say(EmpfangsBot+'Ich habe es für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.')),
+        
+        receive: (bot, message) => {
+            
+            if (~hilfe_gross.indexOf("--MENÜ")) { 
+            
+               beantwortet = true;
+               return bot.setProp('menuverstanden', 'ja')
+               .then(() => bot.say(Sie haben das Menü verstanden.'))
+               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('menuverstanden', 'nein')
+                  .then(() => bot.say(EmpfangsBot+'Sie können das Menü auch mit dem Button rechts oben bedienen.'))
+                  .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+                  .then(() => 'empfang');
+            
+            }
+            
+        }
+        
+    },
+   
     ansprechpartner: {
     	
         receive: (bot, message) => {
@@ -243,113 +306,6 @@
             
         }
         
-    },
-
-    abgeschlossen: {
-    	
-        prompt: (bot) => bot.say(EmpfangsBot+'Ein abschließender Test: Sagen Sie etwas!'),
-        receive: (bot, message) => {
-            
-            return bot.setProp('abgeschlossen', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
-               .then(() => 'empfang');
-            
-        }
-    },
-   
- // -------------------------
- // Onboarding
- // -------------------------
-    
-    name: {
-    	
-        receive: (bot, message) => {
-            
-            var antwort = befehlWort(message.text.trim().toUpperCase());
-            var dann = "name";
-            
-            if ((antwort == "--JA") ||
-                (antwort == "--NAME") ||
-                (antwort == "--ÄNDERN")) { 
-               
-               bot.say(EmpfangsBot+'Wir werden sorgsam mit Ihren Daten umgehen.');
-               dann = "vorname";
-               
-            }
-            if ((antwort == "--NEIN") ||
-                (antwort == "--EMPFANG") ||
-                (antwort == "--ABBRECHEN")) {
-               
-               bot.say(EmpfangsBot+'Gehen wir zurück zum --Empfang.');
-               dann = "empfang";
-               
-            }
-            if ((antwort == "--EMAIL") ||
-                (antwort == "--E-MAIL")) {
-               
-               bot.say(EmpfangsBot+'Wir geben Ihre Adresse nicht weiter.');
-               dann = "emailadresse";
-               
-            }
-            
-            return bot.setProp('name_eingabe', 'tmp')
-                .then(() => dann);
-        }
-    },
-
-    vorname: {
-    	
-        prompt: (bot) => bot.say(EmpfangsBot+'Wie heissen Sie mit Vornamen?'),
-        receive: (bot, message) => {
-            
-            vorname = message.text;
-            vorname = vorname.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
-            
-            return bot.setProp('vorname', vorname)
-                .then(() => bot.say(EmpfangsBot+''+vorname+', prima.'))
-                .then(() => bot.say(EmpfangsBot+'Und wie heissen Sie mit Nachnamen? [Javascript:cookies(vorname,'+vorname+')] '))
-                .then(() => 'nachname');
-        }
-    },
-
-    nachname: {
-    	
-        receive: (bot, message) => {
-            
-            nachname = message.text; 
-            nachname = nachname.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
-            nachname = nachname.replace("--","");
-            
-            bot.setProp('nachname', nachname);
-            return bot.getProp('vorname')
-                .then((vorname) => bot.say(EmpfangsBot+'Sie heissen also '+vorname+' '+nachname+'. Bitte geben Sie nun Ihre E-Mail-Adresse ein (sie können auch --abbrechen). [Javascript:cookies(nachname,'+nachname+')] '))
-                .then(() => 'emailadresse');
-            
-        }
-    },
-
-    emailadresse: {
-    	
-        receive: (bot, message) => {
-            
-            email = message.text;
-            
-         // emailkorrekt = email.test(emailregex);
-            emailkorrekt = true;
-            
-            if (emailkorrekt == true) {
-            	
-               return bot.setProp('email', email)
-                  .then(() => bot.say(EmpfangsBot+''+email+' ist eine valide E-Mail-Adresse. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => bot.say(EmpfangsBot+'Schreiben Sie --E-Mail, um sie zu ändern. Oder lassen Sie uns zurück zum --Empfang gehen.'))
-                  .then(() => 'empfang');
-               
-            }
-            else {
-            	
-                return bot.say(+' 0 ').then(() => bot.say(EmpfangsBot+' Bitte geben Sie Ihre E-Mail-Adresse nochmal ein - oder lassen Sie uns zum --Empfang zurückkehren. ')).then(() => 'emailadresse');                
-            }
-        }
     },
    
  // ---------------------------
