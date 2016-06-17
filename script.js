@@ -76,15 +76,33 @@
             
                beantwortet = true;
                return bot.setProp('hilfegeoffnet', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Hilfe.'))
+               .then(() => bot.say(EmpfangsBot+'Folgt: Hilfe-Text.'))
+               .then(() => bot.say(EmpfangsBot+'Verstanden? Bitte sagen Sie --ja oder --nein.'))
+               .then(() => 'abgeschlossen');
+               
+            }
+            
+            if (~hilfe_gross.indexOf("--JA")) { 
+            
+               beantwortet = true;
+               return bot.setProp('hilfeverstanden', 'ja')
                .then(() => 'erklart');
+               
+            }
+            
+            if (~hilfe_gross.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.setProp('hilfeverstanden', 'nein')
+               .then(() => bot.say(EmpfangsBot+'Jetzt verstanden? Bitte sagen Sie --ja oder --nein.'))
+               .then(() => 'abgeschlossen');
                
             }
             
             if (beantwortet == false) { 
             
                return bot.setProp('hilfegeoffnet', 'nein')
-                  .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage :) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
+                  .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
                   .then(() => 'erklart');
             
             }
@@ -96,7 +114,7 @@
     erklart: {
     	
         prompt: (bot) => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!')
-             .then(() => bot.say(EmpfangsBot+'Ich habe es für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.')),
+             .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.')),
         
         receive: (bot, message) => {
             
@@ -108,7 +126,7 @@
             
                beantwortet = true;
                return bot.setProp('menuverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Sie haben das Menü verstanden.'))
+               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben das Menü verstanden. Sie können das Menü auch mit dem Button rechts oben bedienen.'))
                .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
                .then(() => 'empfang');
                
