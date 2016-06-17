@@ -53,6 +53,7 @@
           var dann = "ansprechpartner";
           
           return bot.setProp('empfangen', 'ja')
+          .then(() => bot.say(EmpfangsBot+'Lassen Sie uns mit ein paar Fragen beginnen.'))
           .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
           .then(() => dann);
           
@@ -155,6 +156,7 @@
             var email = message.text;
             var emailkorrekt = false;
             var email_gross = email.toUpperCase();
+            var beantwortet = false;
             
          // Email validieren
             if (validateEmail(email)) { emailkorrekt = true; }
