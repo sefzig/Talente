@@ -52,7 +52,6 @@
           var dann = "emailanfang";
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(EmpfangsBot+'Ich werde Sie zunächst mit ein paar Fragen und Informationen an Bord holen.'))
           .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
           .then(() => dann);
           
