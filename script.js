@@ -212,7 +212,6 @@
             
             var telefon = message.text;
             var telefon_gross = telefon.toUpperCase();
-            prop_telefonnummer = telefon;
             var beantwortet = false;
             	
             if (~telefon_gross.indexOf("--JA")) { 
@@ -235,6 +234,7 @@
             
             if (beantwortet == false) { 
             
+               prop_telefonnummer = telefon;
                return bot.setProp('telefon', telefon)
                   .then(() => bot.say(EmpfangsBot+'Danke. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(telefon,'+telefon+')] '))
                   .then(() => 'telefonanfang');
