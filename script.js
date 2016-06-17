@@ -15,6 +15,10 @@
    var zuletzt = ""; 
    var bekannt = false;
    var botsan = true;
+   
+// Props 
+   var prop_emailadresse = false;
+   var prop_ansprechpartner = false;
 
 // Daten 
    var vorname = "Unbekannter";
@@ -66,6 +70,8 @@
             
             if (emailkorrekt == true) {
             	
+            	prop_emailadresse = email;
+            	
                return bot.setProp('email', email)
                   .then(() => bot.say(EmpfangsBot+''+email+',  danke sehr. Schreiben Sie --E-Mail, falls Sie sie ändern wollen. [Javascript:cookies(email,'+email+')] '))
                   .then(() => 'ansprechpartner');
@@ -101,6 +107,8 @@
             if (~partner.indexOf("--URBAT")) { 
             
                beantwortet = true;
+               prop_ansprechpartner = "Urbat";
+               
                return bot.setProp('partner', 'Urbat')
                .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist Ihr Ansprechpartner.'))
                .then(() => bot.say(EmpfangsBot+'Ist das richtig? Schreiben Sie --ja - oder --nein, wenn Sie den verkehrten Ansprechpartner ausgewählt haben.'))
@@ -111,6 +119,8 @@
             if (~partner.indexOf("--ORTWERTH")) { 
                
                beantwortet = true;
+               prop_ansprechpartner = "Ortwerth";
+               
                return bot.setProp('partner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwerth ist Ihr Ansprechpartner.'))
                .then(() => bot.say(EmpfangsBot+'Ist das korrekt? Schreiben Sie --ja - oder --nein, wenn Sie den verkehrten Ansprechpartner ausgewählt haben.'))
@@ -119,7 +129,9 @@
             }
             
             if (beantwortet == false) { 
-            
+               
+               prop_ansprechpartner = false;
+               
                return bot.setProp('partnerfehler', 'ja')
                .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
                .then(() => "ansprechpartner");
@@ -141,7 +153,7 @@
             if (~partner.indexOf("--JA")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Ihr Ansprechpartner wurde gespeichert.')
+               return bot.say(EmpfangsBot+'Ihr Ansprechpartner '+prop_ansprechpartner+' wurde gespeichert.')
                .then(() => 'testen');
                
             }
@@ -149,7 +161,7 @@
             if (~partner.indexOf("--NEIN")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Nicht, fein, nochmal.')
+               return bot.say(EmpfangsBot+'Nicht '+prop_ansprechpartner+', fein. Nochmal.')
                .then(() => 'ansprechpartner');
                
             }
