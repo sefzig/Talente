@@ -100,7 +100,11 @@
         
         receive: (bot, message) => {
             
-            if (~hilfe_gross.indexOf("--MENÜ")) { 
+            var menu = message.text;
+            var menu_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            	
+            if (~menu_gross.indexOf("--MENÜ")) { 
             
                beantwortet = true;
                return bot.setProp('menuverstanden', 'ja')
