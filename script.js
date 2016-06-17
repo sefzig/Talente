@@ -66,7 +66,9 @@
             var email = message.text;
             var emailkorrekt = false;
             
-            if (validateEmail(email)) { emailkorrekt = true; }
+         // Email validieren
+         // if (validateEmail(email)) { emailkorrekt = true; } // Zum Testen auskommentieren
+            emailkorrekt = true; // Zum Testen einkommentieren
             
             if (emailkorrekt == true) {
             	
@@ -177,10 +179,17 @@
                
             }
             
-            if (~partner.indexOf("--NEIN")) { 
+            if ((~partner.indexOf("--NEIN")) && (prop_ansprechpartner == "Andere")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Nicht Frau '+prop_ansprechpartner+', fein. Nochmal.')
+               return bot.say(EmpfangsBot+'Vermutlich ist Ihr Ansprechpartner Frau --Urbat oder Frau --Ortwerth.')
+               .then(() => 'ansprechpartner');
+               
+            }
+            if ((~partner.indexOf("--NEIN")) && (prop_ansprechpartner != "Andere")) { 
+            
+               beantwortet = true;
+               return bot.say(EmpfangsBot+'Nicht Frau '+prop_ansprechpartner+', in Ordnung. Ist Ihr Ansprechpartner Frau --Urbat, Frau --Ortwerth oder jemand --anderes?')
                .then(() => 'ansprechpartner');
                
             }
@@ -196,7 +205,7 @@
             var test = message.text;
             
             return bot.setProp('abgeschlossen', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Bestanden. Email: '+prop_emailadresse+', Ansprechpartner: Frau '+prop_ansprechpartner+'.'))
+               .then(() => bot.say(EmpfangsBot+'Bestanden. Email: '+prop_emailadresse+', Ansprechpartner: Frau '+prop_ansprechpartner+'. Weiter zum --Empfang!'))
                .then(() => 'empfang');
             
         }
