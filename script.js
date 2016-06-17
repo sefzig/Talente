@@ -60,6 +60,66 @@
        }
        
     },
+
+    abgeschlossen: {
+    	
+        receive: (bot, message) => {
+            
+            var hilfe = message.text;
+            var hilfe_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            	
+            if (~hilfe_gross.indexOf("--HILFE")) { 
+            
+               beantwortet = true;
+               return bot.setProp('hilfegeoffnet', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Hilfe.'))
+               .then(() => 'erklart');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('hilfegeoffnet', 'nein')
+                  .then(() => bot.say(EmpfangsBot+'Sie müssen nicht tun, was ich sage :) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
+                  .then(() => 'erklart');
+            
+            }
+            
+        }
+        
+    },
+
+    erklart: {
+    	
+        receive: (bot, message) => {
+            
+            var menu = message.text;
+            var menu_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            	
+            if (~hilfe_gross.indexOf("--MENÜ")) { 
+            
+               beantwortet = true;
+               return bot.setProp('menuverstanden', 'ja')
+               .then(() => bot.say(Sie haben das Menü verstanden.'))
+               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('menuverstanden', 'nein')
+                  .then(() => bot.say(EmpfangsBot+'Sie können das Menü auch mit dem Button rechts oben bedienen.'))
+                  .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+                  .then(() => 'empfang');
+            
+            }
+            
+        }
+        
+    },
    
     ansprechpartner: {
     	
