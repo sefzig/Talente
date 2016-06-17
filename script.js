@@ -154,11 +154,11 @@
         receive: (bot, message) => {
             
             var email = message.text;
-            var emailkorrekt = false;
-            var email_gross = email.toUpperCase();
+            var email_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             
          // Email validieren
+            var emailkorrekt = false;
             if (validateEmail(email)) { emailkorrekt = true; }
             emailkorrekt = true; // Wenn live auskommentieren, folgt
             
@@ -211,7 +211,7 @@
         receive: (bot, message) => {
             
             var telefon = message.text;
-            var telefon_gross = telefon.toUpperCase();
+            var telefon_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             	
             if (~telefon_gross.indexOf("--JA")) { 
