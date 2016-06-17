@@ -111,7 +111,7 @@
                
                return bot.setProp('partner', 'Urbat')
                .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist Ihr Ansprechpartner.'))
-               .then(() => bot.say(EmpfangsBot+'Ist das richtig? Schreiben Sie --ja - oder --nein, wenn Sie den verkehrten Ansprechpartner ausgewählt haben.'))
+               .then(() => bot.say(EmpfangsBot+'Richtig? Bitte bestätigen Sie mit --ja - oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -123,7 +123,7 @@
                
                return bot.setProp('partner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwerth ist Ihr Ansprechpartner.'))
-               .then(() => bot.say(EmpfangsBot+'Ist das korrekt? Schreiben Sie --ja - oder --nein, wenn Sie den verkehrten Ansprechpartner ausgewählt haben.'))
+               .then(() => bot.say(EmpfangsBot+'Korrekt? Bitte bestätigen Sie mit --ja - oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -144,7 +144,6 @@
 
     partner: {
     	
-        prompt: (bot) => bot.say(EmpfangsBot+'Danke für die Info.'),
         receive: (bot, message) => {
             
             var partner = befehlWort(message.text.trim().toUpperCase());
@@ -153,15 +152,15 @@
             if (~partner.indexOf("--JA")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Ihr Ansprechpartner '+prop_ansprechpartner+' wurde gespeichert.')
-               .then(() => 'testen');
+               return bot.say(EmpfangsBot+'Ihr Ansprechpartner Frau '+prop_ansprechpartner+' wurde gespeichert.')
+               .then(() => 'abgeschlossen');
                
             }
             
             if (~partner.indexOf("--NEIN")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Nicht '+prop_ansprechpartner+', fein. Nochmal.')
+               return bot.say(EmpfangsBot+'Nicht Frau '+prop_ansprechpartner+', fein. Nochmal.')
                .then(() => 'ansprechpartner');
                
             }
@@ -169,15 +168,15 @@
         }
     },
 
-    testen: {
+    abgeschlossen: {
     	
-        prompt: (bot) => bot.say(EmpfangsBot+'Dies ist nur ein Test.'),
+        prompt: (bot) => bot.say(EmpfangsBot+'Dies ist nur ein Test. Sagen Sie etwas!'),
         receive: (bot, message) => {
             
             var test = message.text;
             
-            return bot.setProp('getestst', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Bestanden!'))
+            return bot.setProp('abgeschlossen', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Bestanden. Email: '+prop_emailadresse+', Ansprechpartner: Frau '+prop_ansprechpartner+'.'))
                .then(() => 'empfang');
             
         }
