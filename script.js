@@ -120,8 +120,7 @@
                prop_ansprechpartner = "Urbat";
                
                return bot.setProp('ansprechpartner', 'Urbat')
-               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist Ihr Ansprechpartner.'))
-               .then(() => bot.say(EmpfangsBot+'Richtig? Bitte bestätigen Sie mit --ja - oder --nein.'))
+               .then(() => bot.say(EmpfangsBot+'Frau Urbat, prima. Bitte bestätigen Sie mit --ja oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -132,8 +131,7 @@
                prop_ansprechpartner = "Ortwerth";
                
                return bot.setProp('ansprechpartner', 'Ortwerth')
-               .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwerth ist Ihr Ansprechpartner.'))
-               .then(() => bot.say(EmpfangsBot+'Korrekt? Bitte bestätigen Sie mit --ja - oder --nein.'))
+               .then(() => bot.say(EmpfangsBot+'Frau Ortwerth, prima. Bitte bestätigen Sie mit --ja oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -144,7 +142,7 @@
                prop_ansprechpartner = "Andere";
                
                return bot.setProp('ansprechpartner', 'Andere')
-               .then(() => bot.say(EmpfangsBot+'Sicher, dass Sie einen anderen Ansprechpartner als Frau --Urbat oder Frau --Ortwerth haben? Bitte bestätigen Sie mit --ja - oder --nein.'))
+               .then(() => bot.say(EmpfangsBot+'Sicher, dass Sie einen anderen Ansprechpartner als Frau --Urbat oder Frau --Ortwerth haben? Bitte bestätigen Sie mit --ja oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -198,13 +196,13 @@
 
     abgeschlossen: {
     	
-        prompt: (bot) => bot.say(EmpfangsBot+'Dies ist nur ein Test. Sagen Sie etwas!'),
+        prompt: (bot) => bot.say(EmpfangsBot+'Ein abschließender Test: Sagen Sie etwas!'),
         receive: (bot, message) => {
             
             var test = message.text;
             
             return bot.setProp('abgeschlossen', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Bestanden. Email: '+prop_emailadresse+', Ansprechpartner: Frau '+prop_ansprechpartner+'. Weiter zum --Empfang!'))
+               .then(() => bot.say(EmpfangsBot+'Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Weiter zum --Empfang?'))
                .then(() => 'empfang');
             
         }
