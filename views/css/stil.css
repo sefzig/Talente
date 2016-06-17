@@ -17,7 +17,7 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #menu { background: #cccccc; color: #333333; }
     body[data-stil="robogeddon"] #menu { background:   black; color:   white; }
-    body[data-stil="talente"]    #menu { background: #eeeeee; color: #333333; }
+    body[data-stil="talente"]    #menu { background: #dddddd; color: #333333; }
     body[data-stil="nacht"]      #menu { background: #333333; color:   white; }
     body[data-stil="hacks"]      #menu { background:   black; color:   white; }
     
@@ -145,7 +145,7 @@
  /* Hintergrundfarbe und Schriftfarbe */
     body[data-stil="tag"]        #sk-footer { background: #cccccc !important; color: #333333 !important; }
     body[data-stil="robogeddon"] #sk-footer { background: #dddddd !important; color:    gray !important; }
-    body[data-stil="talente"]    #sk-footer { background: #f7f7f7 !important; color: #333333 !important; }
+    body[data-stil="talente"]    #sk-footer { background: #dddddd !important; color: #333333 !important; }
     body[data-stil="nacht"]      #sk-footer { background: #333333 !important; color:   white !important; }
     body[data-stil="hacks"]      #sk-footer { background: #000000 !important; color:   white !important; }
     

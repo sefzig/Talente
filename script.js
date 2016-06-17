@@ -19,6 +19,7 @@
 // Props 
    var prop_emailadresse = false;
    var prop_ansprechpartner = false;
+   var prop_telefonnummer = false;
 
 // Daten 
    var vorname = "Unbekannter";
@@ -49,43 +50,13 @@
           var befehl = befehlWort(message.text.trim());
           
        // Erster Schritt 
-          var dann = "emailanfang";
+          var dann = "ansprechpartner";
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
+          .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
           .then(() => dann);
           
        }
-    },
-
-    emailanfang: {
-    	
-        receive: (bot, message) => {
-            
-            var email = message.text;
-            var emailkorrekt = false;
-            
-         // Email validieren
-         // if (validateEmail(email)) { emailkorrekt = true; } // Zum Testen auskommentieren
-            emailkorrekt = true; // Zum Testen einkommentieren
-            
-            if (emailkorrekt == true) {
-            	
-            	prop_emailadresse = email;
-            	
-               return bot.setProp('email', email)
-                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => 'ansprechpartner');
-               
-            }
-            else {
-            	
-               return bot.setProp('emailversuch', 'ja')
-                  .then(() => bot.say(EmpfangsBot+''+email+' ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
-                  .then(() => 'emailanfang');
-               
-            }
-        }
     },
 
     ansprechpartner: {
@@ -94,25 +65,6 @@
             
             var partner = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
-            
-            if (~partner.indexOf("--JA")) { 
-            
-               beantwortet = true;
-               return bot.setProp('emailbestatigt', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Prima, Ihre E-Mail-Adresse wurde gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
-               .then(() => 'ansprechpartner');
-               
-            }
-            
-            if (~partner.indexOf("--NEIN")) { 
-            
-               beantwortet = true;
-               return bot.setProp('emailbestatigt', 'nein')
-               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
-               .then(() => 'emailanfang');
-               
-            }
             
             if (~partner.indexOf("--URBAT")) { 
             
@@ -136,7 +88,7 @@
                
             }
             
-            if (~partner.indexOf("--ANDERES")) { 
+            if (~partner.indexOf("--ANDERE")) { 
                
                beantwortet = true;
                prop_ansprechpartner = "Andere";
@@ -151,8 +103,8 @@
                
                prop_ansprechpartner = false;
                
-               return bot.setProp('ansprechpartner', '')
-               .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
+               return bot.setProp('ansprechpartner', partner)
+               .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden, könnten Sie das bitte wiederholen?'))
                .then(() => "ansprechpartner");
                
             }
@@ -172,7 +124,8 @@
             
                beantwortet = true;
                return bot.say(EmpfangsBot+'Frau '+prop_ansprechpartner+' wurde als Ihr Ansprechpartner gespeichert.')
-               .then(() => 'abgeschlossen');
+               .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
+               .then(() => 'emailanfang');
                
             }
             
@@ -195,6 +148,75 @@
         
     },
 
+    emailanfang: {
+    	
+        receive: (bot, message) => {
+            
+            var email = message.text;
+            var emailkorrekt = false;
+            
+         // Email validieren
+         // if (validateEmail(email)) { emailkorrekt = true; } // Zum Testen auskommentieren, folgt
+            emailkorrekt = true; // Zum Testen einkommentieren, folgt
+            
+            if (emailkorrekt == true) {
+            	
+            	prop_emailadresse = email;
+            	
+               return bot.setProp('email', email)
+                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
+                  .then(() => 'telefonanfang');
+               
+            }
+            else {
+            	
+               return bot.setProp('emailversuch', 'ja')
+                  .then(() => bot.say(EmpfangsBot+''+email+' ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
+                  .then(() => 'emailanfang');
+               
+            }
+        }
+    },
+
+    telefonanfang: {
+    	
+        receive: (bot, message) => {
+            
+            var telefon = message.text;
+            prop_telefonnummer = telefon;
+            var beantwortet = false;
+            	
+            if (~telefon.indexOf("--JA")) { 
+            
+               beantwortet = true;
+               return bot.setProp('emailbestatigt', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Prima, Ihre E-Mail-Adresse wurde gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Unter welcher Telefon-Nummer erreichen wir Sie?'))
+               .then(() => 'telefonanfang');
+               
+            }
+            
+            if (~telefon.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.setProp('emailbestatigt', 'nein')
+               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
+               .then(() => 'emailanfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('telefon', '')
+                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
+                  .then(() => 'abgeschlossen');
+            
+            }
+            
+        }
+        
+    },
+
     abgeschlossen: {
     	
         prompt: (bot) => bot.say(EmpfangsBot+'Ein abschließender Test: Sagen Sie etwas!'),
@@ -202,9 +224,31 @@
             
             var test = message.text;
             
-            return bot.setProp('abgeschlossen', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Weiter zum --Empfang?'))
-               .then(() => 'empfang');
+            if (~test.indexOf("--JA")) { 
+            
+               beantwortet = true;
+               return bot.setProp('telefonbestatigt', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Prima, Ihre Telefon-Nummer wurde gespeichert.'))
+               .then(() => 'abgeschlossen');
+               
+            }
+            
+            if (~test.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.setProp('telefonbestatigt', 'nein')
+               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre Telefon-Nummer nochmals ein.'))
+               .then(() => 'telefonanfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('abgeschlossen', 'ja')
+                  .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+                  .then(() => 'empfang');
+            
+            }
             
         }
     },
