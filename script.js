@@ -59,10 +59,10 @@
     	
         receive: (bot, message) => {
             
-            email = message.text;
+            var email = message.text;
             
          // emailkorrekt = email.test(emailregex);
-            emailkorrekt = true;
+            var emailkorrekt = true;
             
             if (emailkorrekt == true) {
             	
@@ -86,15 +86,15 @@
         prompt: (bot) => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'),
         receive: (bot, message) => {
             
-            partner = befehlWort(message.text.trim().toUpperCase());
-            beantwortet = false;
+            var partner = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
             
             if (~partner.indexOf("--E-MAIL")) { 
             
                beantwortet = true;
                return bot.setProp('emailfehler', 'ja')
                .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
-               .then(() => "emailanfang");
+               .then(() => 'emailanfang');
                
             }
             
@@ -104,7 +104,7 @@
                return bot.setProp('partner', 'Urbat')
                .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist nun als Ihr Ansprechpartner gespeichert.'))
                .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => "empfang");
+               .then(() => 'testen');
                
             }
             
@@ -114,7 +114,7 @@
                return bot.setProp('partner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
                .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => "empfang");
+               .then(() => 'testen');
                
             }
             
@@ -128,6 +128,20 @@
             
         }
         
+    },
+
+    testen: {
+    	
+        prompt: (bot) => bot.say(EmpfangsBot+'Dies ist nur ein Test.'),
+        receive: (bot, message) => {
+            
+            var test = message.text;
+            
+            return bot.setProp('getestst', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Bestanden!'))
+               .then(() => 'empfang');
+            
+        }
     },
    
  // -------------------------
