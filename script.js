@@ -66,14 +66,14 @@
             var email = message.text;
             
          // emailkorrekt = email.test(emailregex);
-            var emailkorrekt = true;
+            var emailkorrekt = true; // Folgt...
             
             if (emailkorrekt == true) {
             	
             	prop_emailadresse = email;
             	
                return bot.setProp('email', email)
-                  .then(() => bot.say(EmpfangsBot+''+email+',  danke sehr. Schreiben Sie --E-Mail, falls Sie sie ändern wollen. [Javascript:cookies(email,'+email+')] '))
+                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja - oder --nein. [Javascript:cookies(email,'+email+')] '))
                   .then(() => 'ansprechpartner');
                
             }
@@ -89,16 +89,25 @@
 
     ansprechpartner: {
     	
-        prompt: (bot) => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'),
         receive: (bot, message) => {
             
             var partner = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             
-            if (~partner.indexOf("--E-MAIL")) { 
+            if (~partner.indexOf("--JA")) { 
             
                beantwortet = true;
-               return bot.setProp('emailfehler', 'ja')
+               return bot.setProp('emailbestatigt', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Prima, Ihre Einstellungen wurden gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'))
+               .then(() => 'ansprechpartner');
+               
+            }
+            
+            if (~partner.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.setProp('emailbestatigt', 'nein')
                .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre E-Mail-Adresse nochmals ein.'))
                .then(() => 'emailanfang');
                
@@ -109,7 +118,7 @@
                beantwortet = true;
                prop_ansprechpartner = "Urbat";
                
-               return bot.setProp('partner', 'Urbat')
+               return bot.setProp('ansprechpartner', 'Urbat')
                .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist Ihr Ansprechpartner.'))
                .then(() => bot.say(EmpfangsBot+'Richtig? Bitte bestätigen Sie mit --ja - oder --nein.'))
                .then(() => 'partner');
@@ -121,7 +130,7 @@
                beantwortet = true;
                prop_ansprechpartner = "Ortwerth";
                
-               return bot.setProp('partner', 'Ortwerth')
+               return bot.setProp('ansprechpartner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwerth ist Ihr Ansprechpartner.'))
                .then(() => bot.say(EmpfangsBot+'Korrekt? Bitte bestätigen Sie mit --ja - oder --nein.'))
                .then(() => 'partner');
@@ -132,7 +141,7 @@
                
                prop_ansprechpartner = false;
                
-               return bot.setProp('partnerfehler', 'ja')
+               return bot.setProp('ansprechpartner', '')
                .then(() => bot.say(EmpfangsBot+'Das habe ich nicht verstanden.'))
                .then(() => "ansprechpartner");
                
