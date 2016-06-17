@@ -74,7 +74,7 @@
             	prop_emailadresse = email;
             	
                return bot.setProp('email', email)
-                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja - oder --nein. [Javascript:cookies(email,'+email+')] '))
+                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
                   .then(() => 'ansprechpartner');
                
             }
@@ -171,7 +171,7 @@
             if (~partner.indexOf("--JA")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Ihr Ansprechpartner Frau '+prop_ansprechpartner+' wurde gespeichert.')
+               return bot.say(EmpfangsBot+'Frau '+prop_ansprechpartner+' wurde als Ihr Ansprechpartner gespeichert.')
                .then(() => 'abgeschlossen');
                
             }
@@ -192,6 +192,7 @@
             }
             
         }
+        
     },
 
     abgeschlossen: {
