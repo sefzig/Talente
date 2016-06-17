@@ -154,39 +154,13 @@
             
             var email = message.text;
             var emailkorrekt = false;
+            var email_gross = email.toUpperCase();
             
          // Email validieren
-         // if (validateEmail(email)) { emailkorrekt = true; } // Zum Testen auskommentieren, folgt
-            emailkorrekt = true; // Zum Testen einkommentieren, folgt
+            if (validateEmail(email)) { emailkorrekt = true; }
+            emailkorrekt = true; // Wenn live auskommentieren, folgt
             
-            if (emailkorrekt == true) {
-            	
-            	prop_emailadresse = email;
-            	
-               return bot.setProp('email', email)
-                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => 'telefonanfang');
-               
-            }
-            else {
-            	
-               return bot.setProp('emailversuch', 'ja')
-                  .then(() => bot.say(EmpfangsBot+''+email+' ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
-                  .then(() => 'emailanfang');
-               
-            }
-        }
-    },
-
-    telefonanfang: {
-    	
-        receive: (bot, message) => {
-            
-            var telefon = message.text;
-            prop_telefonnummer = telefon;
-            var beantwortet = false;
-            	
-            if (~telefon.indexOf("--JA")) { 
+            if (~email_gross.indexOf("--JA")) { 
             
                beantwortet = true;
                return bot.setProp('emailbestatigt', 'ja')
@@ -196,7 +170,7 @@
                
             }
             
-            if (~telefon.indexOf("--NEIN")) { 
+            if (~email_gross.indexOf("--NEIN")) { 
             
                beantwortet = true;
                return bot.setProp('emailbestatigt', 'nein')
@@ -207,9 +181,61 @@
             
             if (beantwortet == false) { 
             
-               return bot.setProp('telefon', '')
-                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
-                  .then(() => 'abgeschlossen');
+               if (emailkorrekt == true) {
+            	
+            	   prop_emailadresse = email;
+            	
+                  return bot.setProp('email', email)
+                     .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
+                     .then(() => 'emailanfang');
+               
+               }
+               else {
+            	
+                  return bot.setProp('emailversuch', 'ja')
+                     .then(() => bot.say(EmpfangsBot+''+email+' ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
+                     .then(() => 'emailanfang');
+               
+               }
+               
+            }
+            
+        }
+        
+    },
+
+    telefonanfang: {
+    	
+        receive: (bot, message) => {
+            
+            var telefon = message.text;
+            var telefon_gross = telefon.toUpperCase();
+            prop_telefonnummer = telefon;
+            var beantwortet = false;
+            	
+            if (~telefon_gross.indexOf("--JA")) { 
+            
+               beantwortet = true;
+               return bot.setProp('telefonbestatigt', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Prima, Ihre Telefon-Nummer wurde gespeichert.'))
+               .then(() => 'abgeschlossen');
+               
+            }
+            
+            if (~telefon_gross.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.setProp('telefonbestatigt', 'nein')
+               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre Telefon-Nummer nochmals ein.'))
+               .then(() => 'telefonanfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('telefon', telefon)
+                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(telefon,'+telefon+')] '))
+                  .then(() => 'telefonanfang');
             
             }
             
@@ -222,33 +248,9 @@
         prompt: (bot) => bot.say(EmpfangsBot+'Ein abschließender Test: Sagen Sie etwas!'),
         receive: (bot, message) => {
             
-            var test = message.text;
-            
-            if (~test.indexOf("--JA")) { 
-            
-               beantwortet = true;
-               return bot.setProp('telefonbestatigt', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Prima, Ihre Telefon-Nummer wurde gespeichert.'))
-               .then(() => 'abgeschlossen');
-               
-            }
-            
-            if (~test.indexOf("--NEIN")) { 
-            
-               beantwortet = true;
-               return bot.setProp('telefonbestatigt', 'nein')
-               .then(() => bot.say(EmpfangsBot+'Bitte geben Sie Ihre Telefon-Nummer nochmals ein.'))
-               .then(() => 'telefonanfang');
-               
-            }
-            
-            if (beantwortet == false) { 
-            
-               return bot.setProp('abgeschlossen', 'ja')
-                  .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
-                  .then(() => 'empfang');
-            
-            }
+            return bot.setProp('abgeschlossen', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+               .then(() => 'empfang');
             
         }
     },
