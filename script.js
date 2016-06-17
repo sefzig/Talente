@@ -64,9 +64,9 @@
         receive: (bot, message) => {
             
             var email = message.text;
+            var emailkorrekt = false;
             
-         // emailkorrekt = email.test(emailregex);
-            var emailkorrekt = true; // Folgt...
+            if (validateEmail(email)) { emailkorrekt = true; }
             
             if (emailkorrekt == true) {
             	
@@ -98,8 +98,8 @@
             
                beantwortet = true;
                return bot.setProp('emailbestatigt', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Prima, Ihre Einstellungen wurden gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat oder Frau --Ortwerth?'))
+               .then(() => bot.say(EmpfangsBot+'Prima, Ihre E-Mail-Adresse wurde gespeichert.'))
+               .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
                .then(() => 'ansprechpartner');
                
             }
@@ -133,6 +133,17 @@
                return bot.setProp('ansprechpartner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwerth ist Ihr Ansprechpartner.'))
                .then(() => bot.say(EmpfangsBot+'Korrekt? Bitte bestätigen Sie mit --ja - oder --nein.'))
+               .then(() => 'partner');
+               
+            }
+            
+            if (~partner.indexOf("--ANDERES")) { 
+               
+               beantwortet = true;
+               prop_ansprechpartner = "Andere";
+               
+               return bot.setProp('ansprechpartner', 'Andere')
+               .then(() => bot.say(EmpfangsBot+'Sicher, dass Sie einen anderen Ansprechpartner als Frau --Urbat oder Frau --Ortwerth haben? Bitte bestätigen Sie mit --ja - oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -953,4 +964,17 @@
        }
        
     }
-      
+    
+ // Email validieren
+    function validateEmail(email) {
+       
+    // First check if any value was actually set
+       if (email.length == 0) return false;
+       
+    // Now validate the email format using Regex
+       var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
+       
+    // Antwort
+       return re.test(email);
+       
+    }
