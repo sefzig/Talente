@@ -102,9 +102,9 @@
             
                beantwortet = true;
                return bot.setProp('partner', 'Urbat')
-               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist nun als Ihr Ansprechpartner gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => 'testen');
+               .then(() => bot.say(EmpfangsBot+'Prima, Frau Urbat ist Ihr Ansprechpartner.'))
+               .then(() => bot.say(EmpfangsBot+'Ist das richtig? Schreiben Sie --ja - oder --nein, wenn Sie den verkehrten Ansprechpartner ausgewählt haben.'))
+               .then(() => 'partner');
                
             }
             
@@ -112,9 +112,9 @@
                
                beantwortet = true;
                return bot.setProp('partner', 'Ortwerth')
-               .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwert ist als Ihr Ansprechpartner gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Bitte sprechen Sie nun Talente-Bot an: --Talente.'))
-               .then(() => 'testen');
+               .then(() => bot.say(EmpfangsBot+'Gut, Frau Ortwerth ist Ihr Ansprechpartner.'))
+               .then(() => bot.say(EmpfangsBot+'Ist das korrekt? Schreiben Sie --ja - oder --nein, wenn Sie den verkehrten Ansprechpartner ausgewählt haben.'))
+               .then(() => 'partner');
                
             }
             
@@ -128,6 +128,33 @@
             
         }
         
+    },
+
+    partner: {
+    	
+        prompt: (bot) => bot.say(EmpfangsBot+'Danke für die Info.'),
+        receive: (bot, message) => {
+            
+            var partner = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            
+            if (~partner.indexOf("--JA")) { 
+            
+               beantwortet = true;
+               return bot.say(EmpfangsBot+'Ihr Ansprechpartner wurde gespeichert.')
+               .then(() => 'testen');
+               
+            }
+            
+            if (~partner.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.say(EmpfangsBot+'Nicht, fein, nochmal.')
+               .then(() => 'ansprechpartner');
+               
+            }
+            
+        }
     },
 
     testen: {
