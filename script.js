@@ -20,6 +20,9 @@
    var prop_emailadresse = false;
    var prop_ansprechpartner = false;
    var prop_telefonnummer = false;
+   var prop_hilfegeoffnet = false;
+   var prop_hilfeverstanden = false;
+   var prop_menuverstanden = false;
 
 // Daten 
    var vorname = "Unbekannter";
@@ -72,6 +75,8 @@
             if (~hilfe_gross.indexOf("--HILFE")) { 
             
                beantwortet = true;
+               prop_hilfegeoffnet = true;
+               
                return bot.setProp('hilfegeoffnet', 'ja')
                .then(() => bot.say(EmpfangsBot+'Folgt: Hilfe-Text.'))
                .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja oder --nein.'))
@@ -82,6 +87,8 @@
             if (~hilfe_gross.indexOf("--JA")) { 
             
                beantwortet = true;
+               prop_hilfeverstanden = true;
+               
                return bot.setProp('hilfeverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!'))
                .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
@@ -121,13 +128,24 @@
             var menu = message.text;
             var menu_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
-            	
+            
+            var resultat =      'Resultate (bisher):';
+            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
+            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
+            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
+            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
+            
+            var einfuhrung = 'Einführung.';
+            
             if (~menu_gross.indexOf("--MENÜ")) { 
             
                beantwortet = true;
+               prop_menuverstanden = true;
+               resultat = resultat+' Sie haben das Menü verstanden.';
+               
                return bot.setProp('menuverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben das Menü verstanden. Sie können das Menü auch mit dem Button rechts oben bedienen.'))
-               .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
+               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben das Menü verstanden. Sie können das Menü auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
+            // .then(() => bot.say(EmpfangsBot+' '+resultat+' '+einfuhrung+' '))
                .then(() => 'empfang');
                
             }
@@ -135,10 +153,45 @@
             if (beantwortet == false) { 
             
                return bot.setProp('menuverstanden', 'nein')
-                  .then(() => bot.say(EmpfangsBot+'Sie können das Menü auch mit dem Button rechts oben bedienen.'))
-                  .then(() => bot.say(EmpfangsBot+'Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'. Ihre E-Mail-Adresse: '+prop_emailadresse+'. Ihre Telefon-Nummer: '+prop_telefonnummer+'. Weiter zum --Empfang?'))
-                  .then(() => 'empfang');
+               .then(() => bot.say(EmpfangsBot+'Sie können das Menü auch mit dem Button rechts oben bedienen.'))
+            // .then(() => bot.say(EmpfangsBot+' '+resultat+' '+einfuhrung+' '))
+               .then(() => 'empfang');
             
+            }
+            
+        }
+        
+    },
+
+    fragen: {
+    	
+        receive: (bot, message) => {
+            
+            var frage = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            
+            if (~partner.indexOf("--JA")) { 
+            
+               beantwortet = true;
+               return bot.say(EmpfangsBot+'Antwort auf Ja.')
+               .then(() => 'fragen');
+               
+            }
+            
+            if (~partner.indexOf("--BEENDEN")) { 
+            
+               beantwortet = true;
+               return bot.say(EmpfangsBot+'Frage-Test beendet. --Empfang?')
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               beantwortet = true;
+               return bot.say(EmpfangsBot+'Keine Antwort, nächste Frage.')
+               .then(() => 'fragen');
+               
             }
             
         }
@@ -379,7 +432,7 @@
               (~befehl.indexOf("--BOT-AUS"))) { 
              versuch = true; 
              botsan = false;
-             return bot.say(EmpfangsBot+' Sie haben uns Bots ausgeschaltet. Sie können uns wieder anschalten, indem Sie --Bots-an schreiben.')
+             return bot.say(EmpfangsBot+' Sie haben mich ausgeschaltet. Sie können mich wieder anschalten, indem Sie --Bot-an schreiben.')
              .then(() => 'empfang');
           }
           
@@ -389,7 +442,7 @@
               (~befehl.indexOf("--BOT-AN"))) { 
              versuch = true; 
              botsan = true;
-             return bot.say(EmpfangsBot+' Da sind wir wieder! Schreiben Sie --Empfang, um mit mir zu sprechen - oder dem --Verkauf oder --Marketing!')
+             return bot.say(EmpfangsBot+' Da bin ich wieder! Schreiben Sie --Hilfe, um mit mir zu sprechen.')
              .then(() => 'empfang');
           }
           
@@ -399,40 +452,27 @@
           
           if ("empfang" != "empfang") {
           	 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if (zuletzt_kamel != "Empfang") { 
-             
-             if ((~befehl.indexOf("--ZURÜCK")) && (botsan == true)) { versuch = true; }             
-          } 
-          else {
-             
-             if ((~befehl.indexOf("--ZURÜCK")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wollen Sie zurück zum --Empfang? ').then(() => 'empfang');}             
-          }
-          
-          if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü eingeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENUAN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü eingeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü ausgeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENUAUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü ausgeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENU")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENUE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(EmpfangsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'empfang');}          
+       // Stile
+          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'empfang');}          if ((~befehl.indexOf("--NACHT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'empfang');}          
        // -----------------
-       // Onboarding
+       // Bots
        // -----------------
           
-       	 if ((vorname) && (vorname != "") && (vorname != "Unbekannter") && (nachname) && (nachname != "") && (nachname != "Besucher")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else if ((vorname) && (vorname != "") && (vorname != "Unbekannter")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else if ((nachname) && (nachname != "") && (nachname != "Besucher")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir kennen Ihren Namen noch nicht. ').then(() => 'vorname');}             
-          }
+          if (zuletzt_klein != "empfang") { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Alice. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Alice. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');} } else { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}          }
           
+       // -----------------
+       // System
+       // -----------------
+       
+          if ((~befehl.indexOf("--HILFE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Funktionen: --Kontakt, --Mobil und --Über. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. Meine Aufgabe ist, Sie in diesem Chat willkommen zu heißen, Ihre --Daten aufzunehmen, Sie mit --Material zu versorgen und Ihnen meine --Hilfe anzubieten. ').then(() => bot.say(EmpfangsBot+' Aber Sie wollen sicher hautpsächlich mit Ihrem --Ansprechpartner sprechen. Schalten Sie mich also gerne ein (--Bot-an) oder aus (--Bot-aus)! ')).then(() => 'empfang');}          
        // -----------------
        // Kontakt
        // -----------------
@@ -445,53 +485,16 @@
        // Über uns
        // -----------------
           
-          if ((~befehl.indexOf("--CHATRAUM")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Chatraum ist ein Produkt der Chatbot-Agentur #Robogeddon. ').then(() => bot.say(EmpfangsBot+' Lassen Sie uns über unsere --Produkte sprechen. Oder wollen Sie eine --Beratung? ')).then(() => 'empfang');}          
-       // Produkte
-          if ("empfang" != "verkauf") {
-          	 
-             if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Die Produkte lassen Sie sich besser von Barbara erklären. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo! Mehr über unsere --Produkte folgt... ')).then(() => 'verkauf');}	       
-          }
-          else {
-          	 
-             if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Mehr über unsere --Produkte folgt... ').then(() => 'verkauf');}	       
-          }
-          
+          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über Talente. ').then(() => 'empfang');}          
        // -----------------
-       // Funktionen
+       // Material
        // -----------------
           
-          if ((~befehl.indexOf("--NEWSLETTER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ja, bestellen Sie unseren Newsletter! ').then(() => 'vorname');}          
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Diesen Chat mobil öffnen: [Qr:http://chatraum.herokuapp.com/] ').then(() => bot.say(EmpfangsBot+' Oder öffnen Sie [Textlink:Chatraum.herokuapp.com,http://chatraum.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'empfang');}          
-       // Stile
-          if ((~befehl.indexOf("--TAG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(tag)] Stil: Tag. ').then(() => 'empfang');}          if ((~befehl.indexOf("--NACHT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'empfang');}          if ((~befehl.indexOf("--ROBOS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(robogeddon)] Stil: Robogeddon. ').then(() => 'empfang');}          if ((~befehl.indexOf("--HX")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(hacks)] Stil: Hx. ').then(() => 'empfang');}          
-       // -----------------
-       // Bots
-       // -----------------
-          
-          if (zuletzt_klein != "empfang") { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Alice. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Darf ich Ihnen die Bots aus --Verkauf und --Marketing vorstellen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Alice. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Darf ich Ihnen die Bots aus --Verkauf und --Marketing vorstellen? ')).then(() => 'empfang');} } else { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über den --Chatraum - oder mit den anderen Bots über --Verkauf oder --Marketing! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über den --Chatraum - oder mit den anderen Bots über --Verkauf oder --Marketing! ').then(() => 'empfang');}          }
-          
-          if (zuletzt_klein != "verkauf") { 
-             if ((~befehl.indexOf("--VERKAUF")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Barbara. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo, ich bin Barbara, der Verkaufs-Bot. Ich möchte Ihnen unsere --Produkte zeigen und Sie --beraten! ')).then(() => 'verkauf');}if ((~befehl.indexOf("--BARBARA")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Barbara. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo, ich bin Barbara, der Verkaufs-Bot. Ich möchte Ihnen unsere --Produkte zeigen und Sie --beraten! ')).then(() => 'verkauf');} } else { 
-             if ((~befehl.indexOf("--VERKAUF")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich möchte Ihnen unsere --Produkte und meine --Beratung nahelegen! ').then(() => 'verkauf');}if ((~befehl.indexOf("--BARBARA")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich möchte Ihnen unsere --Produkte und meine --Beratung nahelegen! ').then(() => 'verkauf');}          }
-          
-          if (zuletzt_klein != "marketing") { 
-   		    if ((~befehl.indexOf("--MARKETING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Cynthia. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(MarketingBot+' Hallo, ich bin Cynthia, der Marketing-Bot. Ich möchte Ihnen unser --Facebook empfehlen und möchte Sie bitten, an unserer --Umfrage teilzunehmen! ')).then(() => 'marketing');}if ((~befehl.indexOf("--CYNTHIA")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Cynthia. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(MarketingBot+' Hallo, ich bin Cynthia, der Marketing-Bot. Ich möchte Ihnen unser --Facebook empfehlen und möchte Sie bitten, an unserer --Umfrage teilzunehmen! ')).then(() => 'marketing');} } else { 
-   		    if ((~befehl.indexOf("--MARKETING")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich möchte Ihnen unser --Facebook empfehlen und habe eine --Umfrage. ').then(() => 'marketing');}if ((~befehl.indexOf("--CYNTHIA")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich möchte Ihnen unser --Facebook empfehlen und habe eine --Umfrage. ').then(() => 'marketing');}          }
-          
-       // Vorlage (Gewerk, Name)
-          if ((~befehl.indexOf("--GEWERK")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Name. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(GewerksBot+' Hallo Gewerk Text 1: Hallo, ich bin Name, der Gewerks-Bot. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 2: --Befehle folgt. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 3. ')).then(() => 'gewerk');}
-       // -----------------
-       // System
-       // -----------------
-       
-          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Funktionen: --Kontakt, --Mobil und --Über. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. ').then(() => bot.say(EmpfangsBot+' Über den Talente-Bot. ')).then(() => 'empfang');}          
-       // -----------------
-       // Inhalte
-       // -----------------
-          
+          if ((~befehl.indexOf("--MATERIAL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über das Material. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über Ihr Stellenangebot, auf das Sie sich bewerben. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über das Unternehmen, bei dem Sie sich bewerben. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über die Bewerbungs-Unterlagen, die Sie benötigen. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => 'fragen');}          
        // -----------------
        // Vorlage
        // -----------------
@@ -575,7 +578,7 @@
               (~befehl.indexOf("--BOT-AUS"))) { 
              versuch = true; 
              botsan = false;
-             return bot.say(EmpfangsBot+' Sie haben uns Bots ausgeschaltet. Sie können uns wieder anschalten, indem Sie --Bots-an schreiben.')
+             return bot.say(EmpfangsBot+' Sie haben mich ausgeschaltet. Sie können mich wieder anschalten, indem Sie --Bot-an schreiben.')
              .then(() => 'empfang');
           }
           
@@ -585,7 +588,7 @@
               (~befehl.indexOf("--BOT-AN"))) { 
              versuch = true; 
              botsan = true;
-             return bot.say(EmpfangsBot+' Da sind wir wieder! Schreiben Sie --Empfang, um mit mir zu sprechen - oder dem --Verkauf oder --Marketing!')
+             return bot.say(EmpfangsBot+' Da bin ich wieder! Schreiben Sie --Hilfe, um mit mir zu sprechen.')
              .then(() => 'empfang');
           }
           
@@ -595,106 +598,21 @@
           
           if ("verkauf" != "empfang") {
           	 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if (zuletzt_kamel != "Verkauf") { 
-             
-             if ((~befehl.indexOf("--ZURÜCK")) && (botsan == true)) { versuch = true; }             
-          } 
-          else {
-             
-             if ((~befehl.indexOf("--ZURÜCK")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Wollen Sie zurück zum --Empfang? ').then(() => 'verkauf');}             
-          }
-          
-          if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü eingeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENUAN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü eingeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü ausgeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENUAUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü ausgeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENU")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENUE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'verkauf');}          
-       // -----------------
-       // Onboarding
-       // -----------------
-          
-       	 if ((vorname) && (vorname != "") && (vorname != "Unbekannter") && (nachname) && (nachname != "") && (nachname != "Besucher")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else if ((vorname) && (vorname != "") && (vorname != "Unbekannter")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else if ((nachname) && (nachname != "") && (nachname != "Besucher")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Wir kennen Ihren Namen noch nicht. ').then(() => 'vorname');}             
-          }
-          
-       // -----------------
-       // Kontakt
-       // -----------------
-          
-          if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Alle unsere Kontaktwege: [Text:Kontakt,RobogeddonKontakt] ').then(() => bot.say(VerkaufsBot+' Wollen Sie --telefonieren, --mailen oder --twittern? ')).then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Rufen Sie Andreas Sefzig an: [Telefon:+49 151 15920082] ').then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Schreiben Sie uns eine Email: [Email:andreas.sefzig@robogeddon.de] ').then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--TWITTER")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Senden Sie uns einen Tweet: [Link:PM in Twitter öffnen,RobogeddonTweet] ').then(() => 'verkauf');}          
-       // -----------------
-       // Über uns
-       // -----------------
-          
-          if ((~befehl.indexOf("--CHATRAUM")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Der Chatraum ist ein Produkt der Chatbot-Agentur #Robogeddon. ').then(() => bot.say(VerkaufsBot+' Lassen Sie uns über unsere --Produkte sprechen. Oder wollen Sie eine --Beratung? ')).then(() => 'verkauf');}          
-       // Produkte
-          if ("verkauf" != "verkauf") {
-          	 
-             if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Die Produkte lassen Sie sich besser von Barbara erklären. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo! Mehr über unsere --Produkte folgt... ')).then(() => 'verkauf');}	       
-          }
-          else {
-          	 
-             if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Mehr über unsere --Produkte folgt... ').then(() => 'verkauf');}	       
-          }
-          
-       // -----------------
-       // Funktionen
-       // -----------------
-          
-          if ((~befehl.indexOf("--NEWSLETTER")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ja, bestellen Sie unseren Newsletter! ').then(() => 'vorname');}          
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Diesen Chat mobil öffnen: [Qr:http://chatraum.herokuapp.com/] ').then(() => bot.say(VerkaufsBot+' Oder öffnen Sie [Textlink:Chatraum.herokuapp.com,http://chatraum.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'verkauf');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(VerkaufsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'verkauf');}          
+          if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'verkauf');}          
        // Stile
-          if ((~befehl.indexOf("--TAG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(tag)] Stil: Tag. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--NACHT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--ROBOS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(robogeddon)] Stil: Robogeddon. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--HX")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(hacks)] Stil: Hx. ').then(() => 'verkauf');}          
+          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--NACHT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'verkauf');}          
        // -----------------
        // Bots
        // -----------------
           
           if (zuletzt_klein != "empfang") { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Alice. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Darf ich Ihnen die Bots aus --Verkauf und --Marketing vorstellen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Alice. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Darf ich Ihnen die Bots aus --Verkauf und --Marketing vorstellen? ')).then(() => 'empfang');} } else { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über den --Chatraum - oder mit den anderen Bots über --Verkauf oder --Marketing! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über den --Chatraum - oder mit den anderen Bots über --Verkauf oder --Marketing! ').then(() => 'empfang');}          }
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Alice. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Alice. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');} } else { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}          }
           
-          if (zuletzt_klein != "verkauf") { 
-             if ((~befehl.indexOf("--VERKAUF")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Barbara. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo, ich bin Barbara, der Verkaufs-Bot. Ich möchte Ihnen unsere --Produkte zeigen und Sie --beraten! ')).then(() => 'verkauf');}if ((~befehl.indexOf("--BARBARA")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Barbara. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo, ich bin Barbara, der Verkaufs-Bot. Ich möchte Ihnen unsere --Produkte zeigen und Sie --beraten! ')).then(() => 'verkauf');} } else { 
-             if ((~befehl.indexOf("--VERKAUF")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich möchte Ihnen unsere --Produkte und meine --Beratung nahelegen! ').then(() => 'verkauf');}if ((~befehl.indexOf("--BARBARA")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich möchte Ihnen unsere --Produkte und meine --Beratung nahelegen! ').then(() => 'verkauf');}          }
-          
-          if (zuletzt_klein != "marketing") { 
-   		    if ((~befehl.indexOf("--MARKETING")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Cynthia. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(MarketingBot+' Hallo, ich bin Cynthia, der Marketing-Bot. Ich möchte Ihnen unser --Facebook empfehlen und möchte Sie bitten, an unserer --Umfrage teilzunehmen! ')).then(() => 'marketing');}if ((~befehl.indexOf("--CYNTHIA")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Cynthia. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(MarketingBot+' Hallo, ich bin Cynthia, der Marketing-Bot. Ich möchte Ihnen unser --Facebook empfehlen und möchte Sie bitten, an unserer --Umfrage teilzunehmen! ')).then(() => 'marketing');} } else { 
-   		    if ((~befehl.indexOf("--MARKETING")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich möchte Ihnen unser --Facebook empfehlen und habe eine --Umfrage. ').then(() => 'marketing');}if ((~befehl.indexOf("--CYNTHIA")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich möchte Ihnen unser --Facebook empfehlen und habe eine --Umfrage. ').then(() => 'marketing');}          }
-          
-       // Vorlage (Gewerk, Name)
-          if ((~befehl.indexOf("--GEWERK")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Name. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(GewerksBot+' Hallo Gewerk Text 1: Hallo, ich bin Name, der Gewerks-Bot. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 2: --Befehle folgt. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 3. ')).then(() => 'gewerk');}
-       // -----------------
-       // System
-       // -----------------
-       
-          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Sprechen Sie mit mir über --Produkte und --Beratung. ').then(() => bot.say(VerkaufsBot+' Weitere Funktionen: --Kontakt, --Newsletter, --Mobil und --Über. ')).then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich bin Barbara, der Verkaufs-Bot. ').then(() => bot.say(MarketingBot+' Barbara ist eine Person, zu der ich später mehr sagen kann (folgt). ')).then(() => bot.say(VerkaufsBot+' Ich kenne mich mit unseren --Produkten aus und --berate Sie gern. ')).then(() => 'verkauf');}          
-       // -----------------
-       // Inhalte
-       // -----------------
-          
-          if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Text Produkt. ').then(() => 'verkauf');}          
-          if ((~befehl.indexOf("--BERAT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Text Beratung. ').then(() => 'verkauf');}          
-       // -----------------
-       // Vorlage
-       // -----------------
-       
-          if ((~befehl.indexOf("--VORLAGE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Text Vorlage 1. ').then(() => 'verkauf');}          
 
        // -----------------
        // Bot aus
@@ -773,7 +691,7 @@
               (~befehl.indexOf("--BOT-AUS"))) { 
              versuch = true; 
              botsan = false;
-             return bot.say(EmpfangsBot+' Sie haben uns Bots ausgeschaltet. Sie können uns wieder anschalten, indem Sie --Bots-an schreiben.')
+             return bot.say(EmpfangsBot+' Sie haben mich ausgeschaltet. Sie können mich wieder anschalten, indem Sie --Bot-an schreiben.')
              .then(() => 'empfang');
           }
           
@@ -783,7 +701,7 @@
               (~befehl.indexOf("--BOT-AN"))) { 
              versuch = true; 
              botsan = true;
-             return bot.say(EmpfangsBot+' Da sind wir wieder! Schreiben Sie --Empfang, um mit mir zu sprechen - oder dem --Verkauf oder --Marketing!')
+             return bot.say(EmpfangsBot+' Da bin ich wieder! Schreiben Sie --Hilfe, um mit mir zu sprechen.')
              .then(() => 'empfang');
           }
           
@@ -793,106 +711,21 @@
           
           if ("marketing" != "empfang") {
           	 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Befehle um zu sehen, was ich Ihnen sonst noch zeigen kann. ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if (zuletzt_kamel != "Marketing") { 
-             
-             if ((~befehl.indexOf("--ZURÜCK")) && (botsan == true)) { versuch = true; }             
-          } 
-          else {
-             
-             if ((~befehl.indexOf("--ZURÜCK")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Wollen Sie zurück zum --Empfang? ').then(() => 'marketing');}             
-          }
-          
-          if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü eingeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENUAN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü eingeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü ausgeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENUAUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü ausgeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENU")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENUE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'marketing');}          
-       // -----------------
-       // Onboarding
-       // -----------------
-          
-       	 if ((vorname) && (vorname != "") && (vorname != "Unbekannter") && (nachname) && (nachname != "") && (nachname != "Besucher")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else if ((vorname) && (vorname != "") && (vorname != "Unbekannter")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else if ((nachname) && (nachname != "") && (nachname != "Besucher")) {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; }             
-          }
-          else {
-       	    
-             if ((~befehl.indexOf("--NAME")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Wir kennen Ihren Namen noch nicht. ').then(() => 'vorname');}             
-          }
-          
-       // -----------------
-       // Kontakt
-       // -----------------
-          
-          if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Alle unsere Kontaktwege: [Text:Kontakt,RobogeddonKontakt] ').then(() => bot.say(MarketingBot+' Wollen Sie --telefonieren, --mailen oder --twittern? ')).then(() => 'marketing');}          
-          if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Rufen Sie Andreas Sefzig an: [Telefon:+49 151 15920082] ').then(() => 'marketing');}          
-          if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Schreiben Sie uns eine Email: [Email:andreas.sefzig@robogeddon.de] ').then(() => 'marketing');}          
-          if ((~befehl.indexOf("--TWITTER")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Senden Sie uns einen Tweet: [Link:PM in Twitter öffnen,RobogeddonTweet] ').then(() => 'marketing');}          
-       // -----------------
-       // Über uns
-       // -----------------
-          
-          if ((~befehl.indexOf("--CHATRAUM")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Der Chatraum ist ein Produkt der Chatbot-Agentur #Robogeddon. ').then(() => bot.say(MarketingBot+' Lassen Sie uns über unsere --Produkte sprechen. Oder wollen Sie eine --Beratung? ')).then(() => 'marketing');}          
-       // Produkte
-          if ("marketing" != "verkauf") {
-          	 
-             if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Die Produkte lassen Sie sich besser von Barbara erklären. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo! Mehr über unsere --Produkte folgt... ')).then(() => 'verkauf');}	       
-          }
-          else {
-          	 
-             if ((~befehl.indexOf("--PRODUKT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Mehr über unsere --Produkte folgt... ').then(() => 'verkauf');}	       
-          }
-          
-       // -----------------
-       // Funktionen
-       // -----------------
-          
-          if ((~befehl.indexOf("--NEWSLETTER")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ja, bestellen Sie unseren Newsletter! ').then(() => 'vorname');}          
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Diesen Chat mobil öffnen: [Qr:http://chatraum.herokuapp.com/] ').then(() => bot.say(MarketingBot+' Oder öffnen Sie [Textlink:Chatraum.herokuapp.com,http://chatraum.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'marketing');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(MarketingBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'marketing');}          
+          if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'marketing');}          
        // Stile
-          if ((~befehl.indexOf("--TAG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(tag)] Stil: Tag. ').then(() => 'marketing');}          if ((~befehl.indexOf("--NACHT")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'marketing');}          if ((~befehl.indexOf("--ROBOS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(robogeddon)] Stil: Robogeddon. ').then(() => 'marketing');}          if ((~befehl.indexOf("--HX")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(hacks)] Stil: Hx. ').then(() => 'marketing');}          
+          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'marketing');}          if ((~befehl.indexOf("--NACHT")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'marketing');}          
        // -----------------
        // Bots
        // -----------------
           
           if (zuletzt_klein != "empfang") { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Alice. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Darf ich Ihnen die Bots aus --Verkauf und --Marketing vorstellen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Alice. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Darf ich Ihnen die Bots aus --Verkauf und --Marketing vorstellen? ')).then(() => 'empfang');} } else { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über den --Chatraum - oder mit den anderen Bots über --Verkauf oder --Marketing! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über den --Chatraum - oder mit den anderen Bots über --Verkauf oder --Marketing! ').then(() => 'empfang');}          }
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Alice. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Alice. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');} } else { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}          }
           
-          if (zuletzt_klein != "verkauf") { 
-             if ((~befehl.indexOf("--VERKAUF")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Barbara. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo, ich bin Barbara, der Verkaufs-Bot. Ich möchte Ihnen unsere --Produkte zeigen und Sie --beraten! ')).then(() => 'verkauf');}if ((~befehl.indexOf("--BARBARA")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Barbara. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(VerkaufsBot+' Hallo, ich bin Barbara, der Verkaufs-Bot. Ich möchte Ihnen unsere --Produkte zeigen und Sie --beraten! ')).then(() => 'verkauf');} } else { 
-             if ((~befehl.indexOf("--VERKAUF")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich möchte Ihnen unsere --Produkte und meine --Beratung nahelegen! ').then(() => 'verkauf');}if ((~befehl.indexOf("--BARBARA")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich möchte Ihnen unsere --Produkte und meine --Beratung nahelegen! ').then(() => 'verkauf');}          }
-          
-          if (zuletzt_klein != "marketing") { 
-   		    if ((~befehl.indexOf("--MARKETING")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Cynthia. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(MarketingBot+' Hallo, ich bin Cynthia, der Marketing-Bot. Ich möchte Ihnen unser --Facebook empfehlen und möchte Sie bitten, an unserer --Umfrage teilzunehmen! ')).then(() => 'marketing');}if ((~befehl.indexOf("--CYNTHIA")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Cynthia. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(MarketingBot+' Hallo, ich bin Cynthia, der Marketing-Bot. Ich möchte Ihnen unser --Facebook empfehlen und möchte Sie bitten, an unserer --Umfrage teilzunehmen! ')).then(() => 'marketing');} } else { 
-   		    if ((~befehl.indexOf("--MARKETING")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich möchte Ihnen unser --Facebook empfehlen und habe eine --Umfrage. ').then(() => 'marketing');}if ((~befehl.indexOf("--CYNTHIA")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich möchte Ihnen unser --Facebook empfehlen und habe eine --Umfrage. ').then(() => 'marketing');}          }
-          
-       // Vorlage (Gewerk, Name)
-          if ((~befehl.indexOf("--GEWERK")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Name. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(GewerksBot+' Hallo Gewerk Text 1: Hallo, ich bin Name, der Gewerks-Bot. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 2: --Befehle folgt. ')).then(() => bot.say(GewerksBot+' Hallo Gewerk Text 3. ')).then(() => 'gewerk');}
-       // -----------------
-       // System
-       // -----------------
-       
-          if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Sprechen Sie mit mir über --Facebook und --Umfrage. ').then(() => bot.say(MarketingBot+' Weitere Funktionen: --Kontakt, --Newsletter, --Mobil und --Über. ')).then(() => 'marketing');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich bin Cynthia, der Marketing-Bot. ').then(() => bot.say(EmpfangsBot+' Cynthia ist eine Person, zu der ich später mehr sagen kann (folgt). ')).then(() => bot.say(MarketingBot+' Ich mache unser --Facebook und habe eine --Umfrage. ')).then(() => 'marketing');}          
-       // -----------------
-       // Inhalte
-       // -----------------
-          
-          if ((~befehl.indexOf("--FACEBOOK")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Text Facebook. ').then(() => 'marketing');}          
-          if ((~befehl.indexOf("--UMFRAGE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Text Umfrage. ').then(() => 'marketing');}          
-       // -----------------
-       // Vorlage
-       // -----------------
-       
-          if ((~befehl.indexOf("--VORLAGE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Text Vorlage 1. ').then(() => 'marketing');}          
 
        // -----------------
        // Bot aus
