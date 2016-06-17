@@ -74,7 +74,7 @@
                beantwortet = true;
                return bot.setProp('hilfegeoffnet', 'ja')
                .then(() => bot.say(EmpfangsBot+'Folgt: Hilfe-Text.'))
-               .then(() => bot.say(EmpfangsBot+'Verstanden? Bitte sagen Sie --ja oder --nein.'))
+               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja oder --nein.'))
                .then(() => 'abgeschlossen');
                
             }
@@ -93,8 +93,10 @@
             
                beantwortet = true;
                return bot.setProp('hilfeverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+'Jetzt verstanden? Bitte sagen Sie --ja oder --nein.'))
-               .then(() => 'abgeschlossen');
+               .then(() => bot.say(EmpfangsBot+'Kopf hoch, Sie werden es auch ohne die Hilfs-Befehle schaffen :) Denn: '))
+               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden.'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => 'erklart');
                
             }
             
@@ -102,8 +104,8 @@
             
                return bot.setProp('hilfegeoffnet', 'nein')
                   .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
-               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+                  .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!'))
+                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                   .then(() => 'erklart');
             
             }
@@ -120,7 +122,7 @@
             var menu_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             	
-            if (~hilfe_gross.indexOf("--MENÜ")) { 
+            if (~menu_gross.indexOf("--MENÜ")) { 
             
                beantwortet = true;
                return bot.setProp('menuverstanden', 'ja')
