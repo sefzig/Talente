@@ -79,7 +79,7 @@
                
                return bot.setProp('hilfegeoffnet', 'ja')
                .then(() => bot.say(EmpfangsBot+'Folgt: Hilfe-Text.'))
-               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja oder --nein.'))
+               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja.'))
                .then(() => 'abgeschlossen');
                
             }
@@ -91,7 +91,7 @@
                
                return bot.setProp('hilfeverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                .then(() => 'erklart');
                
             }
@@ -135,7 +135,9 @@
             resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             
-            var einfuhrung = 'Einführung.';
+            var einfuhrung1 = 'Ich möchte Sie nun mit den --Materialien vertraut machen!';
+            var einfuhrung2 = 'Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Dinge für Ihre --Unterlagen.';
+            var einfuhrung3 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. All das finden Sie auch im Menü!';
             
             if (~menu_gross.indexOf("--MENÜ")) { 
             
@@ -144,8 +146,10 @@
                resultat = resultat+' Sie haben das Menü verstanden.';
                
                return bot.setProp('menuverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben das Menü verstanden. Sie können das Menü auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
-            // .then(() => bot.say(EmpfangsBot+' '+resultat+' '+einfuhrung+' '))
+               .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'empfang');
                
             }
@@ -154,7 +158,9 @@
             
                return bot.setProp('menuverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+'Sie können das Menü auch mit dem Button rechts oben bedienen.'))
-            // .then(() => bot.say(EmpfangsBot+' '+resultat+' '+einfuhrung+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'empfang');
             
             }
@@ -477,10 +483,28 @@
        // Kontakt
        // -----------------
           
-          if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Alle unsere Kontaktwege: [Text:Kontakt,RobogeddonKontakt] ').then(() => bot.say(EmpfangsBot+' Wollen Sie --telefonieren, --mailen oder --twittern? ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Andreas Sefzig an: [Telefon:+49 151 15920082] ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Email: [Email:andreas.sefzig@robogeddon.de] ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--TWITTER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Senden Sie uns einen Tweet: [Link:PM in Twitter öffnen,RobogeddonTweet] ').then(() => 'empfang');}          
+          if (prop_ansprechpartner == "Urbat") {
+             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Urbat an: [Telefon:040 822186 315] Oder Mobil: [Telefon:0151 1891 50 88] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Urbats XING-Profil: [Button:XING-Profil öffnen,http://www.xing.com/profile/Annika_Urbat/] ').then(() => 'empfang');}             
+          }
+          else if (prop_ansprechpartner == "Ortwerth") {
+             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Ortwerth an: [Telefon:040 1234567] Oder Mobil: [Telefon:0151 1234567] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Ortwerths XING-Profil: [Button:XING-Profil öffnen,http://www.xing.com/profile/Kerstin_Ortwerth/] ').then(() => 'empfang');}             
+          }
+          else {
+             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Möchten Sie mit uns --telefonieren, uns eine --E-Mail schreiben oder uns auf --Xing erreichen? ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie uns an: [Telefon:040 1234567] Oder Mobil: [Telefon:0151 1234567] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Unser XING Unternehmens-Profil: [Button:XING-Seite öffnen,http://www.xing.com/companies/4talentsgmbh] ').then(() => 'empfang');}             
+          }
+          
        // -----------------
        // Über uns
        // -----------------
