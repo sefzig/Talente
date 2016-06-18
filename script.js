@@ -176,7 +176,7 @@
             var frage = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             
-            if (~partner.indexOf("--JA")) { 
+            if (~frage.indexOf("--JA")) { 
             
                beantwortet = true;
                return bot.say(EmpfangsBot+'Antwort auf Ja.')
@@ -184,7 +184,7 @@
                
             }
             
-            if (~partner.indexOf("--BEENDEN")) { 
+            if ((~frage.indexOf("--BEENDEN")) || (~frage.indexOf("--ABBRECHEN")) || (~frage.indexOf("--FERTIG"))) { 
             
                beantwortet = true;
                return bot.say(EmpfangsBot+'Frage-Test beendet. --Empfang?')
@@ -477,7 +477,7 @@
        // System
        // -----------------
        
-          if ((~befehl.indexOf("--HILFE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Funktionen: --Kontakt, --Mobil und --Über. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--HILFE")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' In der Hilfs-Funktion werden Nutzern alle wichtigen Befehle angezeigt. Sie hat die selbe Funktion wie das Menü. ').then(() => bot.say(EmpfangsBot+' Funktionen: --Kontakt, --Mobil und --Über. ')).then(() => 'empfang');}          
           if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. Meine Aufgabe ist, Sie in diesem Chat willkommen zu heißen, Ihre --Daten aufzunehmen, Sie mit --Material zu versorgen und Ihnen meine --Hilfe anzubieten. ').then(() => bot.say(EmpfangsBot+' Aber Sie wollen sicher hautpsächlich mit Ihrem --Ansprechpartner sprechen. Schalten Sie mich also gerne ein (--Bot-an) oder aus (--Bot-aus)! ')).then(() => 'empfang');}          
        // -----------------
        // Kontakt
@@ -485,22 +485,22 @@
           
           if (prop_ansprechpartner == "Urbat") {
              
-             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ').then(() => 'empfang');}             
-             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Urbat an: [Telefon:040 822186 315] Oder Mobil: [Telefon:0151 1891 50 88] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es werden nur die Kontaktdaten des beim Onboarding angegebenen Ansprechpartners angezeigt, in diesem Fall Frau '+prop_ansprechpartner+'. Wurde kein Ansprechpartner gewählt, werden die allgemeinen Kontaktdaten genannt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Urbat an: [Telefon:040 822186 315] ').then(() => bot.say(EmpfangsBot+' Oder Mobil: [Telefon:0151 1891 50 88] ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Urbats XING-Profil: [Button:XING-Profil öffnen,http://www.xing.com/profile/Annika_Urbat/] ').then(() => 'empfang');}             
           }
           else if (prop_ansprechpartner == "Ortwerth") {
              
-             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ').then(() => 'empfang');}             
-             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Ortwerth an: [Telefon:040 1234567] Oder Mobil: [Telefon:0151 1234567] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es werden nur die Kontaktdaten des beim Onboarding angegebenen Ansprechpartners angezeigt, in diesem Fall Frau '+prop_ansprechpartner+'. Wurde kein Ansprechpartner gewählt, werden die allgemeinen Kontaktdaten genannt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Ortwerth an: [Telefon:040 1234567] ').then(() => bot.say(EmpfangsBot+' Oder Mobil: [Telefon:0151 1234567] ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Ortwerths XING-Profil: [Button:XING-Profil öffnen,http://www.xing.com/profile/Kerstin_Ortwerth/] ').then(() => 'empfang');}             
           }
           else {
              
-             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Möchten Sie mit uns --telefonieren, uns eine --E-Mail schreiben oder uns auf --Xing erreichen? ').then(() => 'empfang');}             
-             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie uns an: [Telefon:040 1234567] Oder Mobil: [Telefon:0151 1234567] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Da beim Onboarding kein Ansprechpartner gewählt wurde, werden die allgemeinen Kontaktdaten angezeigt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit uns --telefonieren, uns eine --E-Mail schreiben oder uns auf --Xing erreichen? ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie uns an: [Telefon:040 1234567] ').then(() => bot.say(EmpfangsBot+' Oder Mobil: [Telefon:0151 1234567] ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Unser XING Unternehmens-Profil: [Button:XING-Seite öffnen,http://www.xing.com/companies/4talentsgmbh] ').then(() => 'empfang');}             
           }
@@ -518,7 +518,7 @@
           if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über Ihr Stellenangebot, auf das Sie sich bewerben. ').then(() => 'empfang');}          
           if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über das Unternehmen, bei dem Sie sich bewerben. ').then(() => 'empfang');}          
           if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über die Bewerbungs-Unterlagen, die Sie benötigen. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => 'fragen');}          
+          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber auf Fehler/Lücken ansprechen. ')).then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber auf Fehler/Lücken ansprechen. ')).then(() => 'fragen');}          
        // -----------------
        // Vorlage
        // -----------------
