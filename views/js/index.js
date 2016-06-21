@@ -833,6 +833,7 @@
        
     // Befehl säubern
        befehl = befehl.replace("--","");
+       befehl = befehl.replace("—","");
        
     // Hash-Navigation aktualisieren
        window.location.hash = "#"+befehl;
@@ -962,6 +963,7 @@
        if ((auswahl) && (auswahl != "")) {
           
           auswahl = auswahl.replace("--", "");
+          auswahl = auswahl.replace("—", "");
           auswahl = auswahl.toLowerCase();
           
        }
