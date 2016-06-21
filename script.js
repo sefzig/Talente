@@ -198,23 +198,7 @@
             var einfuhrung1 = 'Ich möchte Sie abschließend mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
             var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. ';
             
-            var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
-            
-            if (~dialog_gross.indexOf('--'+ap_gross+'')) { 
-            
-               beantwortet = true;
-               prop_dialogverstanden = true;
-               resultat = resultat+' Sie haben das Menü verstanden.';
-               
-               return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
-               
-            }
-            
-            if (~dialog_gross.indexOf('--KONTAKT')) { 
+            if (~dialog_gross.indexOf('--'+prop_ansprechpartner+'')) { 
             
                beantwortet = true;
                prop_dialogverstanden = true;
