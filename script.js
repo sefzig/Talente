@@ -59,7 +59,7 @@
           var befehl = befehlWort(message.text.trim());
           
        // Erster Schritt 
-          var dann = "ansprechpartner"; // Onboarding.php
+          var dann = "erklart"; // Onboarding.php // Folgt: ansprechpartner
           
           return bot.setProp('empfangen', 'ja')
           .then(() => bot.say(EmpfangsBot+'Lassen Sie uns zunächst ein paar Fragen durchgehen.'))
@@ -154,7 +154,7 @@
                
             }
             
-            if      (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
+            else if (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
             else if (~menu_gross.indexOf("--ANSPRECH"))  { var verhindert = 'Ihren Ansprechpartner erreichen Sie'; }
             else if (~menu_gross.indexOf("--KONTAKT"))   { var verhindert = 'Die Kontaktdaten sehen Sie'; }
             else if (~menu_gross.indexOf("--MATERI"))    { var verhindert = 'Ihr Material erhalten Sie'; }
