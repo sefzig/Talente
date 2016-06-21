@@ -155,10 +155,24 @@
                
             }
             
+            if      (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
+            else if (~menu_gross.indexOf("--ANSPRECH"))  { var verhindert = 'Ihren Ansprechpartner erreichen Sie'; }
+            else if (~menu_gross.indexOf("--KONTAKT"))   { var verhindert = 'Die Kontaktdaten sehen Sie'; }
+            else if (~menu_gross.indexOf("--MATERI"))    { var verhindert = 'Ihr Material erhalten Sie'; }
+            else if (~menu_gross.indexOf("--STELLENA"))  { var verhindert = 'Ihr Stellenangebot sehen Sie'; }
+            else if (~menu_gross.indexOf("--UNTERNEHM")) { var verhindert = 'Die Unternehmens-Informationen sehen Sie'; }
+            else if (~menu_gross.indexOf("--UNTERLAG"))  { var verhindert = 'Tipps für Ihre Bewerbungs-Unterlagen erhalten Sie'; }
+            else if (~menu_gross.indexOf("--TEST"))      { var verhindert = 'Der Test ist bereit'; }
+            else if (~menu_gross.indexOf("--HILFE"))     { var verhindert = 'Die Hilfe ist bereit'; }
+            else if (~menu_gross.indexOf("--BOT-AUS"))   { var verhindert = 'Sie können mich ausschalten'; }
+            else if (~menu_gross.indexOf("--BOT-AN"))    { var verhindert = 'Sie können mich anschalten'; }
+            else if (~menu_gross.indexOf("--MOBIL"))     { var verhindert = 'Mobil geht es weiter'; }
+            else                                         { var verhindert = 'Die Befehle stehen zur Verfügung'; }
+            
             if (beantwortet == false) { 
             
                return bot.setProp('menuverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+'Die Befehle des Menüs stehen zur Verfügung, sobald wir das Onboarding abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. '))
+               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
@@ -873,3 +887,4 @@
        return re.test(email);
        
     }
+    
