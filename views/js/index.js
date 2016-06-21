@@ -971,7 +971,7 @@
           
        }
        
-       ladenCss(auswahl, zufall, dir);
+    // ladenCss(auswahl, zufall, dir);
        $("body").attr("data-stil", auswahl);
        
        auswahl = auswahl.charAt(0).toUpperCase() + auswahl.slice(1);
