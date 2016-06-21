@@ -957,7 +957,7 @@
     function stil(auswahl) {
        
        zufall = 4;
-       dir = "stil";
+       dir = "views/ckient/_talente/stil";
        
        if ((!auswahl) || (auswahl == "")) { auswahl = Cookies.get(daten["cookie"]["stil"]); }
        if ((!auswahl) || (auswahl == "")) { auswahl = getParameters("stil"); }
