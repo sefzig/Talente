@@ -32,7 +32,7 @@
    var emailkorrekt = true;
 
 // Standard-Texte
-   var hilfe = 'Folgt: Hilfe-Text.';   
+   var hilfetext = 'Folgt: Der allgemeine Hilfe-Text.';   
 // Konversationen 
    module.exports = new Script({ 
    
@@ -81,7 +81,7 @@
                prop_hilfegeoffnet = true;
                
                return bot.setProp('hilfegeoffnet', 'ja')
-               .then(() => bot.say(EmpfangsBot+' '+hilfe))
+               .then(() => bot.say(EmpfangsBot+' '+hilfetext))
                .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja.'))
                .then(() => 'abgeschlossen');
                
