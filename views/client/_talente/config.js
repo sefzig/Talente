@@ -14,7 +14,7 @@
     // Defaults
        "default": {
           
-          "ansicht": "daten", // chat, daten
+          "ansicht": "chat", // chat, daten
           "stil": "talente", // tag, robogeddon, nacht, hx, talente
           "menu": "talente", // chatraum, robogeddon, talente
           "client": "talente", // chatraum, robogeddon, talente (eigentlich "client")
