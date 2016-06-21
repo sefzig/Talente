@@ -429,10 +429,12 @@
        // Konfiguration übernehmen
           var befehl_template = templates["befehl"]["link"];
        // console.log("befehl_template: "+befehl_template);
-          var befehl_prefix = config["syntax"]["befehlPrefix"];
+          var befehl_prefix1 = config["syntax"]["befehlPrefix1"];
+          var befehl_prefix2 = config["syntax"]["befehlPrefix2"];
              
        // Befehle anpassen
-          inhalte = inhalte.split(befehl_prefix);
+          inhalte = inhalte.replace(befehl_prefix2, befehl_prefix1);
+          inhalte = inhalte.split(befehl_prefix1);
           for (i = 1; i < inhalte.length; i++) {
              
           // Befehl-Template übernehmen
@@ -456,7 +458,7 @@
           // console.log("befehl_button neu: "+befehl_button);
              
           // Template einsetzen
-             text_string = text_string.replace(befehl_prefix+""+inhalt, befehl_button); // ..?
+             text_string = text_string.replace(befehl_prefix1+""+inhalt, befehl_button); // ..?
           // console.log("text_string: "+text_string+"");
              
           // Befehler laden

@@ -29,7 +29,8 @@
        "syntax": { 
           
        // Befehl
-          "befehlPrefix": "--",
+          "befehlPrefix1": "--",
+          "befehlPrefix2": "—",
           "befehlErsatz": ""
           
        },
