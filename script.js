@@ -135,8 +135,14 @@
             var menu_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             
-            var einfuhrung1 = 'So, gleich sind Sie an Bord. Eines noch: Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
-            var einfuhrung2 = 'Natürlich kann es sein, dass sie gerade im Gespräch ist. Dann warten Sie bitte einfach - oder nehmen Sie auf anderem Wege --Kontakt auf.';
+            var resultat =      'Resultate (bisher):';
+            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
+            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
+            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
+            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
+            
+            var einfuhrung1 = 'Ich möchte Sie nun mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
+            var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. Das alles finden Sie jederzeit im Menü wieder!';
             
             if (~menu_gross.indexOf("--MENÜ")) { 
             
@@ -148,7 +154,7 @@
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'verbunden');
+               .then(() => 'empfang');
                
             }
             
@@ -171,52 +177,6 @@
                return bot.setProp('menuverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. Ich habe es erstmal geschlossen. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'verbunden');
-            
-            }
-            
-        }
-        
-    },
-
-    verbunden: {
-    	
-        receive: (bot, message) => {
-            
-            var dialog = message.text;
-            var dialog_gross = befehlWort(message.text.trim().toUpperCase());
-            var beantwortet = false;
-            
-            var resultat =      'Resultate (bisher):';
-            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
-            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
-            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
-            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
-            if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
-            
-            var einfuhrung1 = 'Ich möchte Sie nun mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
-            var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. Das alles finden Sie jederzeit im Menü wieder!';
-            
-            if (~dialog_gross.indexOf("--MENÜ")) { 
-            
-               beantwortet = true;
-               prop_dialogverstanden = true;
-               resultat = resultat+' Sie haben das Menü verstanden.';
-               
-               return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie den Dialog. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
-               
-            }
-            
-            if (beantwortet == false) { 
-            
-               return bot.setProp('dialogverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+' Text. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
             
