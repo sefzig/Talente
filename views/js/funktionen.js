@@ -160,7 +160,7 @@
       var cssSelector = document.getElementById("Css"+datei);
    // if (!cssSelector) {
       // var filename = "css/"+dir+"/"+datei+".css?v=3";
-         var filename = "css/"+dir+"/"+datei+".css?v="+zufall;
+         var filename = ""+dir+"/"+datei+".css?v="+zufall;
          var fileref = document.createElement("link");
          fileref.setAttribute("href", filename);
          fileref.setAttribute("rel", "stylesheet");

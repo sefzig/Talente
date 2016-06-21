@@ -956,8 +956,8 @@
  // Stil (ggfls. auswählen und) anwenden
     function stil(auswahl) {
        
-       zufall = 4;
-       dir = "views/ckient/_talente/stil";
+       zufall = 5;
+       dir = "views/client/_talente/stil";
        
        if ((!auswahl) || (auswahl == "")) { auswahl = Cookies.get(daten["cookie"]["stil"]); }
        if ((!auswahl) || (auswahl == "")) { auswahl = getParameters("stil"); }
