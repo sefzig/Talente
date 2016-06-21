@@ -204,7 +204,21 @@
             
                beantwortet = true;
                prop_dialogverstanden = true;
-               resultat = resultat+' Sie haben den Dialog verstanden.';
+               resultat = resultat+' Sie haben das Menü verstanden.';
+               
+               return bot.setProp('dialogverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (~dialog_gross.indexOf('--KONTAKT')) { 
+            
+               beantwortet = true;
+               prop_dialogverstanden = true;
+               resultat = resultat+' Sie haben das Menü verstanden.';
                
                return bot.setProp('dialogverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
