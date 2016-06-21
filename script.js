@@ -185,7 +185,7 @@
         receive: (bot, message) => {
             
             var dialog = message.text;
-            var dialog_gross = befehlWort(dialog.trim().toUpperCase());
+            var dialog_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             
             var resultat =      'Resultate (bisher):';
@@ -196,7 +196,7 @@
             if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
             
             var einfuhrung1 = 'Ich möchte Sie abschließend mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
-            var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten. ';
+            var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. ';
             
             var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
             
