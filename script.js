@@ -12,7 +12,7 @@
 // Variablen 
    var versuche_max = 3; 
    var versuche = 0; 
-   var zuletzt = ""; 
+   var zuletzt = ''; 
    var bekannt = false;
    var botsan = true;
    var angekommen = false;
@@ -30,7 +30,9 @@
    var nachname = "Bewerber";
    var email = "test@talente.de";
    var emailkorrekt = true;
-   
+
+// Standard-Texte
+   var hilfe = 'Folgt: Hilfe-Text.';   
 // Konversationen 
    module.exports = new Script({ 
    
@@ -79,7 +81,7 @@
                prop_hilfegeoffnet = true;
                
                return bot.setProp('hilfegeoffnet', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Folgt: Hilfe-Text.'))
+               .then(() => bot.say(EmpfangsBot+' '+hilfe))
                .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja.'))
                .then(() => 'abgeschlossen');
                
@@ -91,7 +93,7 @@
                prop_hilfeverstanden = true;
                
                return bot.setProp('hilfeverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!'))
+               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
                .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                .then(() => 'erklart');
                
@@ -136,9 +138,9 @@
             resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             
-            var einfuhrung1 = 'Ich möchte Sie nun mit den --Materialien vertraut machen!';
-            var einfuhrung2 = 'Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Dinge für Ihre --Unterlagen.';
-            var einfuhrung3 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. All das finden Sie auch im Menü!';
+            var einfuhrung1 = 'Ich möchte Sie nun mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Dinge für Ihre --Unterlagen.';
+            var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie.';
+            var einfuhrung3 = 'Das alles finden Sie im Menü wieder!';
             
             if (~menu_gross.indexOf("--MENÜ")) { 
             
@@ -172,7 +174,7 @@
             if (beantwortet == false) { 
             
                return bot.setProp('menuverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. '))
+               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. Ich habe es erstmal geschlossen. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
@@ -235,6 +237,7 @@
                
                return bot.setProp('ansprechpartner', 'Urbat')
                .then(() => bot.say(EmpfangsBot+'Frau Urbat, prima. Bitte bestätigen Sie mit --ja oder --nein.'))
+               .then(() => bot.say(AndreasSefzig+'Nach dieser Bestätigung hat der Bewerber Zugriff auf Frau Urbats Kontaktdaten und andere Informationen in ihrem Namen.'))
                .then(() => 'partner');
                
             }
@@ -246,6 +249,7 @@
                
                return bot.setProp('ansprechpartner', 'Ortwerth')
                .then(() => bot.say(EmpfangsBot+'Frau Ortwerth, prima. Bitte bestätigen Sie mit --ja oder --nein.'))
+               .then(() => bot.say(AndreasSefzig+'Nach dieser Bestätigung hat der Bewerber Zugriff auf Frau Ortwerths Kontaktdaten und andere Informationen in ihrem Namen.'))
                .then(() => 'partner');
                
             }
@@ -257,6 +261,7 @@
                
                return bot.setProp('ansprechpartner', 'Andere')
                .then(() => bot.say(EmpfangsBot+'Sicher, dass Sie einen anderen Ansprechpartner als Frau --Urbat oder Frau --Ortwerth haben? Bitte bestätigen Sie mit --ja oder --nein.'))
+               .then(() => bot.say(AndreasSefzig+'Es könnte sein, dass der Ansprechpartner (noch) nicht im System hinterlegt ist. Daher geht Talente-Bot auf Nummer sicher, lässt aber andere Ansprechpartner zu.'))
                .then(() => 'partner');
                
             }
@@ -344,8 +349,11 @@
             
             if (beantwortet == false) { 
             
+               email = email.replace("--", "");
+               email = email.replace("—", "");
+            	   
                if (emailkorrekt == true) {
-            	
+            	   
             	   prop_emailadresse = email;
             	
                   return bot.setProp('email', email)
@@ -357,6 +365,7 @@
             	
                   return bot.setProp('emailversuch', 'ja')
                      .then(() => bot.say(EmpfangsBot+''+email+' ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
+                     .then(() => bot.say(AndreasSefzig+'Die Validierung der E-Mail-Adresse schützt vor Flüchtigkeitsfehlern. Die Adresse kann zudem später geändert werden.'))
                      .then(() => 'emailanfang');
                
                }
@@ -380,7 +389,7 @@
                beantwortet = true;
                return bot.setProp('telefonbestatigt', 'ja')
                .then(() => bot.say(EmpfangsBot+'Prima, Ihre Telefon-Nummer wurde gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Wo Sie sich nun vorgestellt haben, ein paar Worte zu mir: Ich möchte Sie - so gut es einem Automaten möglich ist - bei Ihrer Bewerbung unterstützen!'))
+               .then(() => bot.say(EmpfangsBot+'Wo Sie sich nun vorgestellt haben, ein paar Worte zu mir: Ich bin - wie Sie sicher bemerkt haben - ein Roboter (ein Chat-Roboter, um genau zu sein). Meine Aufgabe ist, Sie bei Ihrer Bewerbung unterstützen!'))
                .then(() => bot.say(EmpfangsBot+'Ganz praktisch: Wenn Sie hier im Chat Hilfe brauchen, schreiben Sie einfach --Hilfe. Bitte probieren Sie es einmal aus!'))
                .then(() => 'abgeschlossen');
                
@@ -887,4 +896,3 @@
        return re.test(email);
        
     }
-    
