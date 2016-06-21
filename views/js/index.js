@@ -459,6 +459,7 @@
              
           // Template einsetzen
              text_string = text_string.replace(befehl_prefix1+""+inhalt, befehl_button); // ..?
+             text_string = text_string.replace(befehl_prefix2+""+inhalt, befehl_button); // ..?
           // console.log("text_string: "+text_string+"");
              
           // Befehler laden
