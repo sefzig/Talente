@@ -24,6 +24,8 @@
    var prop_hilfegeoffnet = false;
    var prop_hilfeverstanden = false;
    var prop_menuverstanden = false;
+   var prop_dialogverstanden = false;
+   var prop_kontaktverstanden = false;
 
 // Daten 
    var vorname = "Unbekannter";
@@ -133,15 +135,8 @@
             var menu_gross = befehlWort(message.text.trim().toUpperCase());
             var beantwortet = false;
             
-            var resultat =      'Resultate (bisher):';
-            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
-            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
-            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
-            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
-            
-            var einfuhrung1 = 'Ich möchte Sie nun mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
-            var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie.';
-            var einfuhrung3 = 'Das alles finden Sie im Menü wieder!';
+            var einfuhrung1 = 'So, gleich sind Sie an Bord - eines noch: Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
+            var einfuhrung2 = 'Natürlich kann es sein, dass sie gerade im Gespräch ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf.';
             
             if (~menu_gross.indexOf("--MENÜ")) { 
             
@@ -153,8 +148,7 @@
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
-               .then(() => 'empfang');
+               .then(() => 'verbunden');
                
             }
             
@@ -178,7 +172,54 @@
                .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. Ich habe es erstmal geschlossen. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
+               .then(() => 'verbunden');
+            
+            }
+            
+        }
+        
+    },
+
+    verbunden: {
+    	
+        receive: (bot, message) => {
+            
+            var dialog = message.text;
+            var dialog_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            
+            var resultat =      'Resultate (bisher):';
+            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
+            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
+            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
+            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
+            if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
+            
+            var einfuhrung1 = 'Ich möchte Sie abschließend mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
+            var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie. ';
+            
+            var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
+            
+            if (~dialog_gross.indexOf('--'+ap_gross+'')) { 
+            
+               beantwortet = true;
+               prop_dialogverstanden = true;
+               resultat = resultat+' Sie haben den Dialog verstanden.';
+               
+               return bot.setProp('dialogverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('dialogverstanden', 'nein')
+               .then(() => bot.say(EmpfangsBot+' Text. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
             
             }
@@ -544,7 +585,7 @@
           if ((~befehl.indexOf("--MATERIAL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Damit Sie alle Informationen an einem Ort haben, finden Sie hier Ihre persönlichen Unterlagen - das --Stellenangebot und Informationen zu dem --Unternehmen, für das Sie sich bewerben. Außerdem haben wir ein paar Tipps für Ihre Bewerbungs- --Unterlagen zusammengestellt. ').then(() => 'empfang');}          
           if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Hier das Stellenangebot, auf das Sie sich beworben haben: [Text:Ihr Stellenangebot,TalenteStellenangebotDanielTester,] ').then(() => bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Stellenangebote auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ')).then(() => 'empfang');}          
           if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Informationen zu dem Unternehmen, bei dem Sie sich bewerben: [Text:Ihr Arbeitgeber in spe,TalenteUnternehmenDanielTester,] ').then(() => bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Unternehmens-Informationen auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir haben Tipps für Sie zusammengestellt, die Sie bei Ihren Bewerbungs-Unterlagen beachten möchten. [Text:Tipps für Ihre Unterlagen,TalenteUnterlagen,] Sollten Fragen dazu offen bleiben, sprechen Sie Frau --'+prop_ansprechpartner+' darauf an! ').then(() => bot.say(AndreasSefzig+' Die Tipps sind nicht personalisiert - könnten das aber ebenfalls sein. Nur gilt: Je mehr Personalisierung, desto mehr administrativer Aufwand... ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir haben Tipps für Sie zusammengestellt, die Sie bei Ihren Bewerbungs-Unterlagen beachten möchten. [Text:Tipps für Ihre Unterlagen,TalenteUnterlagen,] Sollten Fragen dazu offen bleiben, sprechen Sie Frau --'+prop_ansprechpartner+' darauf an! ').then(() => bot.say(AndreasSefzig+' Die Tipps sind nicht personalisiert - könnten das aber sein. Nur gilt: Je mehr Personalisierung, desto mehr administrativer Aufwand... ')).then(() => 'empfang');}          
           if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ')).then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ')).then(() => 'fragen');}          
        // -----------------
        // Vorlage
