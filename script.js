@@ -102,8 +102,8 @@
                beantwortet = true;
                return bot.setProp('hilfeverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+'Kopf hoch, Sie werden es auch ohne die Hilfs-Befehle schaffen :) Denn: '))
-               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden.'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                .then(() => 'erklart');
                
             }
@@ -112,8 +112,8 @@
             
                return bot.setProp('hilfegeoffnet', 'nein')
                   .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
-                  .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Inhalte finden!'))
-                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+                  .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
+                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                   .then(() => 'erklart');
             
             }
@@ -158,8 +158,8 @@
             if (beantwortet == false) { 
             
                return bot.setProp('menuverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+'Sie können das Menü auch mit dem Button rechts oben bedienen.'))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+'Die Befehle des Menüs stehen zur Verfügung, sobald wir das Onboarding abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'empfang');
@@ -431,8 +431,6 @@
           var zuletzt_gross = zuletzt_dann.toUpperCase();
           var zuletzt_kamel = zuletzt_dann.charAt(0).toUpperCase() + zuletzt_dann.slice(1);
           
-if (angekommen == true) {
-          
        // -----------------
        // Bot-Schalter
        // -----------------
@@ -556,17 +554,10 @@ if (angekommen == true) {
           return bot.setProp('empfang', 'gesprochen')
               .then(() => dann);
           
-} else { 
-
-       // angekommen != true
-          return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
-
-}
-          
        }
         
     },
-    
+   
  // ---------------------------
  // Verkauf (Barbara)
  // ---------------------------
@@ -603,8 +594,6 @@ if (angekommen == true) {
           var zuletzt_klein = zuletzt_dann.toLowerCase();
           var zuletzt_gross = zuletzt_dann.toUpperCase();
           var zuletzt_kamel = zuletzt_dann.charAt(0).toUpperCase() + zuletzt_dann.slice(1);
-          
-if (angekommen == true) {
           
        // -----------------
        // Bot-Schalter
@@ -678,17 +667,10 @@ if (angekommen == true) {
           return bot.setProp('verkauf', 'gesprochen')
               .then(() => dann);
           
-} else { 
-
-       // angekommen != true
-          return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
-
-}
-          
        }
         
     },
-    
+   
  // ---------------------------
  // Marketing (Cynthia)
  // ---------------------------
@@ -725,8 +707,6 @@ if (angekommen == true) {
           var zuletzt_klein = zuletzt_dann.toLowerCase();
           var zuletzt_gross = zuletzt_dann.toUpperCase();
           var zuletzt_kamel = zuletzt_dann.charAt(0).toUpperCase() + zuletzt_dann.slice(1);
-          
-if (angekommen == true) {
           
        // -----------------
        // Bot-Schalter
@@ -800,17 +780,10 @@ if (angekommen == true) {
           return bot.setProp('marketing', 'gesprochen')
               .then(() => dann);
           
-} else { 
-
-       // angekommen != true
-          return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
-
-}
-          
        }
         
     },
-    
+   
     finish: {
        receive: (bot, message) => {
           return bot.getProp('name')
