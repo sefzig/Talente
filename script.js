@@ -216,7 +216,7 @@
                resultat = resultat+' Sie haben den Dialog verstanden.';
                
                return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
+               .then(() => bot.say(EmpfangsBot+'Ja, so sprechen Sie Frau '+prop_ansprechpartner+' an. Ich habe Sie jetzt nicht benachrichtigt, da Sie sicher nur getestet haben - holen Sie das gern nach.'))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
