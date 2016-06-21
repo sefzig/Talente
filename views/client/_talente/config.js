@@ -97,7 +97,7 @@
        	 
        // Benutzeroberfläche
           "headerText": "Talente: Chat",
-          "startText": "Dies ist der Anfang des Gesprächs.<br/><span class=blink>Schreiben Sie irgendetwas, um zu beginnen<span class=nicht_mobil> - z.B. Hallo</span>!</span>",
+          "startText": "Dies ist der Anfang der Konversation.<br/><span class=blink>Schreiben Sie irgendetwas, um zu beginnen<span class=nicht_mobil> - z.B. Hallo</span>!</span>",
           "inputPlaceholder": "Schreiben Sie eine Nachricht...",
           "sendButtonText": "Absenden",
           

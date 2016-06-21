@@ -85,13 +85,14 @@
                
                return bot.setProp('hilfegeoffnet', 'ja')
                .then(() => bot.say(EmpfangsBot+' '+hilfetext))
-               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. Einverstanden? Bitte sagen Sie --ja.'))
+               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. --Einverstanden?'))
                .then(() => 'abgeschlossen');
                
             }
             
-            if (~hilfe_gross.indexOf("--JA")) { 
-            
+            if ((~hilfe_gross.indexOf("--JA")) || 
+                (~hilfe_gross.indexOf("--EINVERSTANDEN"))) { 
+               
                beantwortet = true;
                prop_hilfeverstanden = true;
                
@@ -354,7 +355,7 @@
             if (~partner.indexOf("--JA")) { 
             
                beantwortet = true;
-               return bot.say(EmpfangsBot+'Frau '+prop_ansprechpartner+' wurde als Ihr Ansprechpartner gespeichert.')
+               return bot.say(EmpfangsBot+'Ich habe Frau '+prop_ansprechpartner+' als Ihren Ansprechpartner gespeichert.')
                .then(() => bot.say(EmpfangsBot+'Wie lautet Ihre E-Mail-Adresse, an die wir uns wenden dürfen?'))
                .then(() => 'emailanfang');
                
