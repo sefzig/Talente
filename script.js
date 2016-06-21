@@ -154,7 +154,7 @@
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
+               .then(() => 'verbunden');
                
             }
             
@@ -177,6 +177,70 @@
                return bot.setProp('menuverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. Ich habe es erstmal geschlossen. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'verbunden');
+            
+            }
+            
+            angekommen = true;
+            
+        }
+        
+    },
+
+    verbunden: {
+    	
+        receive: (bot, message) => {
+            
+            var dialog = message.text;
+            var dialog_gross = befehlWort(dialog.trim().toUpperCase());
+            var beantwortet = false;
+            
+            var resultat =      'Resultate (bisher):';
+            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
+            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
+            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
+            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
+            if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
+            
+            var einfuhrung1 = 'Ich möchte Sie abschließend mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
+            var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten. ';
+            
+            var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
+            
+            if (~dialog_gross.indexOf(''+ap_gross+'')) { 
+            
+               beantwortet = true;
+               prop_dialogverstanden = true;
+               resultat = resultat+' Sie haben den Dialog verstanden.';
+               
+               return bot.setProp('dialogverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (~dialog_gross.indexOf('--KLAR')) { 
+            
+               beantwortet = true;
+               prop_dialogverstanden = true;
+               resultat = resultat+' Sie haben den Dialog verstanden.';
+               
+               return bot.setProp('dialogverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Prima, alles klar! '+resultat))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('dialogverstanden', 'nein')
+               .then(() => bot.say(EmpfangsBot+' Text. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
             
