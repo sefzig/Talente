@@ -59,7 +59,7 @@
           var befehl = befehlWort(message.text.trim());
           
        // Erster Schritt 
-          var dann = "erklart"; // Onboarding.php // Folgt: ansprechpartner
+          var dann = "ansprechpartner"; // Onboarding.php // Folgt: ansprechpartner
           
           return bot.setProp('empfangen', 'ja')
           .then(() => bot.say(EmpfangsBot+'Lassen Sie uns zunächst ein paar Fragen durchgehen.'))
