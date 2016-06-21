@@ -32,7 +32,8 @@
    var emailkorrekt = true;
 
 // Standard-Texte
-   var hilfetext = 'Folgt: Der allgemeine Hilfe-Text.';   
+   var hilfetext = 'Folgt: Der allgemeine Hilfe-Text.';
+      
 // Konversationen 
    module.exports = new Script({ 
    
@@ -59,7 +60,7 @@
           var dann = "ansprechpartner"; // Onboarding.php
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(EmpfangsBot+'Lassen Sie uns mit ein paar Fragen beginnen.'))
+          .then(() => bot.say(EmpfangsBot+'Lassen Sie uns zunächst ein paar Fragen durchgehen.'))
           .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
           .then(() => dann);
           
@@ -94,7 +95,7 @@
                
                return bot.setProp('hilfeverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                .then(() => 'erklart');
                
             }
@@ -105,7 +106,7 @@
                return bot.setProp('hilfeverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+'Kopf hoch, Sie werden es auch ohne die Hilfs-Befehle schaffen :) Denn: '))
                .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                .then(() => 'erklart');
                
             }
@@ -113,9 +114,9 @@
             if (beantwortet == false) { 
             
                return bot.setProp('hilfegeoffnet', 'nein')
-                  .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu schreiben.'))
+                  .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu sagen.'))
                   .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
-                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü schreiben. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
                   .then(() => 'erklart');
             
             }
@@ -138,7 +139,7 @@
             resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             
-            var einfuhrung1 = 'Ich möchte Sie nun mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Dinge für Ihre --Unterlagen.';
+            var einfuhrung1 = 'Ich möchte Sie nun mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
             var einfuhrung2 = 'Zudem haben wir einen --Test und unsere --Kontaktdaten für Sie.';
             var einfuhrung3 = 'Das alles finden Sie im Menü wieder!';
             
@@ -326,7 +327,7 @@
          // Email validieren
             var emailkorrekt = false;
             if (validateEmail(email)) { emailkorrekt = true; }
-            emailkorrekt = true; // Wenn live auskommentieren, folgt
+         // emailkorrekt = true; // Wenn live auskommentieren, folgt
             
             if (~email_gross.indexOf("--JA")) { 
             
@@ -390,7 +391,7 @@
                return bot.setProp('telefonbestatigt', 'ja')
                .then(() => bot.say(EmpfangsBot+'Prima, Ihre Telefon-Nummer wurde gespeichert.'))
                .then(() => bot.say(EmpfangsBot+'Wo Sie sich nun vorgestellt haben, ein paar Worte zu mir: Ich bin - wie Sie sicher bemerkt haben - ein Roboter (ein Chat-Roboter, um genau zu sein). Meine Aufgabe ist, Sie bei Ihrer Bewerbung unterstützen!'))
-               .then(() => bot.say(EmpfangsBot+'Ganz praktisch: Wenn Sie hier im Chat Hilfe brauchen, schreiben Sie einfach --Hilfe. Bitte probieren Sie es einmal aus!'))
+               .then(() => bot.say(EmpfangsBot+'Ganz praktisch: Wenn Sie hier im Chat Hilfe brauchen, sagen Sie einfach --Hilfe. Bitte probieren Sie es einmal aus!'))
                .then(() => 'abgeschlossen');
                
             }
@@ -540,11 +541,11 @@
        // Material
        // -----------------
           
-          if ((~befehl.indexOf("--MATERIAL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über das Material. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über Ihr Stellenangebot, auf das Sie sich bewerben. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über das Unternehmen, bei dem Sie sich bewerben. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über die Bewerbungs-Unterlagen, die Sie benötigen. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber auf Fehler/Lücken ansprechen. ')).then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber auf Fehler/Lücken ansprechen. ')).then(() => 'fragen');}          
+          if ((~befehl.indexOf("--MATERIAL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Damit Sie alle Informationen an einem Ort haben, finden Sie hier Ihre persönlichen Unterlagen - das --Stellenangebot und Informationen zu dem --Unternehmen, für das Sie sich bewerben. Außerdem haben wir ein paar Tipps für Ihre Bewerbungs- --Unterlagen zusammengestellt. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Hier das Stellenangebot, auf das Sie sich beworben haben: [Text:Ihr Stellenangebot,TalenteStellenangebotDanielTester,] ').then(() => bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Stellenangebote auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Informationen zu dem Unternehmen, bei dem Sie sich bewerben: [Text:Ihr Arbeitgeber in spe,TalenteUnternehmenDanielTester,] ').then(() => bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Unternehmens-Informationen auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir haben Tipps für Sie zusammengestellt, die Sie bei Ihren Bewerbungs-Unterlagen beachten möchten. [Text:Tipps für Ihre Unterlagen,TalenteUnterlagen,] Sollten Fragen dazu offen bleiben, sprechen Sie Frau --'prop_ansprechpartner' darauf an! ').then(() => bot.say(AndreasSefzig+' Die Tipps sind nicht personalisiert - könnten das aber ebenfalls sein. Nur gilt: Je mehr Personalisierung, desto mehr administrativer Aufwand... ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ')).then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ')).then(() => 'fragen');}          
        // -----------------
        // Vorlage
        // -----------------
@@ -896,3 +897,4 @@
        return re.test(email);
        
     }
+    
