@@ -861,7 +861,7 @@
           if ((!wert) || (wert == ""))  { wert = getParameters(name); } 
           if ((!wert) || (wert == ""))  { wert = daten["label"][name]; } 
           
-          console.log("Cookie Wert: "+wert);
+       // console.log("Cookie Wert: "+wert);
           
           $("#"+name+"Daten, #"+name+"Menu").val(wert);
           $("#"+name+"Daten").trigger("keydown");

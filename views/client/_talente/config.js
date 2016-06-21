@@ -88,7 +88,7 @@
        "intro": {
        	 
        // Intro
-          "namenEingeben": "Wenn Sie möchten, geben Sie Ihren Namen an:"
+          "namenEingeben": "Ihr Name:"
        	 
        },
        
