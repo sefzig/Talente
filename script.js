@@ -15,6 +15,7 @@
    var zuletzt = ""; 
    var bekannt = false;
    var botsan = true;
+   var angekommen = false;
    
 // Props 
    var prop_emailadresse = false;
@@ -26,8 +27,8 @@
 
 // Daten 
    var vorname = "Unbekannter";
-   var nachname = "Besucher";
-   var email = "test@chatraum.de";
+   var nachname = "Bewerber";
+   var email = "test@talente.de";
    var emailkorrekt = true;
    
 // Konversationen 
@@ -164,6 +165,8 @@
                .then(() => 'empfang');
             
             }
+            
+            angekommen = true;
             
         }
         
@@ -428,6 +431,8 @@
           var zuletzt_gross = zuletzt_dann.toUpperCase();
           var zuletzt_kamel = zuletzt_dann.charAt(0).toUpperCase() + zuletzt_dann.slice(1);
           
+if (angekommen == true) {
+          
        // -----------------
        // Bot-Schalter
        // -----------------
@@ -554,7 +559,14 @@
        }
         
     },
-   
+ 
+} else { 
+
+       // angekommen != true
+          return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
+
+}
+             
  // ---------------------------
  // Verkauf (Barbara)
  // ---------------------------
@@ -591,6 +603,8 @@
           var zuletzt_klein = zuletzt_dann.toLowerCase();
           var zuletzt_gross = zuletzt_dann.toUpperCase();
           var zuletzt_kamel = zuletzt_dann.charAt(0).toUpperCase() + zuletzt_dann.slice(1);
+          
+if (angekommen == true) {
           
        // -----------------
        // Bot-Schalter
@@ -667,7 +681,14 @@
        }
         
     },
-   
+ 
+} else { 
+
+       // angekommen != true
+          return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
+
+}
+             
  // ---------------------------
  // Marketing (Cynthia)
  // ---------------------------
@@ -704,6 +725,8 @@
           var zuletzt_klein = zuletzt_dann.toLowerCase();
           var zuletzt_gross = zuletzt_dann.toUpperCase();
           var zuletzt_kamel = zuletzt_dann.charAt(0).toUpperCase() + zuletzt_dann.slice(1);
+          
+if (angekommen == true) {
           
        // -----------------
        // Bot-Schalter
@@ -780,7 +803,14 @@
        }
         
     },
-   
+ 
+} else { 
+
+       // angekommen != true
+          return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
+
+}
+             
     finish: {
        receive: (bot, message) => {
           return bot.getProp('name')
