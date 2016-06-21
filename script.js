@@ -556,17 +556,17 @@ if (angekommen == true) {
           return bot.setProp('empfang', 'gesprochen')
               .then(() => dann);
           
-       }
-        
-    },
- 
 } else { 
 
        // angekommen != true
           return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
 
 }
-             
+          
+       }
+        
+    },
+    
  // ---------------------------
  // Verkauf (Barbara)
  // ---------------------------
@@ -678,17 +678,17 @@ if (angekommen == true) {
           return bot.setProp('verkauf', 'gesprochen')
               .then(() => dann);
           
-       }
-        
-    },
- 
 } else { 
 
        // angekommen != true
           return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
 
 }
-             
+          
+       }
+        
+    },
+    
  // ---------------------------
  // Marketing (Cynthia)
  // ---------------------------
@@ -800,17 +800,17 @@ if (angekommen == true) {
           return bot.setProp('marketing', 'gesprochen')
               .then(() => dann);
           
-       }
-        
-    },
- 
 } else { 
 
        // angekommen != true
           return bot.say(EmpfangsBot+' Dieser Befehl steht zur Verfügung, sobald ich Sie an Bord geholt habe. ');
 
 }
-             
+          
+       }
+        
+    },
+    
     finish: {
        receive: (bot, message) => {
           return bot.getProp('name')
