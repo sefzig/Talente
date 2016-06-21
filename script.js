@@ -59,7 +59,7 @@
           var befehl = befehlWort(message.text.trim());
           
        // Erster Schritt 
-          var dann = "ansprechpartner"; // Onboarding.php // Folgt: ansprechpartner
+          var dann = "ansprechpartner"; // Onboarding.php
           
           return bot.setProp('empfangen', 'ja')
           .then(() => bot.say(EmpfangsBot+'Lassen Sie uns zunächst ein paar Fragen durchgehen.'))
@@ -136,8 +136,7 @@
             var beantwortet = false;
             
             var einfuhrung1 = 'So, gleich sind Sie an Bord - eines noch: Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
-            var einfuhrung2 = 'Hm, natürlich kann es sein, dass sie gerade im Gespräch ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl Kontakt auf.';
-            var einfuhrung3 = 'Alles --klar?';
+            var einfuhrung2 = 'Natürlich kann es sein, dass sie gerade im Gespräch ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf.';
             
             if (~menu_gross.indexOf("--MENÜ")) { 
             
@@ -149,12 +148,11 @@
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
                
             }
             
-            else if (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
+            if      (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
             else if (~menu_gross.indexOf("--ANSPRECH"))  { var verhindert = 'Ihren Ansprechpartner erreichen Sie'; }
             else if (~menu_gross.indexOf("--KONTAKT"))   { var verhindert = 'Die Kontaktdaten sehen Sie'; }
             else if (~menu_gross.indexOf("--MATERI"))    { var verhindert = 'Ihr Material erhalten Sie'; }
@@ -174,7 +172,6 @@
                .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. Sie können das Menü auch mit dem Button rechts oben bedienen. Ich habe es erstmal geschlossen. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
             
             }
@@ -203,7 +200,7 @@
             
             var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
             
-            if (~dialog_gross.indexOf(''+ap_gross+'')) { 
+            if (~dialog_gross.indexOf('--'+ap_gross+'')) { 
             
                beantwortet = true;
                prop_dialogverstanden = true;
@@ -211,20 +208,6 @@
                
                return bot.setProp('dialogverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Klasse, Sie haben den Dialog verstanden. '+resultat))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
-               
-            }
-            
-            if (~dialog_gross.indexOf('--KLAR')) { 
-            
-               beantwortet = true;
-               prop_dialogverstanden = true;
-               resultat = resultat+' Sie haben den Dialog verstanden.';
-               
-               return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Prima, alles klar! '+resultat))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
