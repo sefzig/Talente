@@ -141,8 +141,8 @@
             resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             
-            var einfuhrung1 = 'So, gleich sind Sie an Bord - eines noch: Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
-            var einfuhrung2 = 'Hm, natürlich kann es sein, dass sie gerade im Gespräch ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl Kontakt auf.';
+            var einfuhrung1 = 'Vorletzter Punkt: Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
+            var einfuhrung2 = 'Hm, natürlich kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl Kontakt auf.';
             var einfuhrung3 = 'Alles --klar soweit?';
             
             if (~menu_gross.indexOf("--MENÜ")) { 
@@ -177,7 +177,7 @@
             if (beantwortet == false) { 
             
                return bot.setProp('menuverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben, 1 Minute noch. Sie können das Menü auch mit dem Button rechts oben bedienen. Ich habe es erstmal geschlossen. '))
+               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
@@ -204,8 +204,8 @@
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
             
-            var einfuhrung1 = 'Ich möchte Sie abschließend mit Ihren --Materialien vertraut machen: Hier finden Sie Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
-            var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten. ';
+            var einfuhrung1 = 'Ich möchte Sie nur noch auf Ihre --Materialien hinweisen: Sie finden hier Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
+            var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten! ';
             
             var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
             
@@ -230,7 +230,7 @@
                resultat = resultat+' Sie haben den Dialog verstanden.';
                
                return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+' Fantastisch! '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
                
