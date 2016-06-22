@@ -62,6 +62,7 @@
           var dann = "ansprechpartner"; // Onboarding.php
           
           return bot.setProp('empfangen', 'ja')
+          .then(() => bot.say(AndreasSefzig+'Um den Bewerber auf das Chatten zu konditionieren, musste er zum proaktiven Schreiben gezwungen werden. Kommt nicht mehr vor.'))
           .then(() => bot.say(EmpfangsBot+'Bitte nehmen Sie sich 3 Minuten Zeit, mit mir ein paar Fragen und Informationen durchzugehen.'))
           .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
           .then(() => dann);
@@ -156,7 +157,7 @@
                
                return bot.setProp('menuverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
-               .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
+            // .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(AndreasSefzig+' Frau '+prop_ansprechpartner+' erhält dann eine prominente Benachrichtigung in Slack. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
@@ -624,6 +625,23 @@
           if (prop_ansprechpartner == "Andere") {
              
              if ((~befehl.indexOf("--ANSPRECHPARTNER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sie haben keinen eindeutigen Ansprechpartner gewählt. Kein Problem, unsere Berater stehen Ihnen jederzeit zur Verfügung - darunter Online- und HR-Spezialisten, Journalisten und Wirtschaftsinformatiker. ').then(() => bot.say(EmpfangsBot+' Sprechen Sie uns hier im Chat an: --'+prop_ansprechpartner+' - oder möchten Sie auf anderem Wege --Kontakt zu uns aufnehmen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--BERATER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sie haben keinen eindeutigen Ansprechpartner gewählt. Kein Problem, unsere Berater stehen Ihnen jederzeit zur Verfügung - darunter Online- und HR-Spezialisten, Journalisten und Wirtschaftsinformatiker. ').then(() => bot.say(EmpfangsBot+' Sprechen Sie uns hier im Chat an: --'+prop_ansprechpartner+' - oder möchten Sie auf anderem Wege --Kontakt zu uns aufnehmen? ')).then(() => 'empfang');}	       
+          }
+          
+       // -----------------
+       // Benachrichtigung
+       // -----------------
+          
+          var uhrzeit = new Date();
+          var stunde_jetzt = date.getHours();
+          
+          if ((stunde_jetzt > 8) && (stunde_jetzt < 17)) {
+          
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
+          }
+          
+          else {
+          
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
           }
           
        // -----------------
