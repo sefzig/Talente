@@ -156,6 +156,7 @@
                
                return bot.setProp('menuverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
+               .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(AndreasSefzig+' Der Ansprechpartner erhält dann eine prominente Benachrichtigung in Slack. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
@@ -208,7 +209,7 @@
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
             
-            var einfuhrung1 = 'Ich möchte Sie nur noch auf Ihre --Materialien hinweisen: Sie finden hier Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
+            var einfuhrung1 = 'Ich möchte Sie nur noch kurz auf Ihre --Materialien hinweisen: Sie finden hier Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
             var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten! ';
             
             var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
@@ -427,6 +428,7 @@
             	   prop_emailadresse = email;
             	
                   return bot.setProp('email', email)
+                     .then(() => bot.say(AndreasSefzig+' Die Eingabe ist eine technisch korrekte E-Mail-Adresse. '))
                      .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
                      .then(() => 'emailanfang');
                
@@ -478,7 +480,7 @@
             
                prop_telefonnummer = telefon;
                return bot.setProp('telefon', telefon)
-                  .then(() => bot.say(EmpfangsBot+'Danke. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(telefon,'+telefon+')] '))
+                  .then(() => bot.say(EmpfangsBot+'Gut. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(telefon,'+telefon+')] '))
                   .then(() => 'telefonanfang');
             
             }
