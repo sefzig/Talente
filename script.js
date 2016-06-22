@@ -62,7 +62,7 @@
           var dann = "ansprechpartner"; // Onboarding.php
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(AndreasSefzig+'Um den Bewerber auf das Chatten zu konditionieren, musste er zum proaktiven Schreiben gezwungen werden. Kommt nicht mehr vor.'))
+          .then(() => bot.say(AndreasSefzig+'Um den Bewerber auf das Chatten zu konditionieren, musste er einmalig zum proaktiven Schreiben gezwungen werden.'))
           .then(() => bot.say(EmpfangsBot+'Bitte nehmen Sie sich 3 Minuten Zeit, mit mir ein paar Fragen und Informationen durchzugehen.'))
           .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
           .then(() => dann);
@@ -160,7 +160,7 @@
             // .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(AndreasSefzig+' Frau '+prop_ansprechpartner+' erhält dann eine prominente Benachrichtigung in Slack. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+            // .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
                
@@ -185,7 +185,7 @@
                return bot.setProp('menuverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. '))
                .then(() => bot.say(EmpfangsBot+' Vorletzter Punkt: '+einfuhrung1+' [Javascript:menu(aus)] '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+            // .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
             
@@ -432,16 +432,16 @@
             	   prop_emailadresse = email;
             	
                   return bot.setProp('email', email)
-                     .then(() => bot.say(AndreasSefzig+' Die Eingabe ist eine technisch korrekte E-Mail-Adresse. '))
-                     .then(() => bot.say(EmpfangsBot+'Danke. Ist '+email+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
+                     .then(() => bot.say(AndreasSefzig+' “'+email+'” ist eine (technisch) valide E-Mail-Adresse. '))
+                     .then(() => bot.say(EmpfangsBot+'Danke. Ist “'+email+'” korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
                      .then(() => 'emailanfang');
                
                }
                else {
             	
                   return bot.setProp('emailversuch', 'ja')
-                     .then(() => bot.say(EmpfangsBot+''+email+' ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
-                     .then(() => bot.say(AndreasSefzig+'Die Validierung der E-Mail-Adresse schützt vor Flüchtigkeitsfehlern. Die Adresse kann zudem später geändert werden.'))
+                     .then(() => bot.say(EmpfangsBot+' “'+email+'” ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
+                     .then(() => bot.say(AndreasSefzig+'Die Validierung der E-Mail-Adresse schützt vor Flüchtigkeitsfehlern. Die Adresse kann später geändert werden.'))
                      .then(() => 'emailanfang');
                
                }
@@ -484,7 +484,7 @@
             
                prop_telefonnummer = telefon;
                return bot.setProp('telefon', telefon)
-                  .then(() => bot.say(EmpfangsBot+'Gut. Ist '+telefon+' korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(telefon,'+telefon+')] '))
+                  .then(() => bot.say(EmpfangsBot+'Gut. Ist “'+telefon+'” korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(telefon,'+telefon+')] '))
                   .then(() => 'telefonanfang');
             
             }
@@ -633,15 +633,16 @@
           
           var uhrzeit = new Date();
           var stunde_jetzt = uhrzeit.getHours();
+          stunde_jetzt = stunde_jetzt - (-2);
           
           if ((stunde_jetzt > 8) && (stunde_jetzt < 17)) {
           
-             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => bot.say(EmpfangsBot+' Es kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte kurz oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf. ')).then(() => 'empfang');}             
           }
           
           else {
           
-             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => bot.say(EmpfangsBot+' Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
           }
           
        // -----------------
