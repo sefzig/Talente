@@ -62,7 +62,7 @@
           var dann = "ansprechpartner"; // Onboarding.php
           
           return bot.setProp('empfangen', 'ja')
-          .then(() => bot.say(EmpfangsBot+'Bitte nehmen Sie sich kurz 3 Minuten Zeit, mit mir ein paar Fragen und Informationen durchzugehen.'))
+          .then(() => bot.say(EmpfangsBot+'Bitte nehmen Sie sich 3 Minuten Zeit, mit mir ein paar Fragen und Informationen durchzugehen.'))
           .then(() => bot.say(EmpfangsBot+'Wer ist Ihr Ansprechpartner bei uns? Frau --Urbat, Frau --Ortwerth oder jemand --anderes?'))
           .then(() => dann);
           
@@ -222,9 +222,10 @@
                
                return bot.setProp('dialogverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Ja, so sprechen Sie Frau '+prop_ansprechpartner+' an. Ich habe Sie jetzt nicht benachrichtigt, da Sie sicher nur getestet haben - holen Sie das gern nach.'))
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
                .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
                
             }
@@ -236,9 +237,10 @@
                resultat = resultat+' Sie haben den Dialog verstanden.';
                
                return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
                .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
                
             }
@@ -246,9 +248,10 @@
             if (beantwortet == false) { 
             
                return bot.setProp('dialogverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '))
                .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => 'empfang');
             
             }
