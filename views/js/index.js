@@ -593,10 +593,10 @@
           
        }
        
-       if ((methode == "direkt") && (var1) && (var1 != "")) {
+       if (methode == "direkt") {
           
        // Shortcode entfernen (wird von Slack als Highlight-Word erkannt)
-          text_string = text_string.replace("[Direkt:"+var1+"]", "");
+          text_string = text_string.replace(/\[Direkt:.+\]/, "");
           
        }
        
