@@ -158,7 +158,7 @@
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
                .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(AndreasSefzig+' Der Ansprechpartner erhält dann eine prominente Benachrichtigung in Slack. '))
+               .then(() => bot.say(AndreasSefzig+' Frau '+prop_ansprechpartner+' erhält dann eine prominente Benachrichtigung in Slack. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
@@ -610,7 +610,8 @@
        // Über uns
        // -----------------
           
-          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über Talente. ').then(() => 'empfang');}          
+          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir sind eine Personalberatung mit Fokus auf den digitalen Markt und haben es uns zur Aufgabe gemacht, eine langfristige und vertrauensvolle Beziehung zwischen Ihnen und unseren Autraggebern herzustellen. ').then(() => bot.say(EmpfangsBot+' Lesen Sie mehr über uns: [Button:Unsere Webseite,http://www.talente.de] Wir sind auch auf [Textlink:Facebook,https://www.facebook.com/talente/] und [Textlink:Twitterhttps://www.twitter.com/talente/] aktiv. ')).then(() => bot.say(EmpfangsBot+' Sie finden uns auf LinkedIn: [Button:LinkedIn Unternehmensprofil,http://www.linkedin.com/company/talente] und natürlich auf XING: [Button:XING Unternehmensprofil,http://www.xing.com/companies/talente]  ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--ANSPRECHPARTNER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ein Text über Frau '+prop_ansprechpartner+'. ').then(() => 'empfang');}          
        // -----------------
        // Material
        // -----------------
