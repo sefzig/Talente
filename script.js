@@ -632,7 +632,7 @@
        // -----------------
           
           var uhrzeit = new Date();
-          var stunde_jetzt = date.getHours();
+          var stunde_jetzt = uhrzeit.getHours();
           
           if ((stunde_jetzt > 8) && (stunde_jetzt < 17)) {
           
