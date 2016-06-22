@@ -81,6 +81,13 @@
     body[data-stil="nacht"]      #sk-conversation .sk-from { color: #bbbbbb !important; }
     body[data-stil="hacks"]      #sk-conversation .sk-from { color:  silver !important; }
     
+ /* Nachricht: Twxtlink */
+    body[data-stil="tag"]        #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #0071ba !important; }
+    body[data-stil="robogeddon"] #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #0071ba !important; }
+    body[data-stil="talente"]    #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #0071ba !important; }
+    body[data-stil="nacht"]      #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #0071ba !important; }
+    body[data-stil="hacks"]      #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #00ff00 !important; }
+    
  /* ------------------- */
  /* Nachrichten links */
  /* ------------------- */
