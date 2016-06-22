@@ -593,6 +593,13 @@
           
        }
        
+       if ((methode == "direkt") && (var1) && (var1 != "")) {
+          
+       // Shortcode entfernen (wird von Slack als Highlight-Word erkannt)
+          text_string = text_string.replace("[Direkt:"+var1+"]", "");
+          
+       }
+       
        if ((methode == "bot") && (var1) && (var1 != "") && (var2) && (var2 != "") && (var3) && (var3 != "") && (var4) && (var4 != "")) {
           
        // Funktions-Parameter
@@ -684,6 +691,7 @@
           text_neu = inhalt("modul", text_neu, "Linkliste"); 
           text_neu = inhalt("modul", text_neu, "Textzeit"); 
           text_neu = inhalt("modul", text_neu, "Textmobil"); 
+          text_neu = inhalt("direkt", text_neu, "Direkt"); 
           text_neu = inhalt("javascript", text_neu, funktionen, " ");
           
        // Bots anpassen

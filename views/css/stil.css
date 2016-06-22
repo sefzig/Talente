@@ -6,7 +6,7 @@
  /* Hintergrund */
     body[data-stil="tag"]        { background-color: #cccccc; } body[data-mobil=""][data-stil="tag"]        #seite { border: #333333  3px solid; } 
     body[data-stil="robogeddon"] { background-color: #cccccc; } body[data-mobil=""][data-stil="robogeddon"] #seite { border: #000000 10px solid; border-radius: 8px; } 
-    body[data-stil="talente"]    { background-color: #444444; } body[data-mobil=""][data-stil="talente"]    #seite { border: #000000  5px solid; border-radius: 0px; } 
+    body[data-stil="talente"]    { background-color: #333333; } body[data-mobil=""][data-stil="talente"]    #seite { border: #000000  5px solid; border-radius: 0px; } 
     body[data-stil="nacht"]      { background-color: #333333; } body[data-mobil=""][data-stil="nacht"]      #seite { border: #000000  5px solid; } 
     body[data-stil="hacks"]      { background-color:   black; } body[data-mobil=""][data-stil="hacks"]      #seite { border: #ffffff  1px solid; } 
     
