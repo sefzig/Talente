@@ -85,6 +85,7 @@
                
                return bot.setProp('hilfegeoffnet', 'ja')
                .then(() => bot.say(EmpfangsBot+' '+hilfetext))
+               .then(() => bot.say(AndreasSefzig+' Man kann darüber streiten, ob die Hilfe Teil der Einführung sein sollte, da die Hilfe auch im gleich folgenden Menü aufgeführt ist... '))
                .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. --Einverstanden?'))
                .then(() => 'abgeschlossen');
                
@@ -99,6 +100,7 @@
                return bot.setProp('hilfeverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
                .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => bot.say(AndreasSefzig+'Es ist wichtig, dass der Bewerber das Menü einmal aktiv wahrgenommen hat, da er dort alle Inhalte auf einen Blick sieht. '))
                .then(() => 'erklart');
                
             }
@@ -142,7 +144,7 @@
             resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
             if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
             
-            var einfuhrung1 = 'Vorletzter Punkt: Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
+            var einfuhrung1 = 'Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
             var einfuhrung2 = 'Hm, natürlich kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl Kontakt auf.';
             var einfuhrung3 = 'Alles --klar soweit?';
             
@@ -155,6 +157,7 @@
                return bot.setProp('menuverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(AndreasSefzig+' Der Ansprechpartner erhält dann eine prominente Benachrichtigung in Slack. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
@@ -179,7 +182,7 @@
             
                return bot.setProp('menuverstanden', 'nein')
                .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' [Javascript:menu(aus)] '))
+               .then(() => bot.say(EmpfangsBot+' Vorletzter Punkt: '+einfuhrung1+' [Javascript:menu(aus)] '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
                .then(() => 'verbunden');
@@ -218,8 +221,9 @@
                
                return bot.setProp('dialogverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Ja, so sprechen Sie Frau '+prop_ansprechpartner+' an. Ich habe Sie jetzt nicht benachrichtigt, da Sie sicher nur getestet haben - holen Sie das gern nach.'))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
                .then(() => 'empfang');
                
             }
@@ -233,6 +237,7 @@
                return bot.setProp('dialogverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
                .then(() => 'empfang');
                
             }
@@ -240,9 +245,9 @@
             if (beantwortet == false) { 
             
                return bot.setProp('dialogverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+' Text. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
                .then(() => 'empfang');
             
             }
