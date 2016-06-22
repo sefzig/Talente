@@ -579,8 +579,8 @@
        // System
        // -----------------
        
-          if ((~befehl.indexOf("--HILFE")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' In der Hilfs-Funktion werden Nutzern alle wichtigen Befehle angezeigt. Sie hat die selbe Funktion wie das Menü. ').then(() => bot.say(EmpfangsBot+' Funktionen: --Kontakt, --Mobil und --Über. ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. Meine Aufgabe ist, Sie in diesem Chat willkommen zu heißen, Ihre --Daten aufzunehmen, Sie mit --Material zu versorgen und Ihnen meine --Hilfe anzubieten. ').then(() => bot.say(EmpfangsBot+' Aber Sie wollen sicher hautpsächlich mit Ihrem --Ansprechpartner sprechen. Schalten Sie mich also gerne ein (--Bot-an) oder aus (--Bot-aus)! ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--HILFE")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' In der Hilfs-Funktion werden Nutzern die wichtigsten Befehle angezeigt. Sie hat eine mit dem Menü vergleichbare Funktion. ').then(() => bot.say(EmpfangsBot+' '+hilfetext+'. ')).then(() => 'empfang');}if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' In der Hilfs-Funktion werden Nutzern die wichtigsten Befehle angezeigt. Sie hat eine mit dem Menü vergleichbare Funktion. ').then(() => bot.say(EmpfangsBot+' '+hilfetext+'. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. Meine Aufgabe ist, Sie in diesem Chat willkommen zu heißen, Sie mit --Material zu versorgen, --Kontakt herzustellen und Ihnen meine --Hilfe anzubieten. ').then(() => bot.say(EmpfangsBot+' Wenn Sie sich ungestört mit Ihrem --Ansprechpartner unterhalten wollen, schalten Sie mich gerne aus (--Bot-aus). ')).then(() => bot.say(AndreasSefzig+' Der Bot kann später mit --Bot-an wieder angeschaltet werden (was er beim Ausschalten mitteilt). ')).then(() => 'empfang');}          
        // -----------------
        // Kontakt
        // -----------------
@@ -624,7 +624,7 @@
           
           if (prop_ansprechpartner == "Andere") {
              
-             if ((~befehl.indexOf("--ANSPRECHPARTNER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sie haben keinen eindeutigen Ansprechpartner gewählt. Kein Problem, unsere Berater stehen Ihnen jederzeit zur Verfügung - darunter Online- und HR-Spezialisten, Journalisten und Wirtschaftsinformatiker. ').then(() => bot.say(EmpfangsBot+' Sprechen Sie uns hier im Chat an, indem Sie --'+prop_ansprechpartner+' sagen - oder möchten Sie auf anderem Wege --Kontakt zu uns aufnehmen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--BERATER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sie haben keinen eindeutigen Ansprechpartner gewählt. Kein Problem, unsere Berater stehen Ihnen jederzeit zur Verfügung - darunter Online- und HR-Spezialisten, Journalisten und Wirtschaftsinformatiker. ').then(() => bot.say(EmpfangsBot+' Sprechen Sie uns hier im Chat an, indem Sie --'+prop_ansprechpartner+' sagen - oder möchten Sie auf anderem Wege --Kontakt zu uns aufnehmen? ')).then(() => 'empfang');}	       
+             if ((~befehl.indexOf("--ANSPRECHPARTNER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sie haben keinen eindeutigen Ansprechpartner gewählt. Kein Problem, unsere Berater stehen Ihnen jederzeit zur Verfügung - darunter Online- und HR-Spezialisten, Journalisten und Wirtschaftsinformatiker. ').then(() => bot.say(AndreasSefzig+' Dies ist ein Sonderfall, eigentlich sollte der Bewerber seinen Ansprechpartner kennen... ')).then(() => bot.say(EmpfangsBot+' Sprechen Sie uns hier im Chat an, indem Sie --'+prop_ansprechpartner+' sagen - oder möchten Sie auf anderem Wege --Kontakt zu uns aufnehmen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--BERATER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sie haben keinen eindeutigen Ansprechpartner gewählt. Kein Problem, unsere Berater stehen Ihnen jederzeit zur Verfügung - darunter Online- und HR-Spezialisten, Journalisten und Wirtschaftsinformatiker. ').then(() => bot.say(AndreasSefzig+' Dies ist ein Sonderfall, eigentlich sollte der Bewerber seinen Ansprechpartner kennen... ')).then(() => bot.say(EmpfangsBot+' Sprechen Sie uns hier im Chat an, indem Sie --'+prop_ansprechpartner+' sagen - oder möchten Sie auf anderem Wege --Kontakt zu uns aufnehmen? ')).then(() => 'empfang');}	       
           }
           
        // -----------------
@@ -637,12 +637,12 @@
           
           if ((stunde_jetzt > 8) && (stunde_jetzt < 17)) {
           
-             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => bot.say(EmpfangsBot+' Es kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte kurz oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf. ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ').then(() => bot.say(AndreasSefzig+' Es ist zwischen 9 und 18 Uhr - der Bot geht davon aus, dass Frau '+prop_ansprechpartner+' prinzipiell ansprechbar ist. ')).then(() => bot.say(EmpfangsBot+' Es kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte kurz oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf. ')).then(() => 'empfang');}             
           }
           
           else {
           
-             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Es ist '+stunde_jetzt+' Uhr. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => bot.say(EmpfangsBot+' Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ').then(() => bot.say(AndreasSefzig+' Es ist vor 9 und nach 18 Uhr - der Bot geht davon aus, dass Frau '+prop_ansprechpartner+' u.U. nicht erreichbar ist. ')).then(() => bot.say(EmpfangsBot+' Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
           }
           
        // -----------------
@@ -676,7 +676,9 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(EmpfangsBot+'Suchen Sie meine --Befehle? Oder schalten Sie alle --Bots-aus.'); 
+                   bot.say(EmpfangsBot+'Benötigen Sie --Hilfe? Oder schalten Sie mich vorübergehend aus, indem Sie --Bots-aus sagen.')
+                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   
                    versuche = 0;
                 }
              }
@@ -789,7 +791,9 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(VerkaufsBot+'Suchen Sie meine --Befehle? Oder schalten Sie alle --Bots-aus.'); 
+                   bot.say(VerkaufsBot+'Benötigen Sie --Hilfe? Oder schalten Sie mich vorübergehend aus, indem Sie --Bots-aus sagen.')
+                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   
                    versuche = 0;
                 }
              }
@@ -902,7 +906,9 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(MarketingBot+'Suchen Sie meine --Befehle? Oder schalten Sie alle --Bots-aus.'); 
+                   bot.say(MarketingBot+'Benötigen Sie --Hilfe? Oder schalten Sie mich vorübergehend aus, indem Sie --Bots-aus sagen.')
+                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   
                    versuche = 0;
                 }
              }
