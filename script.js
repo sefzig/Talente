@@ -34,7 +34,7 @@
    var emailkorrekt = true;
 
 // Standard-Texte
-   var hilfetext = 'Folgt: Der allgemeine Hilfe-Text.';
+   var hilfetext = 'Im --Menü finden Sie alle Inhalte. Nehmen Sie unser Bewerbungs- --Material zur Kenntnis. Wenn er stört, schalten Sie den Chat- --Bot-aus. Sprechen Sie Frau '+prop_ansprechpartner+' direkt an, indem Sie --'+prop_ansprechpartner+' sagen. ';
       
 // Konversationen 
    module.exports = new Script({ 
@@ -69,198 +69,6 @@
           
        }
        
-    },
-
-    abgeschlossen: {
-    	
-        receive: (bot, message) => {
-            
-            var hilfe = message.text;
-            var hilfe_gross = befehlWort(message.text.trim().toUpperCase());
-            var beantwortet = false;
-            	
-            if (~hilfe_gross.indexOf("--HILFE")) { 
-            
-               beantwortet = true;
-               prop_hilfegeoffnet = true;
-               
-               return bot.setProp('hilfegeoffnet', 'ja')
-               .then(() => bot.say(EmpfangsBot+' '+hilfetext))
-               .then(() => bot.say(AndreasSefzig+' Man kann darüber streiten, ob die Hilfe Teil der Einführung sein sollte, da die Hilfe auch im gleich folgenden Menü aufgeführt ist... '))
-               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. --Einverstanden?'))
-               .then(() => 'abgeschlossen');
-               
-            }
-            
-            if ((~hilfe_gross.indexOf("--JA")) || 
-                (~hilfe_gross.indexOf("--EINVERSTANDEN"))) { 
-               
-               beantwortet = true;
-               prop_hilfeverstanden = true;
-               
-               return bot.setProp('hilfeverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
-               .then(() => bot.say(AndreasSefzig+'Es ist wichtig, dass der Bewerber das Menü einmal aktiv wahrgenommen hat, da er dort alle Inhalte auf einen Blick sieht. '))
-               .then(() => 'erklart');
-               
-            }
-            
-            if (~hilfe_gross.indexOf("--NEIN")) { 
-            
-               beantwortet = true;
-               return bot.setProp('hilfeverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+'Kopf hoch, Sie werden es auch ohne die Hilfs-Befehle schaffen :) Denn: '))
-               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
-               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
-               .then(() => 'erklart');
-               
-            }
-            
-            if (beantwortet == false) { 
-            
-               return bot.setProp('hilfegeoffnet', 'nein')
-                  .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu sagen.'))
-                  .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
-                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
-                  .then(() => 'erklart');
-            
-            }
-            
-        }
-        
-    },
-
-    erklart: {
-    	
-        receive: (bot, message) => {
-            
-            var menu = message.text;
-            var menu_gross = befehlWort(message.text.trim().toUpperCase());
-            var beantwortet = false;
-            
-            var resultat =      'Resultate (bisher):';
-            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
-            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
-            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
-            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
-            
-            var einfuhrung1 = 'Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
-            var einfuhrung2 = 'Hm, natürlich kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl Kontakt auf.';
-            var einfuhrung3 = 'Alles --klar soweit?';
-            
-            if (~menu_gross.indexOf("--MENÜ")) { 
-            
-               beantwortet = true;
-               prop_menuverstanden = true;
-               resultat = resultat+' Sie haben das Menü verstanden.';
-               
-               return bot.setProp('menuverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
-            // .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(AndreasSefzig+' Frau '+prop_ansprechpartner+' erhält dann eine prominente Benachrichtigung in Slack. '))
-            // .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
-               .then(() => 'verbunden');
-               
-            }
-            
-            if      (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
-            else if (~menu_gross.indexOf("--ANSPRECH"))  { var verhindert = 'Ihren Ansprechpartner erreichen Sie'; }
-            else if (~menu_gross.indexOf("--KONTAKT"))   { var verhindert = 'Die Kontaktdaten sehen Sie'; }
-            else if (~menu_gross.indexOf("--MATERI"))    { var verhindert = 'Ihr Material erhalten Sie'; }
-            else if (~menu_gross.indexOf("--STELLENA"))  { var verhindert = 'Ihr Stellenangebot sehen Sie'; }
-            else if (~menu_gross.indexOf("--UNTERNEHM")) { var verhindert = 'Die Unternehmens-Informationen sehen Sie'; }
-            else if (~menu_gross.indexOf("--UNTERLAG"))  { var verhindert = 'Tipps für Ihre Bewerbungs-Unterlagen erhalten Sie'; }
-            else if (~menu_gross.indexOf("--TEST"))      { var verhindert = 'Der Test ist bereit'; }
-            else if (~menu_gross.indexOf("--HILFE"))     { var verhindert = 'Die Hilfe ist bereit'; }
-            else if (~menu_gross.indexOf("--BOT-AUS"))   { var verhindert = 'Sie können mich ausschalten'; }
-            else if (~menu_gross.indexOf("--BOT-AN"))    { var verhindert = 'Sie können mich anschalten'; }
-            else if (~menu_gross.indexOf("--MOBIL"))     { var verhindert = 'Mobil geht es weiter'; }
-            else                                         { var verhindert = 'Die Befehle stehen zur Verfügung'; }
-            
-            if (beantwortet == false) { 
-            
-               return bot.setProp('menuverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. '))
-               .then(() => bot.say(EmpfangsBot+' Vorletzter Punkt: '+einfuhrung1+' [Javascript:menu(aus)] '))
-            // .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
-               .then(() => 'verbunden');
-            
-            }
-            
-        }
-        
-    },
-
-    verbunden: {
-    	
-        receive: (bot, message) => {
-            
-            var dialog = message.text;
-            var dialog_gross = befehlWort(dialog.trim().toUpperCase());
-            var beantwortet = false;
-            
-            var resultat =      'Resultate (bisher):';
-            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
-            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
-            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
-            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
-            if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
-            
-            var einfuhrung1 = 'Ich möchte Sie nur noch kurz auf Ihre --Materialien hinweisen: Sie finden hier Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
-            var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten! ';
-            
-            var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
-            
-            if (~dialog_gross.indexOf(''+ap_gross+'')) { 
-            
-               beantwortet = true;
-               prop_dialogverstanden = true;
-               resultat = resultat+' Sie haben den Dialog verstanden.';
-               
-               return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+'Ja, so sprechen Sie Frau '+prop_ansprechpartner+' an. Ich habe Sie jetzt nicht benachrichtigt, da Sie sicher nur getestet haben - holen Sie das gern nach.'))
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
-               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
-               
-            }
-            
-            if ((~dialog_gross.indexOf('--KLAR')) || (~dialog_gross.indexOf('--JA'))) { 
-            
-               beantwortet = true;
-               prop_dialogverstanden = true;
-               resultat = resultat+' Sie haben den Dialog verstanden.';
-               
-               return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
-               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
-               
-            }
-            
-            if (beantwortet == false) { 
-            
-               return bot.setProp('dialogverstanden', 'nein')
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '))
-               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
-               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
-               .then(() => 'empfang');
-            
-            }
-            
-            angekommen = true;
-            
-        }
-        
     },
 
     fragen: {
@@ -492,6 +300,198 @@
         }
         
     },
+
+    abgeschlossen: {
+    	
+        receive: (bot, message) => {
+            
+            var hilfe = message.text;
+            var hilfe_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            	
+            if (~hilfe_gross.indexOf("--HILFE")) { 
+            
+               beantwortet = true;
+               prop_hilfegeoffnet = true;
+               
+               return bot.setProp('hilfegeoffnet', 'ja')
+               .then(() => bot.say(EmpfangsBot+' '+hilfetext))
+               .then(() => bot.say(AndreasSefzig+' Man kann darüber streiten, ob die Hilfe Teil der Einführung sein sollte, da die Hilfe auch im gleich folgenden Menü aufgeführt ist... '))
+               .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. --Einverstanden?'))
+               .then(() => 'abgeschlossen');
+               
+            }
+            
+            if ((~hilfe_gross.indexOf("--JA")) || 
+                (~hilfe_gross.indexOf("--EINVERSTANDEN"))) { 
+               
+               beantwortet = true;
+               prop_hilfeverstanden = true;
+               
+               return bot.setProp('hilfeverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => bot.say(AndreasSefzig+'Es ist wichtig, dass der Bewerber das Menü einmal aktiv wahrgenommen hat, da er dort alle Inhalte auf einen Blick sieht. '))
+               .then(() => 'erklart');
+               
+            }
+            
+            if (~hilfe_gross.indexOf("--NEIN")) { 
+            
+               beantwortet = true;
+               return bot.setProp('hilfeverstanden', 'nein')
+               .then(() => bot.say(EmpfangsBot+'Kopf hoch, Sie werden es auch ohne die Hilfs-Befehle schaffen :) Denn: '))
+               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               .then(() => 'erklart');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('hilfegeoffnet', 'nein')
+                  .then(() => bot.say(EmpfangsBot+'Sie müssen natürlich nicht tun, was ich sage ;) Nur denken Sie bitte im richtigen Moment daran, --Hilfe zu sagen.'))
+                  .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden.'))
+                  .then(() => bot.say(EmpfangsBot+'Ich habe das Menü für Sie geöffnet. [Javascript:menu(an)] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+                  .then(() => 'erklart');
+            
+            }
+            
+        }
+        
+    },
+
+    erklart: {
+    	
+        receive: (bot, message) => {
+            
+            var menu = message.text;
+            var menu_gross = befehlWort(message.text.trim().toUpperCase());
+            var beantwortet = false;
+            
+            var resultat =      'Resultate (bisher):';
+            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
+            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
+            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
+            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
+            
+            var einfuhrung1 = 'Sie können jederzeit hier im Chat mit Ihrem Ansprechpartner kommunizieren. Sagen Sie den Nachnamen von Frau --'+prop_ansprechpartner+', um sie zu benachrichtigen!';
+            var einfuhrung2 = 'Hm, natürlich kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte einfach - oder nehmen Sie auf einem anderen Weg Ihrer Wahl Kontakt auf.';
+            var einfuhrung3 = 'Alles --klar soweit?';
+            
+            if (~menu_gross.indexOf("--MENÜ")) { 
+            
+               beantwortet = true;
+               prop_menuverstanden = true;
+               resultat = resultat+' Sie haben das Menü verstanden.';
+               
+               return bot.setProp('menuverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Klasse, nun kennen Sie das Menü. Sie können es auch mit dem Button rechts oben bedienen. [Javascript:menu(aus)] '))
+            // .then(() => bot.say(AndreasSefzig+'Es ist nicht selbsterklärend, dass das Menü sowohl durch Klick als auch durch Text-Eingabe gesteuert werden kann. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(AndreasSefzig+' Frau '+prop_ansprechpartner+' erhält dann eine prominente Benachrichtigung in Slack. '))
+            // .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
+               .then(() => 'verbunden');
+               
+            }
+            
+            if      (~menu_gross.indexOf("--TALENT"))    { var verhindert = 'Mehr über uns erfahren Sie'; }
+            else if (~menu_gross.indexOf("--ANSPRECH"))  { var verhindert = 'Ihren Ansprechpartner erreichen Sie'; }
+            else if (~menu_gross.indexOf("--KONTAKT"))   { var verhindert = 'Die Kontaktdaten sehen Sie'; }
+            else if (~menu_gross.indexOf("--MATERI"))    { var verhindert = 'Ihr Material erhalten Sie'; }
+            else if (~menu_gross.indexOf("--STELLENA"))  { var verhindert = 'Ihr Stellenangebot sehen Sie'; }
+            else if (~menu_gross.indexOf("--UNTERNEHM")) { var verhindert = 'Die Unternehmens-Informationen sehen Sie'; }
+            else if (~menu_gross.indexOf("--UNTERLAG"))  { var verhindert = 'Tipps für Ihre Bewerbungs-Unterlagen erhalten Sie'; }
+            else if (~menu_gross.indexOf("--TEST"))      { var verhindert = 'Der Test ist bereit'; }
+            else if (~menu_gross.indexOf("--HILFE"))     { var verhindert = 'Die Hilfe ist bereit'; }
+            else if (~menu_gross.indexOf("--BOT-AUS"))   { var verhindert = 'Sie können mich ausschalten'; }
+            else if (~menu_gross.indexOf("--BOT-AN"))    { var verhindert = 'Sie können mich anschalten'; }
+            else if (~menu_gross.indexOf("--MOBIL"))     { var verhindert = 'Mobil geht es weiter'; }
+            else                                         { var verhindert = 'Die Befehle stehen zur Verfügung'; }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('menuverstanden', 'nein')
+               .then(() => bot.say(EmpfangsBot+''+verhindert+', sobald wir diese Einführung abgeschlossen haben. '))
+               .then(() => bot.say(EmpfangsBot+' Vorletzter Punkt: '+einfuhrung1+' [Javascript:menu(aus)] '))
+            // .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung3+' '))
+               .then(() => 'verbunden');
+            
+            }
+            
+        }
+        
+    },
+
+    verbunden: {
+    	
+        receive: (bot, message) => {
+            
+            var dialog = message.text;
+            var dialog_gross = befehlWort(dialog.trim().toUpperCase());
+            var beantwortet = false;
+            
+            var resultat =      'Resultate (bisher):';
+            resultat = resultat+' Ihr Ansprechpartner: Frau '+prop_ansprechpartner+'.';
+            resultat = resultat+' Ihre E-Mail-Adresse: '+prop_emailadresse+'.';
+            resultat = resultat+' Ihre Telefon-Nummer: '+prop_telefonnummer+'.'; 
+            if (prop_hilfeverstanden == true) { resultat = resultat+' Sie haben die Hilfe verstanden.'; }
+            if (prop_menuverstanden  == true) { resultat = resultat+' Sie haben das Menü verstanden.'; }
+            
+            var einfuhrung1 = 'Ich möchte Sie nur noch kurz auf Ihre --Materialien hinweisen: Sie finden hier Ihr --Stellenangebot, Infos zum --Unternehmen und Tipps für Ihre Bewerbungs- --Unterlagen.';
+            var einfuhrung2 = 'Zudem haben wir einen --Test für Sie, mit dem wir Sie auf das Bewerbungsgespräch vorbereiten möchten! ';
+            
+            var ap_gross = befehlWort(prop_ansprechpartner.trim().toUpperCase());
+            
+            if (~dialog_gross.indexOf(''+ap_gross+'')) { 
+            
+               beantwortet = true;
+               prop_dialogverstanden = true;
+               resultat = resultat+' Sie haben den Dialog verstanden.';
+               
+               return bot.setProp('dialogverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+'Ja, so sprechen Sie Frau '+prop_ansprechpartner+' an. Ich habe Sie jetzt nicht benachrichtigt, da Sie sicher nur getestet haben - holen Sie das gern nach.'))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
+               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+               
+            }
+            
+            if ((~dialog_gross.indexOf('--KLAR')) || (~dialog_gross.indexOf('--JA'))) { 
+            
+               beantwortet = true;
+               prop_dialogverstanden = true;
+               resultat = resultat+' Sie haben den Dialog verstanden.';
+               
+               return bot.setProp('dialogverstanden', 'ja')
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
+               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+               
+            }
+            
+            if (beantwortet == false) { 
+            
+               return bot.setProp('dialogverstanden', 'nein')
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '))
+               .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
+               .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
+               .then(() => 'empfang');
+            
+            }
+            
+            angekommen = true;
+            
+        }
+        
+    },
    
  // ---------------------------
  // Empfang (Alice)
@@ -563,7 +563,7 @@
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(EmpfangsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(EmpfangsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => 'empfang');}          
           if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'empfang');}          
        // Stile
           if ((~befehl.indexOf("--STIL-TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'empfang');}          if ((~befehl.indexOf("--STIL-NACHT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'empfang');}          
@@ -572,7 +572,7 @@
        // -----------------
           
           if (zuletzt_klein != "empfang") { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Alice. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Alice. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');} } else { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Talente-Bot. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin der Talente-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich übergebe an Talente-Bot. Schreiben Sie --Empfang, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin der Talente-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ')).then(() => 'empfang');} } else { 
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}          }
           
        // -----------------
@@ -590,28 +590,28 @@
              if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es werden nur die Kontaktdaten des beim Onboarding angegebenen Ansprechpartners angezeigt, in diesem Fall Frau '+prop_ansprechpartner+'. Wurde kein Ansprechpartner gewählt, werden die allgemeinen Kontaktdaten genannt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Urbat an: [Telefon:040 822186 315] ').then(() => bot.say(EmpfangsBot+' Sie erreichen sie auch mobil: [Telefon:0151 1891 50 88] ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Urbat eine Mail: [Email:au@4-talents.de] ').then(() => 'empfang');}             
-             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Urbats XING-Profil: [Button:XING-Profil öffnen,http://www.xing.com/profile/Annika_Urbat/] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Urbats XING-Profil: [Link:XING-Profil öffnen,TalenteXingUrbat] ').then(() => 'empfang');}             
           }
           else if (prop_ansprechpartner == "Ortwerth") {
              
              if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es werden nur die Kontaktdaten des beim Onboarding angegebenen Ansprechpartners angezeigt, in diesem Fall Frau '+prop_ansprechpartner+'. Wurde kein Ansprechpartner gewählt, werden die allgemeinen Kontaktdaten genannt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Ortwerth an: [Telefon:040 1234567] ').then(() => bot.say(EmpfangsBot+' Sie erreichen sie auch mobil: [Telefon:0151 1234567] ')).then(() => bot.say(AndreasSefzig+' Es können unterschiedliche Texte für die jeweiligen Berater hinterlegt werden. (Folgt: Individuelle Öffnungszeiten) ')).then(() => bot.say(EmpfangsBot+' Freitags erreichen Sie Frau Urbat nicht telefonisch. Schreiben Sie Ihr doch eine --E-Mail! ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}             
-             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Ortwerths XING-Profil: [Button:XING-Profil öffnen,http://www.xing.com/profile/Kerstin_Ortwerth/] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Ortwerths XING-Profil: [Link:XING-Profil öffnen,TalenteXingOrtwerth] ').then(() => 'empfang');}             
           }
           else {
              
              if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Da beim Onboarding kein Ansprechpartner gewählt wurde, werden die allgemeinen Kontaktdaten angezeigt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit uns --telefonieren, uns eine --E-Mail schreiben oder uns auf --Xing erreichen? ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie uns an: [Telefon:040 1234567] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}             
-             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Unser XING Unternehmens-Profil: [Button:XING-Seite öffnen,http://www.xing.com/companies/4talentsgmbh] ').then(() => 'empfang');}             
+             if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Unser XING Unternehmens-Profil: [Link:XING-Seite öffnen,TalenteXing] ').then(() => 'empfang');}             
           }
           
        // -----------------
        // Über uns
        // -----------------
           
-          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir sind eine Personalberatung mit Fokus auf den digitalen Markt und haben es uns zur Aufgabe gemacht, eine langfristige und vertrauensvolle Beziehung zwischen Ihnen und unseren Autraggebern herzustellen. Mehr über uns: [Button:Unsere Webseite,http://www.talente.de] ').then(() => bot.say(EmpfangsBot+' Wir sind auf Facebook aktiv: [Button:Talente auf Facebook,https://www.facebook.com/talente/] Oder ziehen Sie [Textlink:Twitter,https://www.twitter.com/talente/] vor? ')).then(() => bot.say(EmpfangsBot+' Sie finden uns auf LinkedIn: [Button:LinkedIn Unternehmensprofil,http://www.linkedin.com/company/talente]  ')).then(() => bot.say(EmpfangsBot+' Und natürlich auch auf XING: [Button:XING Unternehmensprofil,http://www.xing.com/companies/talente]  ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir sind eine Personalberatung mit Fokus auf den digitalen Markt und haben es uns zur Aufgabe gemacht, eine langfristige und vertrauensvolle Beziehung zwischen Ihnen und unseren Autraggebern herzustellen. Mehr über uns: [Link:Unsere Webseite,TalenteWebseite] ').then(() => bot.say(EmpfangsBot+' Wir sind auf Facebook aktiv: [Link:Talente auf Facebook,TalenteFacebook] Oder ziehen Sie [Textlink:Twitter,TalenteTwitter] vor? ')).then(() => bot.say(EmpfangsBot+' Sie finden uns auf LinkedIn: [Link:LinkedIn Unternehmensprofil,TalenteLinkedin]  ')).then(() => bot.say(EmpfangsBot+' Und natürlich auch auf XING: [Link:XING Unternehmensprofil,TalenteXing]  ')).then(() => 'empfang');}          
           if (prop_ansprechpartner == "Urbat") {
              
              if ((~befehl.indexOf("--ANSPRECHPARTNER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ihr Ansprechpartner bei uns ist Frau '+prop_ansprechpartner+'. Sie ist ausgebildete Journalistin und wurde 2002 mit dem Medienpreis “Das silberne Pferd” ausgezeichnet. Als passionierte Jagdreiterin liegt ihr die hartnäckige Verfolgung einer vielversprechenden Spur im Blut, weshalb sie die Herausforderungen liebt, die sich ihr als Headhunterin stellen. ').then(() => bot.say(EmpfangsBot+' Sprechen Sie sie hier im Chat an, indem Sie --'+prop_ansprechpartner+' sagen - oder möchten Sie auf anderem Wege --Kontakt zu ihr aufnehmen? ')).then(() => 'empfang');}if ((~befehl.indexOf("--BERATER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ihr Ansprechpartner bei uns ist Frau '+prop_ansprechpartner+'. Sie ist ausgebildete Journalistin und wurde 2002 mit dem Medienpreis “Das silberne Pferd” ausgezeichnet. Als passionierte Jagdreiterin liegt ihr die hartnäckige Verfolgung einer vielversprechenden Spur im Blut, weshalb sie die Herausforderungen liebt, die sich ihr als Headhunterin stellen. ').then(() => bot.say(EmpfangsBot+' Sprechen Sie sie hier im Chat an, indem Sie --'+prop_ansprechpartner+' sagen - oder möchten Sie auf anderem Wege --Kontakt zu ihr aufnehmen? ')).then(() => 'empfang');}	       
@@ -637,12 +637,12 @@
           
           if ((stunde_jetzt > 8) && (stunde_jetzt < 17)) {
           
-             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ').then(() => bot.say(AndreasSefzig+' Es ist zwischen 9 und 18 Uhr - der Bot geht davon aus, dass Frau '+prop_ansprechpartner+' prinzipiell ansprechbar ist. ')).then(() => bot.say(EmpfangsBot+' Es kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte kurz oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf. ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es ist zwischen 9 und 18 Uhr - der Bot geht davon aus, dass Frau '+prop_ansprechpartner+' prinzipiell ansprechbar ist. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => bot.say(EmpfangsBot+' Es kann es sein, dass sie gerade verhindert ist. Dann warten Sie bitte kurz (oder nehmen Sie auf einem anderen Weg Ihrer Wahl --Kontakt auf). ')).then(() => 'empfang');}             
           }
           
           else {
           
-             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ').then(() => bot.say(AndreasSefzig+' Es ist vor 9 und nach 18 Uhr - der Bot geht davon aus, dass Frau '+prop_ansprechpartner+' u.U. nicht erreichbar ist. ')).then(() => bot.say(EmpfangsBot+' Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--URBAT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es ist vor 9 oder bereits 18 Uhr - der Bot geht davon aus, dass Frau '+prop_ansprechpartner+' u.U. nicht erreichbar ist. ').then(() => bot.say(EmpfangsBot+' Ich habe Frau '+prop_ansprechpartner+' benachrichtigt. [Direkt:'+prop_ansprechpartner+'] ')).then(() => bot.say(EmpfangsBot+' Da gerade Feierabend ist, antwortet sie u.U. nicht sofort - wenn Sie möchten, schreiben Sie ihr eine --E-Mail. [Direkt:'+prop_ansprechpartner+'] ')).then(() => 'empfang');}             
           }
           
        // -----------------
@@ -676,8 +676,8 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(EmpfangsBot+'Benötigen Sie --Hilfe? Oder schalten Sie mich vorübergehend aus, indem Sie --Bots-aus sagen.')
-                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   bot.say(EmpfangsBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.')
+                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
                    
                    versuche = 0;
                 }
@@ -762,7 +762,7 @@
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(VerkaufsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'verkauf');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(VerkaufsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => 'verkauf');}          
           if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'verkauf');}          
        // Stile
           if ((~befehl.indexOf("--STIL-TALENTE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--STIL-NACHT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'verkauf');}          
@@ -771,7 +771,7 @@
        // -----------------
           
           if (zuletzt_klein != "empfang") { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Alice. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Alice. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');} } else { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Talente-Bot. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin der Talente-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Ich übergebe an Talente-Bot. Schreiben Sie --Verkauf, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin der Talente-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ')).then(() => 'empfang');} } else { 
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}          }
           
 
@@ -791,8 +791,8 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(VerkaufsBot+'Benötigen Sie --Hilfe? Oder schalten Sie mich vorübergehend aus, indem Sie --Bots-aus sagen.')
-                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   bot.say(VerkaufsBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.')
+                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
                    
                    versuche = 0;
                 }
@@ -877,7 +877,7 @@
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(MarketingBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'marketing');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(MarketingBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => 'marketing');}          
           if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'marketing');}          
        // Stile
           if ((~befehl.indexOf("--STIL-TALENTE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'marketing');}          if ((~befehl.indexOf("--STIL-NACHT")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'marketing');}          
@@ -886,7 +886,7 @@
        // -----------------
           
           if (zuletzt_klein != "empfang") { 
-             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Alice. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Alice. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin Alice, der Empfangs-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf ')).then(() => 'empfang');} } else { 
+             if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Talente-Bot. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin der Talente-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ')).then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Ich übergebe an Talente-Bot. Schreiben Sie --Marketing, um wieder mit mir zu sprechen. ').then(() => bot.say(EmpfangsBot+' Hallo, ich bin der Talente-Bot. Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ')).then(() => 'empfang');} } else { 
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}if ((~befehl.indexOf("--ALICE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Sprechen Sie mit mir über --Talente, lassen Sie sich unser --Material zeigen, machen Sie unseren --Test oder nehmen Sie --Kontakt zu Ihrem --Ansprechpartner auf! ').then(() => 'empfang');}          }
           
 
@@ -906,8 +906,8 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(MarketingBot+'Benötigen Sie --Hilfe? Oder schalten Sie mich vorübergehend aus, indem Sie --Bots-aus sagen.')
-                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   bot.say(MarketingBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.')
+                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
                    
                    versuche = 0;
                 }
