@@ -119,8 +119,8 @@
                prop_ansprechpartner = "Urbat";
                
                return bot.setProp('ansprechpartner', 'Urbat')
+               .then(() => bot.say(AndreasSefzig+'Nach der folgenden Bestätigung hat der Bewerber Zugriff auf Frau Urbats Kontaktdaten und andere Informationen in ihrem Namen.'))
                .then(() => bot.say(EmpfangsBot+'Frau Urbat, prima. Bitte bestätigen Sie mit --ja oder --nein.'))
-               .then(() => bot.say(AndreasSefzig+'Nach dieser Bestätigung hat der Bewerber Zugriff auf Frau Urbats Kontaktdaten und andere Informationen in ihrem Namen.'))
                .then(() => 'partner');
                
             }
@@ -131,8 +131,8 @@
                prop_ansprechpartner = "Ortwerth";
                
                return bot.setProp('ansprechpartner', 'Ortwerth')
+               .then(() => bot.say(AndreasSefzig+'Nach der folgenden Bestätigung hat der Bewerber Zugriff auf Frau Ortwerths Kontaktdaten und andere Informationen in ihrem Namen.'))
                .then(() => bot.say(EmpfangsBot+'Frau Ortwerth, prima. Bitte bestätigen Sie mit --ja oder --nein.'))
-               .then(() => bot.say(AndreasSefzig+'Nach dieser Bestätigung hat der Bewerber Zugriff auf Frau Ortwerths Kontaktdaten und andere Informationen in ihrem Namen.'))
                .then(() => 'partner');
                
             }
@@ -143,8 +143,8 @@
                prop_ansprechpartner = "Andere";
                
                return bot.setProp('ansprechpartner', 'Andere')
-               .then(() => bot.say(EmpfangsBot+'Sicher, dass Sie einen anderen Ansprechpartner als Frau --Urbat oder Frau --Ortwerth haben? Bitte bestätigen Sie mit --ja oder --nein.'))
                .then(() => bot.say(AndreasSefzig+'Es könnte sein, dass der Ansprechpartner (noch) nicht im System hinterlegt ist. Daher geht Talente-Bot auf Nummer sicher, lässt aber andere Ansprechpartner zu.'))
+               .then(() => bot.say(EmpfangsBot+'Sicher, dass Sie einen anderen Ansprechpartner als Frau --Urbat oder Frau --Ortwerth haben? Bitte bestätigen Sie mit --ja oder --nein.'))
                .then(() => 'partner');
                
             }
@@ -248,8 +248,8 @@
                else {
             	
                   return bot.setProp('emailversuch', 'ja')
-                     .then(() => bot.say(EmpfangsBot+' “'+email+'” ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
                      .then(() => bot.say(AndreasSefzig+'Die Validierung der E-Mail-Adresse schützt vor Flüchtigkeitsfehlern. Die Adresse kann später geändert werden.'))
+                     .then(() => bot.say(EmpfangsBot+' “'+email+'” ist keine valide E-Mail-Adresse. Bitte geben Sie sie nochmal ein!'))
                      .then(() => 'emailanfang');
                
                }
@@ -315,8 +315,8 @@
                prop_hilfegeoffnet = true;
                
                return bot.setProp('hilfegeoffnet', 'ja')
-               .then(() => bot.say(EmpfangsBot+' '+hilfetext))
                .then(() => bot.say(AndreasSefzig+' Man kann darüber streiten, ob die Hilfe Teil der Einführung sein sollte, da die Hilfe auch im gleich folgenden Menü aufgeführt ist... '))
+               .then(() => bot.say(EmpfangsBot+' '+hilfetext))
                .then(() => bot.say(EmpfangsBot+'Die Befehle der Hilfe sind grad noch gesperrt - nach dieser Einführung funktionieren sie. --Einverstanden?'))
                .then(() => 'abgeschlossen');
                
@@ -329,9 +329,9 @@
                prop_hilfeverstanden = true;
                
                return bot.setProp('hilfeverstanden', 'ja')
+               .then(() => bot.say(AndreasSefzig+'Es ist wichtig, dass der Bewerber das Menü einmal aktiv wahrgenommen hat, da er dort alle Inhalte auf einen Blick sieht. '))
                .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
                .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
-               .then(() => bot.say(AndreasSefzig+'Es ist wichtig, dass der Bewerber das Menü einmal aktiv wahrgenommen hat, da er dort alle Inhalte auf einen Blick sieht. '))
                .then(() => 'erklart');
                
             }
@@ -563,7 +563,7 @@
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Empfang? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(EmpfangsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => bot.say(EmpfangsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'empfang');}          
           if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'empfang');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'empfang');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'empfang');}          
        // Stile
           if ((~befehl.indexOf("--STIL-TALENTE")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'empfang');}          if ((~befehl.indexOf("--STIL-NACHT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'empfang');}          
@@ -580,7 +580,7 @@
        // -----------------
        
           if ((~befehl.indexOf("--HILFE")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' In der Hilfs-Funktion werden Nutzern die wichtigsten Befehle angezeigt. Sie hat eine mit dem Menü vergleichbare Funktion. ').then(() => bot.say(EmpfangsBot+' '+hilfetext+'. ')).then(() => 'empfang');}if ((~befehl.indexOf("--BEFEHL")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' In der Hilfs-Funktion werden Nutzern die wichtigsten Befehle angezeigt. Sie hat eine mit dem Menü vergleichbare Funktion. ').then(() => bot.say(EmpfangsBot+' '+hilfetext+'. ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. Meine Aufgabe ist, Sie in diesem Chat willkommen zu heißen, Sie mit --Material zu versorgen, --Kontakt herzustellen und Ihnen meine --Hilfe anzubieten. ').then(() => bot.say(EmpfangsBot+' Wenn Sie sich ungestört mit Ihrem --Ansprechpartner unterhalten wollen, schalten Sie mich gerne aus (--Bot-aus). ')).then(() => bot.say(AndreasSefzig+' Der Bot kann später mit --Bot-an wieder angeschaltet werden (was er beim Ausschalten mitteilt). ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--ÜBER")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Ich bin der Talente-Bot. Meine Aufgabe ist, Sie in diesem Chat willkommen zu heißen, Sie mit --Material zu versorgen, --Kontakt herzustellen und Ihnen meine --Hilfe anzubieten. ').then(() => bot.say(AndreasSefzig+' Der Bot kann mit --Bot-aus aus- und später mit --Bot-an wieder angeschaltet werden. ')).then(() => bot.say(EmpfangsBot+' Wenn Sie sich ungestört mit Ihrem --Ansprechpartner unterhalten wollen, schalten Sie mich gerne aus (--Bot-aus). ')).then(() => 'empfang');}          
        // -----------------
        // Kontakt
        // -----------------
@@ -595,13 +595,13 @@
           else if (prop_ansprechpartner == "Ortwerth") {
              
              if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es werden nur die Kontaktdaten des beim Onboarding angegebenen Ansprechpartners angezeigt, in diesem Fall Frau '+prop_ansprechpartner+'. Wurde kein Ansprechpartner gewählt, werden die allgemeinen Kontaktdaten genannt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit Frau '+prop_ansprechpartner+' --telefonieren, Ihr eine --E-Mail schreiben oder sie auf --Xing kontaktieren? ')).then(() => 'empfang');}             
-             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie Frau Ortwerth an: [Telefon:040 1234567] ').then(() => bot.say(EmpfangsBot+' Sie erreichen sie auch mobil: [Telefon:0151 1234567] ')).then(() => bot.say(AndreasSefzig+' Es können unterschiedliche Texte für die jeweiligen Berater hinterlegt werden. (Folgt: Individuelle Öffnungszeiten) ')).then(() => bot.say(EmpfangsBot+' Freitags erreichen Sie Frau Urbat nicht telefonisch. Schreiben Sie Ihr doch eine --E-Mail! ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Es können unterschiedliche Texte für die jeweiligen Berater hinterlegt werden. ').then(() => bot.say(EmpfangsBot+' Rufen Sie Frau Ortwerth an: [Telefon:040 1234567] ')).then(() => bot.say(EmpfangsBot+' Sie erreichen sie auch mobil: [Telefon:0151 1234567] ')).then(() => bot.say(EmpfangsBot+' Freitags erreichen Sie Frau Urbat nicht telefonisch. Schreiben Sie Ihr doch eine --E-Mail! ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie Frau Ortwerth eine Mail: [Email:ko@4-talents.de] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Frau Ortwerths XING-Profil: [Link:XING-Profil öffnen,TalenteXingOrtwerth] ').then(() => 'empfang');}             
           }
           else {
              
-             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Da beim Onboarding kein Ansprechpartner gewählt wurde, werden die allgemeinen Kontaktdaten angezeigt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit uns --telefonieren, uns eine --E-Mail schreiben oder uns auf --Xing erreichen? ')).then(() => 'empfang');}             
+             if ((~befehl.indexOf("--KONTAKT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Da beim Onboarding kein Ansprechpartner gefunden wurde, werden die allgemeinen Kontaktdaten angezeigt. ').then(() => bot.say(EmpfangsBot+' Möchten Sie mit uns --telefonieren, uns eine --E-Mail schreiben oder uns auf --Xing erreichen? ')).then(() => 'empfang');}             
              if ((~befehl.indexOf("--TELEFON")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Rufen Sie uns an: [Telefon:040 1234567] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--EMAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}if ((~befehl.indexOf("--E-MAIL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Schreiben Sie uns eine Mail: [Email:info@4-talents.de] ').then(() => 'empfang');}             
              if ((~befehl.indexOf("--XING")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Unser XING Unternehmens-Profil: [Link:XING-Seite öffnen,TalenteXing] ').then(() => 'empfang');}             
@@ -650,10 +650,10 @@
        // -----------------
           
           if ((~befehl.indexOf("--MATERIAL")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Damit Sie alle Informationen an einem Ort haben, finden Sie hier Ihre persönlichen Unterlagen - das --Stellenangebot und Informationen zu dem --Unternehmen, für das Sie sich bewerben. Außerdem haben wir ein paar Tipps für Ihre Bewerbungs- --Unterlagen zusammengestellt. ').then(() => 'empfang');}if ((~befehl.indexOf("--TIPP")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Damit Sie alle Informationen an einem Ort haben, finden Sie hier Ihre persönlichen Unterlagen - das --Stellenangebot und Informationen zu dem --Unternehmen, für das Sie sich bewerben. Außerdem haben wir ein paar Tipps für Ihre Bewerbungs- --Unterlagen zusammengestellt. ').then(() => 'empfang');}          
-          if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Hier das Stellenangebot, auf das Sie sich beworben haben: [Text:Ihr Stellenangebot,TalenteStellenangebotDanielTester,] ').then(() => bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Stellenangebote auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Informationen zu dem Unternehmen, bei dem Sie sich bewerben: [Text:Ihr Arbeitgeber in spe,TalenteUnternehmenDanielTester,] ').then(() => bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Unternehmens-Informationen auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Wir haben Tipps für Sie zusammengestellt, die Sie bei Ihren Bewerbungs-Unterlagen beachten möchten. [Text:Tipps für Ihre Unterlagen,TalenteUnterlagen,] Sollten Fragen dazu offen bleiben, sprechen Sie Frau --'+prop_ansprechpartner+' darauf an! ').then(() => bot.say(AndreasSefzig+' Die Tipps sind nicht personalisiert - könnten das aber sein. Nur gilt: Je mehr Personalisierung, desto mehr administrativer Aufwand... ')).then(() => 'empfang');}          
-          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ')).then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ').then(() => bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ')).then(() => 'fragen');}          
+          if ((~befehl.indexOf("--STELLENANGEBOT")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Stellenangebote auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ').then(() => bot.say(EmpfangsBot+' Hier das Stellenangebot, auf das Sie sich beworben haben: [Text:Ihr Stellenangebot,TalenteStellenangebotDanielTester,] ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERNEHMEN")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Diese Demo geht davon aus, dass alle Unternehmens-Informationen auf einem Server abgelegt sind, wobei die URL einem (noch zu definierenden) Schema folgt und den Namen des Bewerbers enthält. ').then(() => bot.say(EmpfangsBot+' Informationen zu dem Unternehmen, bei dem Sie sich bewerben: [Text:Ihr Arbeitgeber in spe,TalenteUnternehmenDanielTester,] ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--UNTERLAGEN")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Die Tipps sind nicht personalisiert - könnten das aber sein. Nur gilt: Je mehr Personalisierung, desto mehr administrativer Aufwand... ').then(() => bot.say(EmpfangsBot+' Wir haben Tipps für Sie zusammengestellt, die Sie bei Ihren Bewerbungs-Unterlagen beachten möchten. [Text:Tipps für Ihre Unterlagen,TalenteUnterlagen,] Sollten Fragen dazu offen bleiben, sprechen Sie Frau --'+prop_ansprechpartner+' darauf an! ')).then(() => 'empfang');}          
+          if ((~befehl.indexOf("--TEST")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ').then(() => bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ')).then(() => 'fragen');}if ((~befehl.indexOf("--FRAGEN")) && (botsan == true)) { versuch = true; return bot.say(AndreasSefzig+' Hier kann der Bewerber ein paar typische Fragen aus dem Bewerbungs-Gespräch üben. Die Antworten kann der Berater in Slack sehen und den Bewerber bei Bedarf darauf ansprechen. ').then(() => bot.say(EmpfangsBot+' Der Beginn eines Fragen-Tests. ')).then(() => 'fragen');}          
        // -----------------
        // Vorlage
        // -----------------
@@ -676,8 +676,8 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(EmpfangsBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.')
-                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...')
+                   .then(() => bot.say(EmpfangsBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.'));
                    
                    versuche = 0;
                 }
@@ -762,7 +762,7 @@
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Verkauf? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(VerkaufsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => 'verkauf');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => bot.say(VerkaufsBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'verkauf');}          
           if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'verkauf');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'verkauf');}          
        // Stile
           if ((~befehl.indexOf("--STIL-TALENTE")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'verkauf');}          if ((~befehl.indexOf("--STIL-NACHT")) && (botsan == true)) { versuch = true; return bot.say(VerkaufsBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'verkauf');}          
@@ -791,8 +791,8 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(VerkaufsBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.')
-                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...')
+                   .then(() => bot.say(VerkaufsBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.'));
                    
                    versuche = 0;
                 }
@@ -877,7 +877,7 @@
              if ((~befehl.indexOf("--EMPFANG")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}if ((~befehl.indexOf("--ABBRECHEN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Bis später! ').then(() => bot.say(EmpfangsBot+' Willkommen zurück! Wie war es im --Marketing? Schreiben Sie --Hilfe, um mit mir zu sprechen. ')).then(() => 'empfang');}             
           }
           
-          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(MarketingBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => 'marketing');}          
+          if ((~befehl.indexOf("--MOBIL")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' Diesen Chat mobil öffnen: [Qr:http://talente.herokuapp.com/] ').then(() => bot.say(AndreasSefzig+' Leider wird der Bewerber auf einem anderen Gerät nicht wiedererkannt (ich arbeite daran). Dort sieht er also nicht die Gesprächsinhalte von einem anderen Gerät. Der Berater hingegen sieht alle Gespräche mit diesem Bewerber in Slack. ')).then(() => bot.say(MarketingBot+' Oder öffnen Sie [Textlink:Talente.herokuapp.com,http://talente.herokuapp.com] in Ihrem mobilen Browser. ')).then(() => 'marketing');}          
           if ((~befehl.indexOf("--MENÜAN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENÜ-AN")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(an)] Menü eingeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜAUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'marketing');}if ((~befehl.indexOf("--MENÜ-AUS")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu(aus)] Menü ausgeschaltet. ').then(() => 'marketing');}          if ((~befehl.indexOf("--MENÜ")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:menu()] Menü umgeschaltet. ').then(() => 'marketing');}          
        // Stile
           if ((~befehl.indexOf("--STIL-TALENTE")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(talente)] Stil: Talente. ').then(() => 'marketing');}          if ((~befehl.indexOf("--STIL-NACHT")) && (botsan == true)) { versuch = true; return bot.say(MarketingBot+' [Javascript:stil(nacht)] Stil: Nacht. ').then(() => 'marketing');}          
@@ -906,8 +906,8 @@
                 versuche++; 
                 if (versuche == versuche_max)
                 {
-                   bot.say(MarketingBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.')
-                   .then(() => bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...'));
+                   bot.say(AndreasSefzig+' Wurde '+versuche_max+' Mal kein Befehl erkannt, ist der Bewerber wohl entweder lost oder im Gespräch mit seinem Ansprechpartner...')
+                   .then(() => bot.say(MarketingBot+'Benötigen Sie --Hilfe? Sie können mich auch (vorübergehend) abschalten, indem Sie --Bot-aus sagen.'));
                    
                    versuche = 0;
                 }
