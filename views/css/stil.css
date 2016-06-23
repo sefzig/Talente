@@ -81,6 +81,13 @@
     body[data-stil="nacht"]      #sk-conversation .sk-from { color: #bbbbbb !important; }
     body[data-stil="hacks"]      #sk-conversation .sk-from { color:  silver !important; }
     
+ /* Intro */
+    body[data-stil="tag"]        .sk-intro { color: #999999 !important; }
+    body[data-stil="robogeddon"] .sk-intro { color: #666666 !important; }
+    body[data-stil="talente"]    .sk-intro { color: #666666 !important; }
+    body[data-stil="nacht"]      .sk-intro { color: #bbbbbb !important; }
+    body[data-stil="hacks"]      .sk-intro { color:  silver !important; }
+    
  /* Nachricht: Textlink */
     body[data-stil="tag"]        #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #0071ba !important; }
     body[data-stil="robogeddon"] #sk-conversation a.textLink, #sk-conversation a.textLink:visited, #sk-conversation a.textLink:hover { color: #0071ba !important; }

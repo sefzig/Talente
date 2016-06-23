@@ -239,7 +239,8 @@
           })
           .then(function () { window.setTimeout(function() { 
              
-             anpassen();
+          // Addon nach 22.06.16
+             anpassen("nachInit");
              
              sagen = getParameters("weiter");
              if ((sagen) && (sagen != "")) { 
@@ -260,7 +261,7 @@
                 
              }
              
-          }, 100); }); 
+          }, 333); }); // Addon nach 22.06.16, vorher 100
           
        // Smooch.open();
           Smooch.render(document.getElementById('chatContainer'));
@@ -278,14 +279,14 @@
           Smooch.on('message:received', function(message) {
              
           // $(".typing").remove();
-             window.setTimeout(function() { anpassen(); }, 1);
+             window.setTimeout(function() { anpassen("nachNachricht"); }, 1); // Addon nach 22.06.16
              
           // console.log('- Nutzer hat eine Nachricht erhalten');
              
           });
           
        // Konversation rendern
-          anpassen();
+          anpassen(); // nach 22.06.16 auskommentiert
           
        // Inhalt anzeigen
           $("#seite > #"+methode).fadeIn(300, function() {
@@ -431,7 +432,7 @@
        // console.log("befehl_template: "+befehl_template);
           var befehl_prefix1 = config["syntax"]["befehlPrefix1"];
           var befehl_prefix2 = config["syntax"]["befehlPrefix2"];
-             
+          
        // Befehle anpassen
           inhalte = inhalte.replace(befehl_prefix2, befehl_prefix1);
           inhalte = inhalte.split(befehl_prefix1);
@@ -619,6 +620,7 @@
           // Bot-Inhalte anpassen
              $(".sk-from.bot"+zufall).html(name);
              $(".sk-msg-avatar.bot"+zufall).attr("src", pfad);
+          // $(".sk-msg-avatar-placeholder.bot"+zufall).append('<img src="'+pfad+'" class="sk-msg-avatar bot"'+zufall+'">');
              
           // Neuen Text anpassen
              text_string = text_string.replace("["+kurzel+"] ","");
@@ -646,7 +648,10 @@
     }
     
  // Inhalte anpassen
-    function anpassen() {
+    function anpassen(methode) {
+       
+    // Addon nach 22.06.16
+       addon(methode);
        
     // Noch nicht angepasste anpassen
        var selektor = ".sk-msg > span > span > span:not([data-angepasst])";
@@ -671,10 +676,14 @@
              stil:         function (b) { stil(b); }
           };
           
-       // Bot-Inhalte markieren :/
-          $(this).parent().parent().parent().parent().children().filter(".sk-from").addClass("bot"+zufall);
+       // Bot-Inhalte markieren (vor 22.06.16)
+       // $(this).parent().parent().parent().parent().children().filter(".sk-from").addClass("bot"+zufall);
+       // $(this).parent().parent().parent().parent().parent().children().filter("img").addClass("bot"+zufall);
+          
+       // Bot-Inhalte markieren (nach 22.06.16)
+          $(this).parent().parent().parent().parent().parent().children().filter(".sk-from").addClass("bot"+zufall);
           $(this).parent().parent().parent().parent().parent().children().filter("img").addClass("bot"+zufall);
-             
+          
        // Inhalte anpassen
           text_neu = inhalt("befehl", text_neu);
           text_neu = inhalt("modul", text_neu, "Link");
@@ -723,7 +732,8 @@
              $(".sk-from").each(function() {
                 
                 var dieser =    $(this).html();
-                var vorganger = $(this).parent().parent().prev().find(".sk-from").html();
+             // var vorganger = $(this).parent().parent().prev().find(".sk-from").html(); // vor 22.06.16
+                var vorganger = $(this).parent().prev().find(".sk-from").html(); // nach 22.06.16
              // console.log("- "+vorganger+" = "+dieser+"?");
              
              // Bei folgendem Absender
@@ -731,21 +741,27 @@
                    
                 // Namen hier verbergen
                    $(this).css("display","none");
-                   $(this).parent().parent().css("padding-top","10px");
+                // $(this).parent().parent().css("padding-top","10px"); // vor 22.06.16
+                   $(this).parent().css("padding-top","10px"); // nach 22.06.16
                    
                 // Avatar davor verbergen
-                   $(this).parent().parent().prev().children().filter("img.sk-msg-avatar").attr("src", config["anwendung"]["cdn"]+"Displaybild_LeerBot.png");
+                // $(this).parent().parent().prev().children().filter("img.sk-msg-avatar").attr("src", config["anwendung"]["cdn"]+"Displaybild_LeerBot.png"); // vor 22.06.16
+                // $(this).parent().prev().children().filter("img.sk-msg-avatar").attr("src", config["anwendung"]["cdn"]+"Displaybild_LeerBot.png"); // nach 22.06.16
+                   $(this).parent().prev().find(".sk-msg-avatar").css("display", "none"); // nach 22.06.16
                    
                 // Pfeilchen davor verbergen
-                   $(this).parent().parent().prev().find(".sk-msg").addClass("frei");
+                // $(this).parent().parent().prev().find(".sk-msg").addClass("frei"); // vor 22.06.16
+                   $(this).parent().prev().find(".sk-msg").addClass("frei"); // nach 22.06.16
                 // $('head').append("<style>.sk-msg.frei::after{ border: none !important }</style>");
                    
                 }
                 else {
                    
                 // console.log("> Anderer Vorganger: "+vorganger+" != "+name+"");
+                   $(this).parent().prev().find(".sk-msg-avatar").css("display", "none"); // nach 22.06.16
                    
                 }
+                
                 vorganger = "";
                 dieser = "";
                 
@@ -762,6 +778,7 @@
           
        // Als angepasst markieren
           $(this).attr("data-angepasst", "true");
+          $(this).parent().parent().parent().parent().parent().attr("data-fromt", "true");
           
        });
        
@@ -838,8 +855,9 @@
        if (gesperrt != "an") {
           
        // Nachricht senden
+       // $(".sk-msg-wrapper:last-child").insertAfter("<span>Letzter!</span>"); // Test nach 22.06.16
           window.Smooch.sendMessage(befehl);
-       
+          
        }
        
     // Befehl säubern
