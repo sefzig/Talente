@@ -67,3 +67,7 @@
       -webkit-appearance: none;
     }
     
+    body:not([data-mobil=""]) .sk-msg-avatar-placeholder {
+       display: none !important;
+    }
+    
