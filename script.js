@@ -241,7 +241,7 @@
             	   prop_emailadresse = email;
             	
                   return bot.setProp('email', email)
-                     .then(() => bot.say(AndreasSefzig+' “'+email+'” ist eine (technisch) valide E-Mail-Adresse. '))
+                     .then(() => bot.say(AndreasSefzig+' Das Programm hat “'+email+'” als eine technisch korrekte E-Mail-Adresse validiert. '))
                      .then(() => bot.say(EmpfangsBot+'Danke. Ist “'+email+'” korrekt? Bitte bestätigen Sie mit --ja oder --nein. [Javascript:cookies(email,'+email+')] '))
                      .then(() => 'emailanfang');
                
@@ -459,7 +459,7 @@
                
                return bot.setProp('dialogverstanden', 'ja')
                .then(() => bot.say(EmpfangsBot+'Ja, so sprechen Sie Frau '+prop_ansprechpartner+' an. Ich habe Sie jetzt nicht benachrichtigt, da Sie sicher nur getestet haben - holen Sie das gern nach.'))
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '))
                .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
@@ -474,7 +474,7 @@
                resultat = resultat+' Sie haben den Dialog verstanden.';
                
                return bot.setProp('dialogverstanden', 'ja')
-               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen :) '))
+               .then(() => bot.say(EmpfangsBot+' Die Einführung ist abgeschlossen! '))
                .then(() => bot.say(AndreasSefzig+' Der Bewerber hat nun die Möglichkeit, die Inhalte aufzurufen und mit seinem Ansprechpartner zu chatten. Dabei können neben Texten auch Bilder, Dateien und Links übermittelt werden. '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung1+' '))
                .then(() => bot.say(EmpfangsBot+' '+einfuhrung2+' '))
