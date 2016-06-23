@@ -16,6 +16,7 @@
    var bekannt = false;
    var botsan = true;
    var angekommen = false;
+   var onboardinghilfe = true;
    
 // Props 
    var prop_emailadresse = false;
@@ -273,9 +274,14 @@
                beantwortet = true;
                return bot.setProp('telefonbestatigt', 'ja')
                .then(() => bot.say(EmpfangsBot+'Prima, ich habe Ihre Telefon-Nummer gespeichert.'))
-               .then(() => bot.say(EmpfangsBot+'Wo Sie sich nun vorgestellt haben, ein paar Worte zu mir: Ich bin - wie Sie sicher bemerkt haben - ein Roboter (ein Chat-Roboter, um genau zu sein). Meine Aufgabe ist, Sie bei Ihrer Bewerbung unterstützen!'))
-               .then(() => bot.say(EmpfangsBot+'Ganz praktisch: Wenn Sie hier im Chat Hilfe brauchen, sagen Sie einfach --Hilfe. Bitte probieren Sie es einmal aus!'))
-               .then(() => 'abgeschlossen');
+               
+            // .then(() => bot.say(EmpfangsBot+'Wo Sie sich nun vorgestellt haben, ein paar Worte zu mir: Ich bin - wie Sie sicher bemerkt haben - ein Roboter (ein Chat-Roboter, um genau zu sein). Meine Aufgabe ist, Sie bei Ihrer Bewerbung unterstützen!'))
+            // .then(() => bot.say(EmpfangsBot+'Ganz praktisch: Wenn Sie hier im Chat Hilfe brauchen, sagen Sie einfach --Hilfe. Bitte probieren Sie es einmal aus!'))
+               
+               .then(() => bot.say(EmpfangsBot+'Dieser Chat hat ein Menü, in dem Sie alle wichtigen Befehle finden!'))
+               .then(() => bot.say(EmpfangsBot+'Ich habe das Menü rechts für Sie geöffnet. [Javascript:menu()] Sie können es öffnen und schließen, indem Sie --Menü sagen. Bitte schauen Sie sich das Menü kurz an und schließen Sie es.'))
+               
+               .then(() => 'erklart');
                
             }
             
