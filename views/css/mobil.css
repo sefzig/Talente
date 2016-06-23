@@ -40,6 +40,7 @@
     body:not([data-mobil=""]) .sk-left-row .sk-from {
        top: -10px;
        left: 0px;
+       margin-left: 0px !important;
     }
     
     body:not([data-mobil=""]) .sk-logo {
