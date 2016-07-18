@@ -274,6 +274,7 @@
              $("#menu").css("display","block");
              $('body').animate({scrollLeft: '0px'}, 'slow');
              $('#sk-conversation').animate({scrollTop: $('.sk-messages').height()}, 'slow');
+             $('body').attr('data-gesendet', 'ja'); // Addon vom 18.7.16
              
           });
           Smooch.on('message:received', function(message) {
@@ -709,9 +710,10 @@
           text_neu = inhalt("bot", text_neu, "SefzigBot",      "Andreas Sefzigs Bot",    zufall, "Sefzig");
           
        // Talente
-          text_neu = inhalt("bot", text_neu, "EmpfangsBot",    "Talente-Bot",            zufall, "Empfang");
-          text_neu = inhalt("bot", text_neu, "VerkaufsBot",    "Barbara, Verkaufs-Bot",  zufall, "Verkauf");
-          text_neu = inhalt("bot", text_neu, "MarketingBot",   "Cynthia, Marketing-Bot", zufall, "Marketing");
+          text_neu = inhalt("bot", text_neu, "EmpfangsBot",    "Empfangs-Bot",           zufall, "Empfang");
+          text_neu = inhalt("bot", text_neu, "TalenteBot",     "Talente-Bot",            zufall, "Talente");
+          text_neu = inhalt("bot", text_neu, "UrbatBot",       "Annika Urbat",           zufall, "Urbat");
+          text_neu = inhalt("bot", text_neu, "OrtwerthBot",    "Kerstin Ortwerth",       zufall, "Ortwerth");
           
        // Chatraum
        // text_neu = inhalt("bot", text_neu, "EmpfangsBot",    "Alice, Empfangs-Bot",    zufall, "Empfang");
@@ -747,7 +749,7 @@
                 // Avatar davor verbergen
                 // $(this).parent().parent().prev().children().filter("img.sk-msg-avatar").attr("src", config["anwendung"]["cdn"]+"Displaybild_LeerBot.png"); // vor 22.06.16
                 // $(this).parent().prev().children().filter("img.sk-msg-avatar").attr("src", config["anwendung"]["cdn"]+"Displaybild_LeerBot.png"); // nach 22.06.16
-                   $(this).parent().prev().find(".sk-msg-avatar").css("display", "none"); // nach 22.06.16
+                // $(this).parent().prev().find(".sk-msg-avatar").css("display", "none"); // nach 22.06.16 // auskommentiert nach 18.07.2016
                    
                 // Pfeilchen davor verbergen
                 // $(this).parent().parent().prev().find(".sk-msg").addClass("frei"); // vor 22.06.16
@@ -758,7 +760,7 @@
                 else {
                    
                 // console.log("> Anderer Vorganger: "+vorganger+" != "+name+"");
-                   $(this).parent().prev().find(".sk-msg-avatar").css("display", "none"); // nach 22.06.16
+                // $(this).parent().prev().find(".sk-msg-avatar").css("display", "none"); // nach 22.06.16 // auskommentiert nach 18.07.2016
                    
                 }
                 
