@@ -279,6 +279,8 @@
           });
           Smooch.on('message:received', function(message) {
              
+             $('body').attr('data-gesendet', 'ja'); // Addon vom 18.7.16
+             
           // $(".typing").remove();
              window.setTimeout(function() { anpassen("nachNachricht"); }, 1); // Addon nach 22.06.16
              
