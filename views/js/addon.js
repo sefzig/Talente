@@ -19,12 +19,13 @@
        	 var datagesendet = $("body").attr("data-gesendet");
        	 if (datagesendet != "ja") {
              
-             $(".sk-row").filter("[data-fromt!='true']").find(".sk-from").remove();
+             
              
           }
           else {
              
           }
+          $(".sk-row").filter("[data-fromt!='true']").find(".sk-from").remove();
           $(".sk-left-row").filter("[data-fromt!='true']").attr("data-fromt","true").prepend('<div class="sk-from">Absender</div>');
           
        }
