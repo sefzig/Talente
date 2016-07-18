@@ -710,8 +710,8 @@
           text_neu = inhalt("bot", text_neu, "SefzigBot",      "Andreas Sefzigs Bot",    zufall, "Sefzig");
           
        // Talente
-          text_neu = inhalt("bot", text_neu, "EmpfangsBot",    "Empfangs-Bot",           zufall, "Empfang");
-          text_neu = inhalt("bot", text_neu, "TalenteBot",     "Talente-Bot",            zufall, "Talente");
+          text_neu = inhalt("bot", text_neu, "EmpfangsBot",    "Talente-Bot",            zufall, "Empfang");
+          text_neu = inhalt("bot", text_neu, "TalenteBot",     "Talente-Bot",            zufall, "Empfang");
           text_neu = inhalt("bot", text_neu, "UrbatBot",       "Annika Urbat",           zufall, "Urbat");
           text_neu = inhalt("bot", text_neu, "OrtwerthBot",    "Kerstin Ortwerth",       zufall, "Ortwerth");
           
