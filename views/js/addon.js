@@ -19,13 +19,14 @@
        	 var datagesendet = $("body").attr("data-gesendet");
        	 if (datagesendet != "ja") {
              
-             
+             $(".sk-row").filter("[data-fromt!='true']").find(".sk-from").remove();
              
           }
           else {
              
+          // $(".roboter").next().hasClass("roboter").remove();
+             
           }
-          $(".sk-row").filter("[data-fromt!='true']").find(".sk-from").remove();
           $(".sk-left-row").filter("[data-fromt!='true']").attr("data-fromt","true").prepend('<div class="sk-from">Absender</div>');
           
        }
@@ -33,7 +34,7 @@
        window.setTimeout(function(){
           
           $(".sk-from:contains('Absender')").remove();
-          $(".roboter").next().hasClass("roboter").remove();
+       // $(".roboter").next().hasClass("roboter").remove();
           
        }, 100);
        
